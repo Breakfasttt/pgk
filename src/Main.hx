@@ -2,6 +2,7 @@ package;
 
 import input.MouseSignals;
 import input.MouseData;
+import input.mouseBehaviour.DragBehaviour;
 import openfl.display.Sprite;
 import openfl.Lib;
 import openfl.events.MouseEvent;
@@ -13,7 +14,7 @@ import openfl.events.MouseEvent;
 class Main extends Sprite 
 {
 	private var m_test : Sprite;
-	private var m_mouseBehaviour : MouseSignals;
+	private var m_mouseBehaviour : DragBehaviour;
 	private var m_enable : Bool;
 	
 	
@@ -26,7 +27,7 @@ class Main extends Sprite
 		
 		m_test = new Sprite();
 		m_test.graphics.beginFill(0xff00000);
-		m_test.graphics.drawCircle(50, 50, 25);
+		m_test.graphics.drawRect(0, 0, 50, 50);
 		m_test.graphics.endFill();
 		
 		m_test.x = 50;
@@ -35,26 +36,10 @@ class Main extends Sprite
 		this.addChild(m_test);
 		
 		m_enable = true;
-		m_mouseBehaviour = new MouseSignals(m_test, true, true, true, true);
-		m_mouseBehaviour.releaseOutsideObject = true;
-		m_mouseBehaviour.releaseWithRollOut = false;
-		
-		//m_mouseBehaviour.rollOver.add(test);
-		m_mouseBehaviour.leaveWorld.add(moveCb);
-		m_mouseBehaviour.rightPress.add(test);
-		m_mouseBehaviour.rightRelease.add(moveCb);
-		//m_mouseBehaviour.move.add(moveCb);
-		
+		m_mouseBehaviour = new DragBehaviour(m_test);
+		m_mouseBehaviour.stageAsBoundary = true;
+		//m_mouseBehaviour.setBoundary(0, Lib.current.stage.stageWidth, 0, Lib.current.stage.stageHeight);
 	}
 	
-	private function test(data : MouseData) : Void
-	{
-		m_test.alpha = 0.50;
-	}
-	
-	private function moveCb(data : MouseData) : Void
-	{
-		m_test.alpha = 1.00;
-	}
 
 }

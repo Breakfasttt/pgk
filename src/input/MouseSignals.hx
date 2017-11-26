@@ -569,6 +569,15 @@ class MouseSignals
 	{
 		this.retrieveEssentialMouseData(event);
 		this.worldMove.dispatch(m_lastMouseData);
+		
+		if (object.stage != null)
+		{
+			if (m_lastMouseData.worldPosition.x < 0.0 || m_lastMouseData.worldPosition.x > object.stage.stageWidth
+				||  m_lastMouseData.worldPosition.y < 0.0 || m_lastMouseData.worldPosition.y > object.stage.stageHeight)
+			{
+				onMouseLeaveStage(null);
+			}
+		}
 	}
 	
 	//} ========================================
