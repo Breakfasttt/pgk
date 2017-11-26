@@ -24,7 +24,7 @@ import haxe.macro.Expr;
 		
 		var config = {
 			
-			build: "2",
+			build: "4",
 			company: "Breakyt",
 			file: "PGK",
 			fps: 60,

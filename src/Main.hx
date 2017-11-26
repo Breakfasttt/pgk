@@ -1,5 +1,6 @@
 package;
 
+import core.Application;
 import input.MouseSignals;
 import input.MouseData;
 import input.mouseBehaviour.DragBehaviour;
@@ -13,6 +14,8 @@ import openfl.events.MouseEvent;
  */
 class Main extends Sprite 
 {
+	private var m_app : Application;
+	
 	private var m_test : Sprite;
 	private var m_mouseBehaviour : DragBehaviour;
 	private var m_enable : Bool;
@@ -39,7 +42,8 @@ class Main extends Sprite
 		m_mouseBehaviour = new DragBehaviour(m_test);
 		m_mouseBehaviour.stageAsBoundary = true;
 		//m_mouseBehaviour.setBoundary(0, Lib.current.stage.stageWidth, 0, Lib.current.stage.stageHeight);
+		
+		m_app = new Application();
+		m_app.init("Application test", 800, 600);
 	}
-	
-
 }
