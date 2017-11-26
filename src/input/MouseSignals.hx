@@ -587,18 +587,16 @@ class MouseSignals
 	
 	private function onReleaseOutside(event : MouseEvent) : Void
 	{
-		//works only with left click
-		trace("test");
 		this.retrieveEssentialMouseData(event);
-		
 		this.release.dispatch(m_lastMouseData);
+		
+		//realease outside works only with left click
 		//this.rightRelease.dispatch(m_lastMouseData);
 		//this.scrollRelease.dispatch(m_lastMouseData);
 	}
 	
 	private function onMouseLeaveStage(event : Event) : Void
 	{
-		trace("test 2 ");
 		m_lastMouseData.altModifier = false;
 		m_lastMouseData.ctrlModifier = false;
 		m_lastMouseData.deltaScroll = 0;
