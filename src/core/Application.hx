@@ -1,6 +1,7 @@
 package core;
 import core.componant.Componant;
 import core.module.Module;
+import core.module.ModuleManager;
 import openfl.Lib;
 import tools.FrameTicker;
 
@@ -19,7 +20,7 @@ class Application
 	
 	public var tick(default, null) : FrameTicker;
 	
-	private var m_modules : Array<Module<Componant>>;
+	public var modManager(default, null) : ModuleManager;
 	
 	public function new() 
 	{
@@ -33,45 +34,17 @@ class Application
 		this.width = width;
 		this.height = height;
 		
-		m_modules = new Array();
+		this.modManager = new ModuleManager();
 		
 		this.tick = new FrameTicker(Lib.current.stage);
 		this.tick.tick.add(update);
 		this.tick.start();
 	}
 	
-	private function update(delta : Float) : Void
+	private function update(dTime : Float) : Void
 	{
-		for (mod in m_modules)
-			mod.update(delta);
+		modManager.update(dTime);
 	}
 	
-	public function addModule(module : Module<Componant>) : Void
-	{
-		m_modules.push(module);
-	}
-	
-	public function getModule<T>(modType : Class<T>) : Module<Componant>
-	{
-		for (mod in m_modules)
-		{
-			if (mod.isCompatible(modType))
-				return mod;
-		}
-		
-		return null;
-		
-	}
-	
-	public function getModuleByName(name : String) : Module<Dynamic>
-	{
-		for (mod in m_modules)
-		{
-			if (mod.name == name)
-				return mod;
-		}
-		
-		return null;
-	}
 	
 }

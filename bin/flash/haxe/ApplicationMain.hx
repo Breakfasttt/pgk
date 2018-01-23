@@ -24,7 +24,7 @@ import haxe.macro.Expr;
 		
 		var config = {
 			
-			build: "4",
+			build: "5",
 			company: "Breakyt",
 			file: "PGK",
 			fps: 60,
@@ -40,6 +40,7 @@ import haxe.macro.Expr;
 					antialiasing: 0,
 					background: 0,
 					borderless: false,
+					colorDepth: 16,
 					depthBuffer: false,
 					display: 0,
 					fullscreen: false,
