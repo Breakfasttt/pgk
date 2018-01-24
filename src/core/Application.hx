@@ -64,20 +64,33 @@ class Application
 		}
 	}
 	
-	public function addModule(m : Module<ComponentGroup>) : Bool
+	public function addModule(m : Module<Dynamic>) : Bool
 	{
-		if (this.modManager.addModule(m))
+		var moduleCasted : Module<ComponentGroup> = null;  
+		
+		try
+		{	
+			moduleCasted = cast m;
+		}
+		catch(e : Dynamic)
+		{
+			trace("CRITICAL - A module exist with a wrong ComponentGroupType. please check");
+			return false;
+		}
+		
+		if (this.modManager.addModule(moduleCasted))
 		{
 			for (e in m_entities)
-				this.modManager.createGroupForModuleIfEntityMatching(e, m);
+				this.modManager.createGroupForModuleIfEntityMatching(e, moduleCasted);
 				
 			return true;
 		}
 		else
 			return false;
+		
 	}
 	
-	private function componentOnEntityAdded() : Void
+	private function componentOnEntityAdded(e : Entity) : Void
 	{
 		this.modManager.checkAllModuleMatching(e);
 	}

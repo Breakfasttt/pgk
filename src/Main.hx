@@ -51,8 +51,7 @@ class Main extends Sprite
 		m_app = new Application();
 		m_app.init("Application test", 800, 600);
 		
-		var  m : Module<ComponentGroup> =  cast new ModuleTest();
-		m_app.addModule(m);
+		m_app.addModule(new ModuleTest());
 		var e : Entity = new Entity("TestEntity");
 		e.add(new CompTest());
 		m_app.addEntity(e);
