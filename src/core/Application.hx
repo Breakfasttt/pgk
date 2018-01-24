@@ -55,13 +55,24 @@ class Application
 	{
 		if (Lambda.has(m_entities, e))
 			return false;
-		else
-		{
-			e.compAdded.add(componentOnEntityAdded);
-			m_entities.push(e);
-			this.modManager.checkAllModuleMatching(e);
-			return true;
-		}
+			
+		m_entities.push(e);
+		e.compAdded.add(componentOnEntityAdded);
+		e.compRemoved.add(componentOnEntityRemoved);
+		this.modManager.checkAllModuleMatching(e);
+		return true;
+	}
+	
+	public function removeEntity(e : Entity) : Bool
+	{
+		if (!Lambda.has(m_entities, e))
+			return false;
+			
+		e.compAdded.remove(componentOnEntityAdded);
+		e.compRemoved.remove(componentOnEntityRemoved);
+		this.modManager.checkModuleOnEntityRemoved(e);
+		m_entities.remove(e);
+		return true;
 	}
 	
 	public function addModule(m : Module<Dynamic>) : Bool
@@ -87,12 +98,32 @@ class Application
 		}
 		else
 			return false;
+	}
+	
+	public function removeModule(m : Module<Dynamic>) : Bool 
+	{
+		var moduleCasted : Module<ComponentGroup> = null;  
+		try
+		{	
+			moduleCasted = cast m;
+		}
+		catch(e : Dynamic)
+		{
+			trace("CRITICAL - A module exist with a wrong ComponentGroupType. please check");
+			return false;
+		}
 		
+		return this.modManager.removeModule(moduleCasted);
 	}
 	
 	private function componentOnEntityAdded(e : Entity) : Void
 	{
 		this.modManager.checkAllModuleMatching(e);
+	}
+	
+	private function componentOnEntityRemoved(e : Entity) : Void
+	{
+		this.modManager.checkModuleOnEntityComponentRemoved(e);
 	}
 	
 	

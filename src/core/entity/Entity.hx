@@ -1,5 +1,6 @@
 package core.entity;
 import core.component.Component;
+import core.module.Module;
 import core.module.ModuleManager;
 import msignal.Signal.Signal0;
 import msignal.Signal.Signal1;
@@ -19,14 +20,14 @@ class Entity
 	private var compAdded : Signal1<Entity>;
 	
 	@:allow(core.Application)
-	private var compRemove : Signal1<Entity>;
+	private var compRemoved : Signal1<Entity>;
 
 	public function new(name : String) 
 	{
 		this.name = name;
 		m_components = new Map();
 		compAdded = new Signal1<Entity>();
-		compRemove = new Signal1<Entity>();
+		compRemoved = new Signal1<Entity>();
 	}
 	
 	public function add(comp : Component, eraseOld : Bool = false) : Void
@@ -46,10 +47,11 @@ class Entity
 	{
 		var compTypeName : String = Type.getClassName(Type.getClass(comp));
 		m_components.remove(compTypeName);
-		compRemove.dispatch(this);
+		compRemoved.dispatch(this);
 	}
 	
 	@:allow(core.module.ModuleManager)
+	@:allow(core.module.Module)
 	private function getComponentsTypesNames() : Array<String>
 	{
 		var result : Array<String> = [];

@@ -1,5 +1,6 @@
 package core.component;
 import core.entity.Entity;
+import core.module.Module;
 import core.module.ModuleManager;
 
 /**
@@ -17,7 +18,8 @@ class ComponentGroup
 		m_mappingFieldWithType = new Map();
 	}
 	
-	public function init(entity : Entity) : Void
+	@:allow(core.module.ModuleManager)
+	private function init(entity : Entity) : Void
 	{
 		this.entityRef = entity;
 	}
@@ -30,7 +32,9 @@ class ComponentGroup
 			m_mappingFieldWithType.set(typeName, field);
 	}
 	
+	
 	@:allow(core.module.ModuleManager)
+	@:allow(core.module.Module)
 	private function getTypes() : Array<String>
 	{
 		var arr : Array<String> = [];
@@ -47,6 +51,10 @@ class ComponentGroup
 		try
 		{
 			var field : String = m_mappingFieldWithType.get(typeName);
+			
+			if (field == null)
+				return false;
+				
 			Reflect.setProperty(this, field, obj);
 		}
 		catch (e : Dynamic)
@@ -68,9 +76,9 @@ class ComponentGroup
 	}
 	
 	/**
-	 * Override it on sub Class
+	 * Override it on sub Class if necessary
 	 */
-	public function customDelete() : Void
+	private function customDelete() : Void
 	{
 		
 	}

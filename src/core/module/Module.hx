@@ -1,8 +1,10 @@
 package core.module;
 import core.component.Component;
 import core.component.ComponentGroup;
+import core.entity.Entity;
 import haxe.Constraints.Constructible;
 import haxe.Template;
+import tools.Compare;
 
 /**
  * Manage a collection of Componant
@@ -11,7 +13,7 @@ import haxe.Template;
 
 class Module<T : ComponentGroup>
 {
-	private var m_componants : Array<T>;
+	private var m_compGroups : Array<T>;
 	
 	public var priority(default, null) : Int; 
 	
@@ -19,7 +21,7 @@ class Module<T : ComponentGroup>
 	
 	public function new(type : Class<T>)
 	{
-		m_componants = [];
+		m_compGroups = [];
 		priority = -1;		
 		m_groupClass = type;
 	}
@@ -27,6 +29,55 @@ class Module<T : ComponentGroup>
 	public function update(delta : Float) : Void
 	{
 		trace("Please override this module update() => " + Type.getClass(this)); 
+	}
+	
+	@:allow(core.module.ModuleManager)
+	private function isEntityAlreadyAddedOnAgroup(e : Entity) : Bool
+	{
+		for (group in m_compGroups)
+		{
+			if (group.entityRef == e)
+				return true;
+		}
+		return false;
+	}
+	
+	@:allow(core.module.ModuleManager)
+	private function removeGroupByEntity(e : Entity) : Void
+	{
+		for (group in m_compGroups)
+		{
+			if (group.entityRef == e)
+			{
+				this.removeCompGroup(group);
+				return;
+			}
+		}
+	}
+	
+	@:allow(core.module.ModuleManager)
+	private function removeGroupOnEntityComponentRemoved(e : Entity) : Void
+	{
+		for (group in m_compGroups)
+		{
+			if (group.entityRef == e)
+			{
+				
+				var entityComponentsNames : Array<String> = e.getComponentsTypesNames();
+				var groupComponentsNames : Array<String> = group.getTypes();
+				
+				if (groupComponentsNames.length > entityComponentsNames.length)
+				{
+					this.removeCompGroup(group);
+					return;
+				}
+				else if (!Compare.allDataExist(groupComponentsNames, entityComponentsNames))
+				{
+					this.removeCompGroup(group);
+					return;	
+				}
+			}
+		}
 	}
 	
 	@:allow(core.module.ModuleManager)
@@ -44,11 +95,30 @@ class Module<T : ComponentGroup>
 	@:allow(core.module.ModuleManager)
 	private function addCompGroup(group : T) : Void
 	{
-		m_componants.push(group);
+		m_compGroups.push(group);
 		onCompGroupAdded(group);
 	}
 	
+	@:allow(core.module.ModuleManager)
+	private function release() : Void
+	{
+		while (m_compGroups.length != 0)
+			removeCompGroup(m_compGroups[0]);
+	}
+	
+	private function removeCompGroup(group : T) : Void
+	{
+		m_compGroups.remove(group);
+		onCompGroupRemove(group);
+		group.delete();
+	}
+	
 	private function onCompGroupAdded(group : T) : Void
+	{
+
+	}
+	
+	private function onCompGroupRemove(group : T) : Void
 	{
 
 	}

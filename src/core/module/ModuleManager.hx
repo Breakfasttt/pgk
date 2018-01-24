@@ -23,7 +23,8 @@ class ModuleManager
 			mod.update(dTime);
 	}
 	
-	public function addModule(module : Module<ComponentGroup>, priority : Int = -1) : Bool
+	@:allow(core.Application)
+	private function addModule(module : Module<ComponentGroup>, priority : Int = -1) : Bool
 	{
 		if (Lambda.has(m_modules, module))
 			return false;
@@ -31,6 +32,17 @@ class ModuleManager
 		module.setPriority(priority);
 		m_modules.push(module);
 		m_modules.sort(sortModules);
+		return true;
+	}
+	
+	@:allow(core.Application)
+	private function removeModule(module : Module<ComponentGroup>) : Bool
+	{
+		if (!Lambda.has(m_modules, module))
+			return false;
+			
+		module.release();	
+		m_modules.remove(module);
 		return true;
 	}
 	
@@ -55,10 +67,12 @@ class ModuleManager
 			return 0;
 	}
 	
-
 	public function createGroupForModuleIfEntityMatching(entity : Entity, module : Module<ComponentGroup>)
 	{
 		if (entity.getComponentNumber() == 0)
+			return;
+			
+		if (module.isEntityAlreadyAddedOnAgroup(entity))
 			return;
 			
 		var entityCompNames : Array<String> =  entity.getComponentsTypesNames();
@@ -68,12 +82,13 @@ class ModuleManager
 		if (compGroupTypes.length == 0)
 			return;
 		
-		if (compGroupTypes.length != entityCompNames.length)
+		if (compGroupTypes.length > entityCompNames.length)
 			return;
 			
 		var ok : Bool  = true;
-		var tempComponent : Component = null; 
-		for (type in entityCompNames)
+		var tempComponent : Component = null;
+		tempGroup.init(entity);
+		for (type in compGroupTypes)
 		{
 			tempComponent = entity.getComponentByTypeName(type);
 			if (!tempGroup.setFieldByType(type, tempComponent))
@@ -94,5 +109,17 @@ class ModuleManager
 		
 		for (mod in m_modules)
 			createGroupForModuleIfEntityMatching(entity, mod);
-	}	
+	}
+	
+	public function checkModuleOnEntityRemoved(e : Entity) : Void
+	{
+		for (mod in m_modules)
+			mod.removeGroupByEntity(e);
+	}
+	
+	public function checkModuleOnEntityComponentRemoved(e : Entity) : Void
+	{
+		for (mod in m_modules)
+			mod.removeGroupOnEntityComponentRemoved(e);
+	}
 }

@@ -18,8 +18,16 @@ class ModuleTest extends Module<GroupTest>
 	
 	override function onCompGroupAdded(group:GroupTest):Void 
 	{
-		trace("ModuleTest::Group count : " +  m_componants.length);
+		trace("ModuleTest:: ComponentGroup added");
+		trace("ModuleTest:: Group count : " +  m_compGroups.length);
 	}
+	
+	override function onCompGroupRemove(group:GroupTest):Void 
+	{
+		trace("ModuleTest:: ComponentGroup removed");
+		trace("ModuleTest::Group count : " +  m_compGroups.length);
+	}
+	
 	
 	override public function update(delta:Float):Void 
 	{
