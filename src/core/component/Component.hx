@@ -1,10 +1,10 @@
-package core.componant;
+package core.component;
 
 /**
  * A componants represents a collection of data who can be update each frame.
  * @author Breakyt
  */
-class Componant 
+class Component 
 {
 
 	/**
@@ -16,9 +16,13 @@ class Componant
 	 *  A componant represents a script/datas who can be update each frame.
 	 *  Each module update componants. A componant must be added to the correct module.
 	 * Extend this class to create your own componant.
-	 * @param	name
 	 */
-	public function new(name : String) 
+	public function new() 
+	{
+		
+	}
+	
+	public function init(name : String) : Void
 	{
 		this.name = name;
 	}

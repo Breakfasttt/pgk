@@ -1,5 +1,6 @@
 package core.entity;
-import core.componant.Componant;
+import core.component.Component;
+import core.module.ModuleManager;
 import msignal.Signal.Signal0;
 
 /**
@@ -11,7 +12,7 @@ class Entity
 	
 	public var name : String;
 	
-	private var m_componants : Map<String, Componant>;
+	private var m_components : Map<String, Component>;
 	
 	@:allow(core.Application)
 	private var compAdded : Signal0;
@@ -22,39 +23,40 @@ class Entity
 	public function new(name : String) 
 	{
 		this.name = name;
-		m_componants = new Map();
+		m_components = new Map();
 		compAdded = new Signal0();
 		compRemove = new Signal0();
 	}
 	
-	public function add(comp : Componant, eraseOld : Bool = false) : Void
+	public function add(comp : Component, eraseOld : Bool = false) : Void
 	{
 		var compTypeName : String = Type.getClassName(Type.getClass(comp));
 		
-		if (m_componants.exists(compTypeName) && !eraseOld)
+		if (m_components.exists(compTypeName) && !eraseOld)
 			trace("Can't add the component : " + compTypeName + " because this entity : " + this.name + " has already one");
 		else
-			m_componants.set(compTypeName ,comp);
+			m_components.set(compTypeName ,comp);
 	}
 	
-	public function getComponantsTypesNames() : Array<String>
+	@:allow(core.module.ModuleManager)
+	private function getComponentsTypesNames() : Array<String>
 	{
 		var result : Array<String> = [];
 		
-		for (key in m_componants.keys())
+		for (key in m_components.keys())
 			result.push(key);
 			
 		return result;
 	}
 	
-	public function getComponantByTypeName(typeName : String) : Componant
+	public function getComponentByTypeName(typeName : String) : Component
 	{
-		return m_componants.get(typeName);
+		return m_components.get(typeName);
 	}
 	
 	public function getComponentNumber() : Int
 	{
-		return Lambda.count(m_componants);
+		return Lambda.count(m_components);
 	}
 	
 }

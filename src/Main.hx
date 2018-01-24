@@ -1,12 +1,17 @@
 package;
 
 import core.Application;
+import core.component.ComponentGroup;
+import core.entity.Entity;
+import core.module.Module;
 import input.MouseSignals;
 import input.MouseData;
 import input.mouseBehaviour.DragBehaviour;
 import openfl.display.Sprite;
 import openfl.Lib;
 import openfl.events.MouseEvent;
+import test.component.CompTest;
+import test.module.ModuleTest;
 
 /**
  * ...
@@ -45,5 +50,11 @@ class Main extends Sprite
 		
 		m_app = new Application();
 		m_app.init("Application test", 800, 600);
+		
+		var  m : Module<ComponentGroup> =  cast new ModuleTest();
+		m_app.addModule(m);
+		var e : Entity = new Entity("TestEntity");
+		e.add(new CompTest());
+		m_app.addEntity(e);
 	}
 }

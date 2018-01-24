@@ -1,5 +1,7 @@
 package core;
-import core.componant.Componant;
+import core.component.Component;
+import core.component.ComponentGroup;
+import core.entity.Entity;
 import core.module.Module;
 import core.module.ModuleManager;
 import openfl.Lib;
@@ -22,6 +24,8 @@ class Application
 	
 	public var modManager(default, null) : ModuleManager;
 	
+	private var m_entities : Array<Entity>;
+	
 	public function new() 
 	{
 		if(Application.self == null)
@@ -34,6 +38,7 @@ class Application
 		this.width = width;
 		this.height = height;
 		
+		this.m_entities = [];
 		this.modManager = new ModuleManager();
 		
 		this.tick = new FrameTicker(Lib.current.stage);
@@ -44,6 +49,37 @@ class Application
 	private function update(dTime : Float) : Void
 	{
 		modManager.update(dTime);
+	}
+	
+	public function addEntity(e : Entity) : Bool
+	{
+		if (Lambda.has(m_entities, e))
+			return false;
+		else
+		{
+			e.compAdded.add(componentOnEntityAdded);
+			m_entities.push(e);
+			this.modManager.checkAllModuleMatching(e);
+			return true;
+		}
+	}
+	
+	public function addModule(m : Module<ComponentGroup>) : Bool
+	{
+		if (this.modManager.addModule(m))
+		{
+			for (e in m_entities)
+				this.modManager.createGroupForModuleIfEntityMatching(e, m);
+				
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	private function componentOnEntityAdded() : Void
+	{
+		this.modManager.checkAllModuleMatching(e);
 	}
 	
 	

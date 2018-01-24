@@ -1,24 +1,27 @@
 package core.module;
-import core.componant.Componant;
-import core.componant.ComponantGroup;
+import core.component.Component;
+import core.component.ComponentGroup;
+import haxe.Constraints.Constructible;
+import haxe.Template;
 
 /**
  * Manage a collection of Componant
  * @author Breakyt
  */
-class Module<T : ComponantGroup>
+
+class Module<T : ComponentGroup>
 {
 	private var m_componants : Array<T>;
 	
 	public var priority(default, null) : Int; 
 	
-	private var m_groupTemplate(default, null) : T;
+	private var m_groupClass : Class<T>;
 	
-	public function new()
+	public function new(type : Class<T>)
 	{
 		m_componants = [];
-		priority = -1;
-		m_groupTemplate = null;
+		priority = -1;		
+		m_groupClass = type;
 	}
 	
 	public function update(delta : Float) : Void
@@ -33,17 +36,22 @@ class Module<T : ComponantGroup>
 	}
 	
 	@:allow(core.module.ModuleManager)
-	private function getCompGroupType() : Class<Dynamic>
+	private function getCompGroupType() : Class<T>
 	{
-		return Type.getClass(m_groupTemplate);
+		return m_groupClass;
 	}
 	
-	public function addCompGroup(group : T) : Void
+	@:allow(core.module.ModuleManager)
+	private function addCompGroup(group : T) : Void
 	{
 		m_componants.push(group);
+		onCompGroupAdded(group);
 	}
 	
-	
+	private function onCompGroupAdded(group : T) : Void
+	{
+
+	}
 	
 	
 	

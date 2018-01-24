@@ -1,5 +1,6 @@
 package core.module;
-import core.componant.ComponantGroup;
+import core.component.Component;
+import core.component.ComponentGroup;
 import core.entity.Entity;
 
 /**
@@ -9,7 +10,7 @@ import core.entity.Entity;
 class ModuleManager 
 {
 
-	private var m_modules : Array<Module<ComponantGroup>>;
+	private var m_modules : Array<Module<ComponentGroup>>;
 	
 	public function new() 
 	{
@@ -22,11 +23,15 @@ class ModuleManager
 			mod.update(dTime);
 	}
 	
-	public function addModule(module : Module<ComponantGroup>, priority : Int = -1) : Void
+	public function addModule(module : Module<ComponentGroup>, priority : Int = -1) : Bool
 	{
+		if (Lambda.has(m_modules, module))
+			return false;
+		
 		module.setPriority(priority);
 		m_modules.push(module);
 		m_modules.sort(sortModules);
+		return true;
 	}
 	
 	public function getModule<T>(modType : Class<T>) : T
@@ -40,7 +45,7 @@ class ModuleManager
 		return null;	
 	}
 	
-	private function sortModules(modA : Module<ComponantGroup>, modB : Module<ComponantGroup>) : Int
+	private function sortModules(modA : Module<ComponentGroup>, modB : Module<ComponentGroup>) : Int
 	{
 		if (modA.priority < modB.priority)
 			return 1;
@@ -50,51 +55,44 @@ class ModuleManager
 			return 0;
 	}
 	
-	public function createGroupForModuleIfEntityMatching(entity : Entity) : Void
+
+	public function createGroupForModuleIfEntityMatching(entity : Entity, module : Module<ComponentGroup>)
+	{
+		if (entity.getComponentNumber() == 0)
+			return;
+			
+		var entityCompNames : Array<String> =  entity.getComponentsTypesNames();
+		var tempGroup : ComponentGroup = Type.createInstance(module.getCompGroupType(), []);
+		var compGroupTypes : Array<String> = tempGroup.getTypes();
+		
+		if (compGroupTypes.length == 0)
+			return;
+		
+		if (compGroupTypes.length != entityCompNames.length)
+			return;
+			
+		var ok : Bool  = true;
+		var tempComponent : Component = null; 
+		for (type in entityCompNames)
+		{
+			tempComponent = entity.getComponentByTypeName(type);
+			if (!tempGroup.setFieldByType(type, tempComponent))
+			{
+				ok = false;
+				break;
+			}
+		}
+		
+		if (ok)
+			module.addCompGroup(tempGroup);		
+	}
+	
+	public function checkAllModuleMatching(entity : Entity) : Void
 	{
 		if (entity.getComponentNumber() == 0)
 			return;
 		
-		var entityCompNames : Array<String> =  entity.getComponantsTypesNames();
-		
-		var compGroupClassFields : Array<String> = []; 
-		
-		
-		var ok : Bool  = true;
-		
 		for (mod in m_modules)
-		{
-			ok = true;		
-			compGroupClassFields = Type.getClassFields(mod.getCompGroupType());
-			compGroupClassFields.remove("entityRef");
-			
-			if (compGroupClassFields.length == 0)
-				continue;
-			
-			if (compGroupClassFields.length != entityCompNames.length)
-				continue;
-				
-			for (field in compGroupClassFields)
-			{
-				if (Lambda.has(entityCompNames, field))
-					continue;
-				else
-				{
-					ok = false;
-					break;
-				}
-			}
-			
-			if (ok)
-			{
-				var compGroup : ComponantGroup = Type.createInstance(mod.getCompGroupType(), [entity]);
-				for (field in compGroupClassFields)
-					Reflect.setField(compGroup, field, entity.getComponantByTypeName(field));
-					
-				mod.addCompGroup(compGroup);
-				
-			}
-			
-		}
+			createGroupForModuleIfEntityMatching(entity, mod);
 	}	
 }
