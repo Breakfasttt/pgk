@@ -36,7 +36,7 @@ class Vector2D
 	 * @param	p
 	 * @return this
 	 */
-	public function add(p : Vector2D) : Vector2D
+	public inline function add(p : Vector2D) : Vector2D
 	{
 		if (p == null)
 			return this;
