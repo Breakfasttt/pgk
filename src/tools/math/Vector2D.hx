@@ -206,12 +206,12 @@ class Vector2D
 	}
 	
 	/**
-	 * Roate 'this' vector with the given angle in ° (degree)
+	 * Rotate 'this' vector with the given angle in ° (degree)
 	 * This operation modify 'this' Vector2D
 	 * @param	deg
 	 * @return 'this'
 	 */
-	public function rotation(deg : Float) : Vector2D
+	public function rotate(deg : Float) : Vector2D
 	{
 		var rad = MathUtils.toRad(deg);
 		var newX : Float = this.x * Math.cos(rad) - this.y * Math.sin(rad);
