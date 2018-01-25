@@ -52,11 +52,22 @@ class Vector2D
 	 * @param	factor
 	 * @return 'this'
 	 */
-	public function scale(factor : Float) : Vector2D
+	public inline function scale(factor : Float) : Vector2D
 	{
 		this.x *= factor;
 		this.y *= factor;
 		return this;
+	}
+	
+	/**
+	 * Scale the coordinates by 1/factor.
+	 * This operation modify 'this' Vector2D
+	 * @param	factor
+	 * @return 'this'
+	 */
+	public inline function aScale(factor : Float) : Vector2D
+	{
+		return this.scale(1/factor);
 	}
 	
 	/**
@@ -68,7 +79,7 @@ class Vector2D
 	 * @param	p
 	 * @return this
 	 */
-	public function multiply(p : Vector2D) : Vector2D
+	public inline function multiply(p : Vector2D) : Vector2D
 	{
 		if (p == null)
 			return this;
@@ -88,7 +99,7 @@ class Vector2D
 	 * @param	p
 	 * @return this
 	 */
-	public function divide(p : Vector2D) : Vector2D
+	public inline function divide(p : Vector2D) : Vector2D
 	{
 		if (p == null)
 			return this;
@@ -104,7 +115,7 @@ class Vector2D
 	 * This operation modify 'this' Vector2D
 	 * @return 'this'
 	 */
-	public function normalize() : Vector2D
+	public inline function normalize() : Vector2D
 	{
 		var l : Float = length();
 		
@@ -125,7 +136,7 @@ class Vector2D
 	 * @param	p
 	 * @return this
 	 */
-	public function copy(p : Vector2D) : Vector2D
+	public inline function copy(p : Vector2D) : Vector2D
 	{
 		if (p == null)
 			return this;
@@ -141,7 +152,7 @@ class Vector2D
 	 * This operation doesn't modify 'this' Vector2D
 	 * This operation doesn't modify 'p' vector2D
 	 */
-	public function isEquals(p : Vector2D) : Bool
+	public inline function isEquals(p : Vector2D) : Bool
 	{
 		return (p != null && this.x == p.x && this.y == p.y);
 	}
@@ -149,34 +160,17 @@ class Vector2D
 	/**
 	 * @return the length of 'this' Vector2D
 	 */
-	public function length() : Float
+	public inline function length() : Float
 	{
-		return Math.sqrt(this.x * this.x + this.y * this.y);
+		return Math.sqrt(sqLength());
 	}
 	
 	/**
 	 * @return the Squarelength of 'this' Vector2D
 	 */
-	public function sqLength() : Float
+	public inline function sqLength() : Float
 	{
 		return this.x * this.x + this.y * this.y;
-	}
-	
-	/**
-	 * @return a new Vector2D who is the difference 
-	 * between 'p' and 'this'. (p-this)
-	 * This operation doesn't modify 'this' Vector2D
-	 * This operation doesn't modify 'p' vector2D
-	 */
-	public function vectorTo(p : Vector2D) : Vector2D
-	{
-		if (p == null)
-			return null;
-		
-		var result : Vector2D = new Vector2D();
-		result.x = p.x - this.x;
-		result.y = p.y - this.y;
-		return result;
 	}
 	
 	/**
@@ -185,7 +179,7 @@ class Vector2D
 	 * This operation doesn't modify 'this' Vector2D
 	 * This operation doesn't modify 'p' vector2D
 	 */
-	public function dot(p : Vector2D) : Float
+	public inline function dot(p : Vector2D) : Float
 	{
 		if (p == null)
 			return 0.0;
@@ -203,7 +197,7 @@ class Vector2D
 	 * with x and y coordinate at 0.0 due to a 2D space
 	 * So we return only the Z value with a float  /!\
 	 */
-	public function cross(p : Vector2D) : Float
+	public inline function cross(p : Vector2D) : Float
 	{
 		if (p == null)
 			return 0.0;
@@ -257,9 +251,28 @@ class Vector2D
 	}
 	
 	/**
+	 * @return a new Vector2D who is the difference 
+	 * between 'p1' and 'p1'. (p2-p1)
+	 * This operation doesn't modify 'p1' Vector2D
+	 * This operation doesn't modify 'p2' vector2D
+	 * return null if p1 or p2 is null
+	 */
+	public static function vectorTo(p1 : Vector2D, p2 : Vector2D) : Vector2D
+	{
+		if (p1 == null || p2 == null)
+			return null;
+		
+		var result : Vector2D = new Vector2D();
+		result.x = p2.x - p1.x;
+		result.y = p2.y - p1.y;
+		return result;
+	}	
+	
+	/**
 	 * Linear interpolation who return a new Vector 2D with two other Vector2D and a factor.
 	 * This operation doesn't modify 'p1' Vector2D
 	 * This operation doesn't modify 'p2' vector2D
+	 * return null if p1 or p2 is null
 	 * @param	p1
 	 * @param	p2
 	 * @param	factor
@@ -267,6 +280,9 @@ class Vector2D
 	 */
 	public static function lerp(p1 : Vector2D, p2: Vector2D, factor : Float) : Vector2D
 	{
+		if (p1 == null || p2 == null)
+			return null;
+		
 		var newP : Vector2D = new Vector2D();
 		newP.x = p1.x + factor * (p2.x - p1.x);
 		newP.y = p1.y + factor * (p2.y - p1.y);
