@@ -2,7 +2,6 @@ package core.entity;
 import core.component.Component;
 import core.module.Module;
 import core.module.ModuleManager;
-import msignal.Signal.Signal0;
 import msignal.Signal.Signal1;
 
 /**

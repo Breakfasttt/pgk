@@ -1,20 +1,9 @@
 package;
 
-import core.Application;
-import core.component.ComponentGroup;
-import core.entity.Entity;
-import core.module.Module;
-import input.MouseSignals;
-import input.MouseData;
-import input.mouseBehaviour.DragBehaviour;
-import openfl.display.Sprite;
 import openfl.Lib;
+import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 import test.TestMe;
-import test.component.CompTest;
-import test.component.CompTest2;
-import test.module.ModuleTest;
-import test.module.ModuleTest2;
 
 /**
  * ...

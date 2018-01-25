@@ -1,11 +1,10 @@
 package core;
-import core.component.Component;
 import core.component.ComponentGroup;
 import core.entity.Entity;
 import core.module.Module;
 import core.module.ModuleManager;
 import openfl.Lib;
-import tools.FrameTicker;
+import tools.time.FrameTicker;
 
 /**
  * This class is the start point of an Application.

@@ -1,4 +1,4 @@
-package tools;
+package tools.time;
 import msignal.Signal.Signal1;
 import openfl.display.DisplayObject;
 import openfl.events.Event;

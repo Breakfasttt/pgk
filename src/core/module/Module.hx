@@ -1,10 +1,7 @@
 package core.module;
-import core.component.Component;
 import core.component.ComponentGroup;
 import core.entity.Entity;
-import haxe.Constraints.Constructible;
-import haxe.Template;
-import tools.Compare;
+import tools.misc.Compare;
 
 /**
  * Update/Modify/handle a collection of Componant name ComponentGroup.

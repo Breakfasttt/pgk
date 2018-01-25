@@ -1,5 +1,4 @@
 package input;
-import msignal.Signal.Signal0;
 import msignal.Signal.Signal1;
 import openfl.display.InteractiveObject;
 import openfl.events.Event;
