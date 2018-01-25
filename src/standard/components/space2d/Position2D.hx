@@ -1,4 +1,4 @@
-package standard.components;
+package standard.components.space2d;
 
 import core.component.Component;
 import tools.math.Vector2D;
