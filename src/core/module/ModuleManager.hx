@@ -4,25 +4,40 @@ import core.component.ComponentGroup;
 import core.entity.Entity;
 
 /**
- * ...
+ * A class who manage module creation and ComponentGroup creation when Entity/Component his added to Application/Entity
  * @author Breakyt
  */
 class ModuleManager 
 {
 
+	/**
+	 * Array contains all modules added to the Application
+	 */
 	private var m_modules : Array<Module<ComponentGroup>>;
 	
+	/**
+	 * A class who manage module creation and ComponentGroup creation when Entity/Component his added to Application/Entity
+	 */
 	public function new() 
 	{
 		m_modules = new Array();
 	}
 	
-	public function update(dTime : Float)
+	/**
+	 * Update all module by there priority
+	 * Call by Application
+	 * @param	dTime
+	 */
+	@:allow(core.Application)
+	private function update(dTime : Float)
 	{
 		for (mod in m_modules)
 			mod.update(dTime);
 	}
 	
+	/**
+	 * Add a module with a priority to the manager
+	 */
 	@:allow(core.Application)
 	private function addModule(module : Module<ComponentGroup>, priority : Int = -1) : Bool
 	{
@@ -35,6 +50,10 @@ class ModuleManager
 		return true;
 	}
 	
+	/**
+	 * Remove a module to the manager
+	 * Release the module by deleting all his Component Group
+	 */
 	@:allow(core.Application)
 	private function removeModule(module : Module<ComponentGroup>) : Bool
 	{
@@ -46,6 +65,9 @@ class ModuleManager
 		return true;
 	}
 	
+	/**
+	 * Get a module by his type
+	 */
 	public function getModule<T>(modType : Class<T>) : T
 	{
 		for (mod in m_modules)
@@ -57,6 +79,12 @@ class ModuleManager
 		return null;	
 	}
 	
+	/**
+	 * Tools function to sort module by there priority
+	 * @param	modA
+	 * @param	modB
+	 * @return
+	 */
 	private function sortModules(modA : Module<ComponentGroup>, modB : Module<ComponentGroup>) : Int
 	{
 		if (modA.priority < modB.priority)
@@ -67,7 +95,12 @@ class ModuleManager
 			return 0;
 	}
 	
-	public function createGroupForModuleIfEntityMatching(entity : Entity, module : Module<ComponentGroup>)
+	/**
+	 * Create ComponentGroup  if the entity in parameters contains components matching with 
+	 * The Type of ComponentGroup manage by the module in parameters.
+	 */
+	@:allow(core.Application)
+	private function createGroupForModuleIfEntityMatching(entity : Entity, module : Module<ComponentGroup>)
 	{
 		if (entity.getComponentNumber() == 0)
 			return;
@@ -102,7 +135,12 @@ class ModuleManager
 			module.addCompGroup(tempGroup);		
 	}
 	
-	public function checkAllModuleMatching(entity : Entity) : Void
+	/**
+	 * A function who call createGroupForModuleIfEntityMatching() for each module
+	 * if entity have 0 entity, the check is skipped
+	 */
+	@:allow(core.Application)
+	private function checkAllModuleMatching(entity : Entity) : Void
 	{
 		if (entity.getComponentNumber() == 0)
 			return;
@@ -111,13 +149,24 @@ class ModuleManager
 			createGroupForModuleIfEntityMatching(entity, mod);
 	}
 	
-	public function checkModuleOnEntityRemoved(e : Entity) : Void
+	/**
+	 * Remove ComponentGroup (associed with the entity in parameters) from modules
+	 * call when a entity is removed from the Application
+	 */
+	@:allow(core.Application)
+	private function checkModuleOnEntityRemoved(e : Entity) : Void
 	{
 		for (mod in m_modules)
 			mod.removeGroupByEntity(e);
 	}
 	
-	public function checkModuleOnEntityComponentRemoved(e : Entity) : Void
+	/**
+	 * Remove ComponentGroup (associed with the entity in parameters) from modules 
+	 * by checking  the "Components matching" between the entity and the ComponentGroup of each module
+	 * call when a component is removed from an entity who exist in Application
+	 */
+	@:allow(core.Application)
+	private function checkModuleOnEntityComponentRemoved(e : Entity) : Void
 	{
 		for (mod in m_modules)
 			mod.removeGroupOnEntityComponentRemoved(e);

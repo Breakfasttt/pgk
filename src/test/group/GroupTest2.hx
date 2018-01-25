@@ -6,7 +6,7 @@ import test.component.CompTest;
 import test.component.CompTest2;
 
 /**
- * ...
+ * Another Test and Exemple ComponentGroup using CompTest1 & CompTest2
  * @author Breakyt
  */
 class GroupTest2 extends ComponentGroup 
@@ -18,7 +18,7 @@ class GroupTest2 extends ComponentGroup
 	public function new() : Void
 	{
 		super();
-		addType(CompTest, "test1");
-		addType(CompTest2, "test2");
+		bindFieldType(CompTest, "test1");
+		bindFieldType(CompTest2, "test2");
 	}
 }

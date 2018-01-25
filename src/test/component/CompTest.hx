@@ -3,7 +3,7 @@ package test.component;
 import core.component.Component;
 
 /**
- * ...
+ * A Test and exemple component
  * @author Breakyt
  */
 class CompTest extends Component 

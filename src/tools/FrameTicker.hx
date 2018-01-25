@@ -26,7 +26,6 @@ class FrameTicker
 	{
 		this.object = objet;
 		this.tick = new Signal1<Float>();
-		
 	}
 	
 	public function start() : Void

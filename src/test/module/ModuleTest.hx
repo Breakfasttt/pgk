@@ -4,7 +4,7 @@ import core.module.Module;
 import test.group.GroupTest;
 
 /**
- * ...
+ * A Test and Exemple Module using => GroupTest extends ComponentGroup
  * @author Breakyt
  */
 class ModuleTest extends Module<GroupTest>

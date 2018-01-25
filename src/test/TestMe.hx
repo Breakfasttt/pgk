@@ -10,12 +10,23 @@ import test.module.ModuleTest;
 import test.module.ModuleTest2;
 
 /**
- * ...
+ * A Class who contains some static function to test functionnality
  * @author Breakyt
  */
 class TestMe 
 {
 
+	/**
+	 * Test :
+	 * - Application creation
+	 * - Entity creation
+	 * - Module creation
+	 * - Add/remove Module from Application
+	 * - Add/remove Entity from Application
+	 * - Add/Remove  Component from Entity
+	 * - ComponentGroup creation/destruction logique is tested with Add/remove action
+	 * - Module update and ComponentGroup signal function
+	 */
 	public static function testApplicationModuleEntityAndComposant() 
 	{
 		var app : Application;
@@ -54,6 +65,9 @@ class TestMe
 		app.addModule(mod1);		
 	}
 	
+	/**
+	 * Test Drag mouse behaviour (therefore Test MouseSignal)
+	 */
 	public static function testDragMouseBehaviour() : Void
 	{
 		var redSquare : Sprite;

@@ -5,7 +5,7 @@ import core.entity.Entity;
 import test.component.CompTest;
 
 /**
- * ...
+ * A Test and Exemple ComponentGroup using CompTest
  * @author Breakyt
  */
 class GroupTest extends ComponentGroup 
@@ -16,6 +16,6 @@ class GroupTest extends ComponentGroup
 	public function new() : Void
 	{
 		super();
-		addType(CompTest, "test");
+		bindFieldType(CompTest, "test");
 	}
 }

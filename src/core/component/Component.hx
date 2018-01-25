@@ -1,7 +1,7 @@
 package core.component;
 
 /**
- * A componants represents a collection of data who can be update each frame.
+ * A componants represents a collection of data who can be update by a module
  * @author Breakyt
  */
 class Component 
