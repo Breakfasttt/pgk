@@ -4,6 +4,8 @@ import openfl.display.DisplayObjectContainer;
 
 /**
  * A display component is add and sorted to a layer component.
+ * Never directly to the Stage.
+ * It's a graphical representation of the entity.
  * @author Breakyt
  */
 class Display extends Component
