@@ -100,12 +100,17 @@ class ComponentGroup
 			var field : String = m_mappingFieldWithType.get(typeName);
 			
 			if (field == null)
+			{
+				trace("Fail to set a group field with this type : " + typeName +" and object " + obj);
 				return false;
+			}
 				
 			Reflect.setProperty(this, field, obj);
 		}
 		catch (e : Dynamic)
 		{
+			trace("Fail to set a field with this type : " + typeName +" and object " + obj);
+			trace("Error : " + e);
 			return false;
 		}
 		

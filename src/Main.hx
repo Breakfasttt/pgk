@@ -19,8 +19,9 @@ class Main extends Sprite
 		Lib.current.stage.showDefaultContextMenu = false;
 		Lib.current.stage.addEventListener(MouseEvent.RIGHT_CLICK, function(osef : Dynamic){})  ;
 		
-		TestMe.testDragMouseBehaviour();
-		TestMe.testApplicationModuleEntityAndComposant();
+		//TestMe.testDragMouseBehaviour();
+		//TestMe.testApplicationModuleEntityAndComposant();
+		TestMe.testDisplayAndRepresentation();
 
 	}
 }

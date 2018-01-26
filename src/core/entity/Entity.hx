@@ -49,11 +49,27 @@ class Entity
 	
 	/**
 	 * Add a component. Only one component by type is allowed. 
-	 * @param	comp
+	 * @param comp
+	 * @param asType : 	You can specify to use 'comp' as the type 'asType'. Usefull  if you want an optionnal component or if you extends a existing component. 
+	 * 					Set comp to "null" and set the type of the comp
 	 */
-	public function add(comp : Component) : Void
+	public function add(comp : Component, asType : Class<Dynamic> = null) : Void
 	{
-		var compTypeName : String = Type.getClassName(Type.getClass(comp));
+		if (comp == null && asType == null)
+		{
+			trace("Can't add untyped component to entity " + this.name + ". Operation aborted");
+			return;
+		}
+		
+		var compTypeName : String = null;
+		if (asType != null)
+		{
+			compTypeName = Type.getClassName(asType);
+		}
+		else
+		{
+			compTypeName = Type.getClassName(Type.getClass(comp));
+		}
 		
 		if (m_components.exists(compTypeName))
 			trace("Can't add the component : " + compTypeName + " because this entity : " + this.name + " has already one");

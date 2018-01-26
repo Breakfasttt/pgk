@@ -2,6 +2,7 @@ package core.module;
 import core.component.Component;
 import core.component.ComponentGroup;
 import core.entity.Entity;
+import tools.misc.Compare;
 
 /**
  * A class who manage module creation and ComponentGroup creation when Entity/Component his added to Application/Entity
@@ -116,6 +117,9 @@ class ModuleManager
 			return;
 		
 		if (compGroupTypes.length > entityCompNames.length)
+			return;
+			
+		if (!Compare.allDataExist(compGroupTypes, entityCompNames))
 			return;
 			
 		var ok : Bool  = true;

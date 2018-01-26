@@ -4,10 +4,14 @@ import core.entity.Entity;
 import input.mouseBehaviour.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
+import standard.factory.EntityFactory;
+import standard.module.graphic.DisplayModule;
+import standard.module.graphic.RepresentationModule;
 import test.component.CompTest;
 import test.component.CompTest2;
 import test.module.ModuleTest;
 import test.module.ModuleTest2;
+import tools.math.Anchor;
 
 /**
  * A Class who contains some static function to test functionnality
@@ -64,6 +68,39 @@ class TestMe
 		
 		app.addModule(mod1);		
 	}
+	
+	public static function testDisplayAndRepresentation() : Void
+	{
+		var app : Application;
+		app = new Application();
+		app.init("Application test", 800, 600);
+		
+		var displayModule : DisplayModule = new DisplayModule(Lib.current.stage);
+		var representationModule : RepresentationModule = new RepresentationModule();
+		
+		app.addModule(displayModule);
+		app.addModule(representationModule);
+		
+		var backLayer : Entity = EntityFactory.createLayer("backLayer", -1, app.width, app.height);
+		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height);
+		
+		var firstElement : Entity = EntityFactory.createGraphicElement("square4", "backLayer","test.png", app.width/2.0, app.height/2.0, 1, Anchor.center.clone(), 1.0, 1.0);
+		
+		var secondElement : Entity = EntityFactory.createGraphicElement("square1", "mainLayer", "test.png", 0.0, 0.0, 0, Anchor.topLeft.clone(), 1.0, 1.0);
+		var thirdElement : Entity = EntityFactory.createGraphicElement("square2", "mainLayer", "test.png", 50.0, 50.0, 1, Anchor.center.clone(), 0.5, 0.5);
+		var fourthElement : Entity = EntityFactory.createGraphicElement("square3", "mainLayer", "test.png", app.width / 2.0, app.height / 2.0, 1, Anchor.center.clone(), 0.5, 0.5);
+		
+		
+		app.addEntity(mainLayer);
+		app.addEntity(backLayer);
+		
+		app.addEntity(firstElement);
+		app.addEntity(secondElement);
+		app.addEntity(thirdElement);
+		app.addEntity(fourthElement);
+		
+	}
+	
 	
 	/**
 	 * Test Drag mouse behaviour (therefore Test MouseSignal)

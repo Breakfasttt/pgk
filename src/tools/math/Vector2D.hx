@@ -245,9 +245,70 @@ class Vector2D
 	 * @param	maxLength
 	 * @return
 	 */
-	public function clamp(maxLength : Float) : Vector2D
+	public inline function clamp(maxLength : Float) : Vector2D
 	{
 		return this.normalize().scale(maxLength);
+	}
+	
+	/**
+	 * Limit the X coordonate with min/max value in parameters.
+	 * Limit value are not saved.
+	 * This operation modify 'this' Vector2D
+	 * if min > max nothing append
+	 * @param	xMin
+	 * @param	xMax
+	 * @return
+	 */
+	public inline function xLimits(xMin : Float, xMax : Float) : Vector2D
+	{
+		if (xMin > xMax)
+			return this;
+		
+		if (x < xMin)
+			x = xMin;
+			
+		if (x > xMax)
+			x = xMax;
+			
+		return this;
+	}
+	
+	/**
+	 * Limit the Y coordonate with min/max value in parameters.
+	 * Limit value are not saved.
+	 * This operation modify 'this' Vector2D
+	 * if min > max nothing append
+	 * @param	yMin
+	 * @param	yMax
+	 * @return
+	 */
+	public inline function yLimits(yMin : Float, yMax : Float) : Vector2D
+	{
+		if (yMin > yMax)
+			return this;
+		
+		if (y < yMin)
+			y = yMin;
+			
+		if (y > yMax)
+			y = yMax;
+			
+		return this;
+	}
+	
+	
+	/**
+	 * Limit the X and Y coordonate with min/max value in parameters.
+	 * Limit value are not saved.
+	 * This operation modify 'this' Vector2D
+	 * if min > max nothing append
+	 * @param	min
+	 * @param	max
+	 * @return
+	 */
+	public inline function limits(min : Float, max : Float) : Vector2D
+	{
+		return this.xLimits(min, max).yLimits(min, max);
 	}
 	
 	/**

@@ -25,8 +25,8 @@ class Anchor
 	
 	public function new(x : Float, y : Float, ratioMode : Bool = true) 
 	{
-		this.ratioMode = ratioMode;
 		this.anchor = new Vector2D(x, y);
+		this.ratioMode = ratioMode;
 		checkRatioMode();
 	}
 	
@@ -47,7 +47,7 @@ class Anchor
 	private function checkRatioMode() : Void
 	{
 		if (this.ratioMode)
-			this.anchor.clamp(1.0);
+			this.anchor.limits(0.0, 1.0);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ class Anchor
 	{
 		ratioMode = value;
 		checkRatioMode();
-		return ratioMode
+		return ratioMode;
 	}
 	
 }

@@ -11,6 +11,9 @@ class Pivot2D extends Component
 {
 	public var pivot : Anchor;
 	
+	/**
+	 * @param	pivot : Default : Anchor.topLeft
+	 */
 	public function new(pivot : Anchor = null) 
 	{
 		super();
