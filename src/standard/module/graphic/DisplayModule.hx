@@ -9,12 +9,16 @@ import standard.components.graphic.Display;
 import standard.group.graphic.DisplayGroup;
 
 /**
- * ...
+ * Display module sort and manage entities whith a display component on the classic display list
  * @author Breakyt
  */
 class DisplayModule extends Module <DisplayGroup>
 {
 
+	/**
+	 * The stage of the application.
+	 * Necessary for Display component with Display.stageAsParent
+	 */
 	private var stage : Stage;
 	
 	public function new(stage : Stage, scaleMode : StageScaleMode = null) 
@@ -75,7 +79,7 @@ class DisplayModule extends Module <DisplayGroup>
 			if (parentGroup.display.disable)
 				continue;
 			
-			if (parentGroup.display.parentEntityName == Display.parentIsStage)
+			if (parentGroup.display.parentEntityName == Display.stageAsParent)
 			{
 				stageGroups.push(parentGroup);
 			}

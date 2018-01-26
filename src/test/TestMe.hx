@@ -4,6 +4,7 @@ import core.entity.Entity;
 import input.mouseBehaviour.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
+import standard.components.space2d.UtilitySize2D;
 import standard.factory.EntityFactory;
 import standard.module.graphic.DisplayModule;
 import standard.module.graphic.RepresentationModule;
@@ -83,21 +84,27 @@ class TestMe
 		
 		var backLayer : Entity = EntityFactory.createLayer("backLayer", -1, app.width, app.height);
 		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height);
+		var miniLayer : Entity = EntityFactory.createLayer("miniLayer", 1, 50, 50, app.width, 0.0, Anchor.topCenter.clone());
 		
-		var firstElement : Entity = EntityFactory.createGraphicElement("square4", "backLayer","test.png", app.width/2.0, app.height/2.0, 1, Anchor.center.clone(), 1.0, 1.0);
+		var firstElement : Entity = EntityFactory.createGraphicElement("square1", "backLayer","test.png", app.width/2.0, app.height/2.0, 1, Anchor.center.clone(), 1.0, 1.0);
 		
-		var secondElement : Entity = EntityFactory.createGraphicElement("square1", "mainLayer", "test.png", 0.0, 0.0, 0, Anchor.topLeft.clone(), 1.0, 1.0);
-		var thirdElement : Entity = EntityFactory.createGraphicElement("square2", "mainLayer", "test.png", 50.0, 50.0, 1, Anchor.center.clone(), 0.5, 0.5);
-		var fourthElement : Entity = EntityFactory.createGraphicElement("square3", "mainLayer", "test.png", app.width / 2.0, app.height / 2.0, 1, Anchor.center.clone(), 0.5, 0.5);
+		var secondElement : Entity = EntityFactory.createGraphicElement("square2", "mainLayer", "test.png", 0.0, 0.0, 0, Anchor.topLeft.clone(), 1.0, 1.0);
+		var thirdElement : Entity = EntityFactory.createGraphicElement("square3", "mainLayer", "test.png", 50.0, 50.0, 1, Anchor.center.clone(), 0.5, 0.5);
+		var fourthElement : Entity = EntityFactory.createGraphicElement("square4", "mainLayer", "test.png", app.width / 2.0, app.height / 2.0, 1, Anchor.center.clone(), 0.5, 0.5);
+		
+		var size : UtilitySize2D =  cast miniLayer.getComponent(UtilitySize2D);
+		var fifthElement : Entity = EntityFactory.createGraphicElement("square5", "miniLayer", "img/placeholder.png", 0.0, 0.0, 1, Anchor.topLeft.clone(), 1.0, 1.0);
 		
 		
 		app.addEntity(mainLayer);
 		app.addEntity(backLayer);
+		app.addEntity(miniLayer);
 		
 		app.addEntity(firstElement);
 		app.addEntity(secondElement);
 		app.addEntity(thirdElement);
 		app.addEntity(fourthElement);
+		app.addEntity(fifthElement);
 		
 	}
 	

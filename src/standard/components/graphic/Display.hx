@@ -8,16 +8,19 @@ import msignal.Signal.Signal2;
 
 /**
  * A Display component is a DisplayObjectContainer added to the specified Parent Entity
- * You can specifie that the parent is the Stage using "Display.parentIsStage"
+ * You can specifie that the parent is the Stage using "Display.stageAsParent"
  * @author Breakyt
  */
 class Display extends Component 
 {
+	
+	//todo => add a tools var dispParent : Display to keep a reference of the display parent on DisplayModule
+	
 	/**
 	 * Word key to add the container to the stage.
 	 * Usefull to crate layer.
 	 */
-	public static var parentIsStage : String = "Display::parentIsStage::Display";
+	public static var stageAsParent : String = "Display::stageAsParent::Display";
 	
 	/**
 	 * The container added to the display list
@@ -26,7 +29,7 @@ class Display extends Component
 	
 	/**
 	 * The name of the parent Entity you want to attach this display.
-	 * Default "Display.parentIsStage"
+	 * Default "Display.stageAsParent"
 	 */
 	public var parentEntityName : String;
 	
@@ -54,8 +57,8 @@ class Display extends Component
 	
 	/**
 	 * A Display component is a DisplayObjectContainer added to the specified Parent Entity
-	 * You can specifie that the parent is the Stage using "Display.parentIsStage" (default)
-	 * @param parentEntityName : The parent entity name, default : Display.parentIsStage
+	 * You can specifie that the parent is the Stage using "Display.stageAsParent" (default)
+	 * @param parentEntityName : The parent entity name, default : Display.stageAsParent
 	 * @param layerMode : 	Set this display to be considerate as layer, A layer is used as a parent container for other display. 
 	 * 						An Entity with a display set as layer can't have a Representation.
 	 * 						A Display Composant set as NOT a layer can't have children (except his Representation Component, see RepresentationModule)
@@ -71,7 +74,7 @@ class Display extends Component
 		if (this.container == null)
 			this.container = new Sprite();
 		
-		this.parentEntityName = parentEntityName != null ? parentEntityName : Display.parentIsStage;
+		this.parentEntityName = parentEntityName != null ? parentEntityName : Display.stageAsParent;
 		
 		this.layerMode = layerMode;
 		

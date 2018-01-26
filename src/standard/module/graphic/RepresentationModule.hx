@@ -68,8 +68,12 @@ class RepresentationModule extends Module<RepresentationGroup>
 		{
 			//todo => manage many type of reprentation (animation, bitmap, movieclip, etc)
 			var bmd : BitmapData = Assets.getBitmapData(group.representation.assetsPath);
-			var bm : Bitmap = new Bitmap(bmd);
-			group.display.container.addChild(bm);
+			
+			if (bmd != null)	
+			{
+				var bm : Bitmap = new Bitmap(bmd);
+				group.display.container.addChild(bm);
+			}
 		}
 	}
 	

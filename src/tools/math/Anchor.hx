@@ -8,15 +8,15 @@ class Anchor
 {
 
 	public static var topLeft : Anchor = new Anchor(0.0, 0.0);
-	public static var topCenter : Anchor = new Anchor(0.0, 0.5);
-	public static var topRight : Anchor = new Anchor(0.0, 1.0);
+	public static var topCenter : Anchor = new Anchor(0.5, 0.0);
+	public static var topRight : Anchor = new Anchor(1.0, 0.0);
 	
-	public static var centerLeft : Anchor = new Anchor(0.5, 0.0);
+	public static var centerLeft : Anchor = new Anchor(0.0, 0.5);
 	public static var center : Anchor = new Anchor(0.5, 0.5);
-	public static var centerRight : Anchor = new Anchor(0.5, 1.0);
+	public static var centerRight : Anchor = new Anchor(1.0, 0.5);
 	
-	public static var botLeft : Anchor = new Anchor(1.0, 0.0);
-	public static var botCenter : Anchor = new Anchor(1.0, 0.5);
+	public static var botLeft : Anchor = new Anchor(0.0, 1.0);
+	public static var botCenter : Anchor = new Anchor(0.5, 1.0);
 	public static var botRight : Anchor = new Anchor(1.0, 1.0);
 	
 	public var anchor(default,null) : Vector2D;

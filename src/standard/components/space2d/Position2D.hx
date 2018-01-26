@@ -10,7 +10,7 @@ import tools.math.Vector2D;
 class Position2D extends Component 
 {
 
-	public var position2d : Vector2D;
+	public var position2d : Vector2D; //todo => swap to anchor ?
 	
 	public function new(x : Float = 0.0, y : Float = 0.0) 
 	{
