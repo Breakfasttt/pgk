@@ -1,7 +1,6 @@
 package standard.factory;
 import core.entity.Entity;
 import standard.components.graphic.Display;
-import standard.components.graphic.Representation;
 import standard.components.space2d.Depth;
 import standard.components.space2d.Pivot2D;
 import standard.components.space2d.Position2D;
@@ -32,7 +31,6 @@ class EntityFactory
 		e.add(new Position2D(x,y));
 		e.add(new Scale2D());
 		e.add(new UtilitySize2D(w, h));
-		e.add(new Display(null, true));
 		return e;
 	}
 	
@@ -46,8 +44,7 @@ class EntityFactory
 		e.add(new Position2D(x,y));
 		e.add(new Scale2D(scaleX,scaleY));
 		e.add(null, UtilitySize2D);
-		e.add(new Display(parentLayer, false));
-		e.add(new Representation(assetPath));
+		e.add(new Display(assetPath));
 		return e;
 	}
 	

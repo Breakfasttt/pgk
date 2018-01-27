@@ -1,6 +1,7 @@
 package standard.components.space2d;
 
 import core.component.Component;
+import tools.math.Anchor;
 import tools.math.Vector2D;
 
 /**
@@ -10,12 +11,12 @@ import tools.math.Vector2D;
 class Position2D extends Component 
 {
 
-	public var position2d : Vector2D; //todo => swap to anchor ?
+	public var position2d : Anchor; 
 	
-	public function new(x : Float = 0.0, y : Float = 0.0) 
+	public function new(x : Float = 0.0, y : Float = 0.0, ratioMode : Bool = false) 
 	{
 		super();
-		position2d = new Vector2D(x, y);
+		position2d = new Anchor(x, y, ratioMode);
 	}
 	
 }

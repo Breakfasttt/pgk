@@ -48,7 +48,7 @@ class ComponentGroup
 	}
 	
 	/**
-	 * Bind a GroupComponent field to his type need to be call on new() when you extends this class 
+	 * Bind a GroupComponent field to his type and all SuperType if exist (except Component Type) need to be call on new() when you extends this class 
 	 * for each field. Field need to be public.
 	 * 
 	 * exemple : 
@@ -67,9 +67,22 @@ class ComponentGroup
 	@:allow(core.module.ModuleManager)
 	private function bindFieldType(type : Class<Component>, field : String) : Void
 	{		
-		var typeName : String = Type.getClassName(type);
-		if(!m_mappingFieldWithType.exists(typeName))
-			m_mappingFieldWithType.set(typeName, field);
+		var typeName : String = null;
+		var superType : Class<Dynamic> = type;
+		typeName = Type.getClassName(superType);
+		
+		while (typeName != null)
+		{
+			if(!m_mappingFieldWithType.exists(typeName) && typeName.indexOf("Component") == -1)
+				m_mappingFieldWithType.set(typeName, field);
+				
+			superType = Type.getSuperClass(superType);
+			
+			if(superType != null && superType != Component)
+				typeName = Type.getClassName(superType);
+			else
+				typeName = null;
+		}
 	}
 	
 	/**

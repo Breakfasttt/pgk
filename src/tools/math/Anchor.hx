@@ -1,4 +1,6 @@
 package tools.math;
+import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
 
 /**
  * Anchors are prefabs Vector2D using ratio value (%) or a pixel position
@@ -7,17 +9,17 @@ package tools.math;
 class Anchor 
 {
 
-	public static var topLeft : Anchor = new Anchor(0.0, 0.0);
-	public static var topCenter : Anchor = new Anchor(0.5, 0.0);
-	public static var topRight : Anchor = new Anchor(1.0, 0.0);
+	public static var topLeft(get, null) : Anchor = new Anchor(0.0, 0.0);
+	public static var topCenter(get, null) : Anchor = new Anchor(0.5, 0.0);
+	public static var topRight(get, null) : Anchor = new Anchor(1.0, 0.0);
 	
-	public static var centerLeft : Anchor = new Anchor(0.0, 0.5);
-	public static var center : Anchor = new Anchor(0.5, 0.5);
-	public static var centerRight : Anchor = new Anchor(1.0, 0.5);
+	public static var centerLeft(get, null) : Anchor = new Anchor(0.0, 0.5);
+	public static var center(get, null) : Anchor = new Anchor(0.5, 0.5);
+	public static var centerRight(get, null) : Anchor = new Anchor(1.0, 0.5);
 	
-	public static var botLeft : Anchor = new Anchor(0.0, 1.0);
-	public static var botCenter : Anchor = new Anchor(0.5, 1.0);
-	public static var botRight : Anchor = new Anchor(1.0, 1.0);
+	public static var botLeft(get, null) : Anchor = new Anchor(0.0, 1.0);
+	public static var botCenter(get, null) : Anchor = new Anchor(0.5, 1.0);
+	public static var botRight(get, null) : Anchor = new Anchor(1.0, 1.0);
 	
 	public var anchor(default,null) : Vector2D;
 	
@@ -50,6 +52,40 @@ class Anchor
 			this.anchor.limits(0.0, 1.0);
 	}
 	
+	public function relocate(obj : DisplayObject, widthRef : Float = 0.0, heightRef : Float = 0.0) : Void
+	{
+		if (obj == null)
+			return;
+		
+		if (ratioMode)
+		{
+			obj.x = widthRef * anchor.x;
+			obj.y = heightRef * anchor.y;
+		}
+		else
+		{
+			obj.x = anchor.x;
+			obj.y = anchor.y;	
+		}
+	}
+	
+	public function applyOffset(obj : DisplayObject, widthRef : Float = 0.0, heightRef : Float = 0.0) : Void
+	{
+		if (obj == null)
+			return;
+		
+		if (ratioMode)
+		{
+			obj.x -= widthRef * anchor.x;
+			obj.y -= heightRef * anchor.y;
+		}
+		else
+		{
+			obj.x += anchor.x;
+			obj.y += anchor.y;	
+		}
+	}
+	
 	/**
 	 * Create a clone of 'this' anchor
 	 * @return
@@ -65,5 +101,53 @@ class Anchor
 		checkRatioMode();
 		return ratioMode;
 	}
+	
+
+	
+	static function get_topLeft():Anchor 
+	{
+		return topLeft.clone();
+	}
+	
+	static function get_topCenter():Anchor 
+	{
+		return topCenter.clone();
+	}
+	
+	static function get_topRight():Anchor 
+	{
+		return topRight.clone();
+	}
+	
+	static function get_centerLeft():Anchor 
+	{
+		return centerLeft.clone();
+	}
+	
+	static function get_center():Anchor 
+	{
+		return center.clone();
+	}
+	
+	static function get_centerRight():Anchor 
+	{
+		return centerRight.clone();
+	}
+	
+	static function get_botLeft():Anchor 
+	{
+		return botLeft.clone();
+	}
+	
+	static function get_botCenter():Anchor 
+	{
+		return botCenter.clone();
+	}
+	
+	static function get_botRight():Anchor 
+	{
+		return botRight.clone();
+	}	
+	
 	
 }

@@ -4,15 +4,10 @@ import core.entity.Entity;
 import input.mouseBehaviour.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
-import standard.components.space2d.UtilitySize2D;
-import standard.factory.EntityFactory;
-import standard.module.graphic.DisplayModule;
-import standard.module.graphic.RepresentationModule;
 import test.component.CompTest;
 import test.component.CompTest2;
 import test.module.ModuleTest;
 import test.module.ModuleTest2;
-import tools.math.Anchor;
 
 /**
  * A Class who contains some static function to test functionnality
@@ -72,12 +67,12 @@ class TestMe
 	
 	public static function testDisplayAndRepresentation() : Void
 	{
-		var app : Application;
+		/*var app : Application;
 		app = new Application();
 		app.init("Application test", 800, 600);
 		
-		var displayModule : DisplayModule = new DisplayModule(Lib.current.stage);
-		var representationModule : RepresentationModule = new RepresentationModule();
+		var displayModule : LocationModule = new LocationModule(Lib.current.stage, app);
+		var representationModule : DisplayModule = new DisplayModule();
 		
 		app.addModule(displayModule);
 		app.addModule(representationModule);
@@ -104,7 +99,7 @@ class TestMe
 		app.addEntity(secondElement);
 		app.addEntity(thirdElement);
 		app.addEntity(fourthElement);
-		app.addEntity(fifthElement);
+		app.addEntity(fifthElement);*/
 		
 	}
 	

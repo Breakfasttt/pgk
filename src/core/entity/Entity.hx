@@ -50,8 +50,7 @@ class Entity
 	/**
 	 * Add a component. Only one component by type is allowed. 
 	 * @param comp
-	 * @param asType : 	You can specify to use 'comp' as the type 'asType'. Usefull  if you want an optionnal component or if you extends a existing component. 
-	 * 					Set comp to "null" and set the type of the comp
+	 * @param asType : 	You can specify to use 'comp' as the type 'asType'. Usefull  if you want an optionnal component by setting 'comp' to null
 	 */
 	public function add(comp : Component, asType : Class<Dynamic> = null) : Void
 	{
