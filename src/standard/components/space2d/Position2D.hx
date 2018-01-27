@@ -13,10 +13,12 @@ class Position2D extends Component
 
 	public var position2d : Anchor; 
 	
-	public function new(x : Float = 0.0, y : Float = 0.0, ratioMode : Bool = false) 
+	public function new(anchor : Anchor) 
 	{
 		super();
-		position2d = new Anchor(x, y, ratioMode);
+		position2d = anchor;
+		if (position2d == null)	
+			position2d = Anchor.topLeft;
 	}
 	
 }

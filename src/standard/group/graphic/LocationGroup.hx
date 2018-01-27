@@ -1,7 +1,7 @@
 package standard.group.graphic;
 
 import core.component.ComponentGroup;
-import standard.components.graphic.Display;
+import standard.components.graphic.display.Display;
 import standard.components.space2d.Depth;
 import standard.components.space2d.Pivot2D;
 import standard.components.space2d.Position2D;

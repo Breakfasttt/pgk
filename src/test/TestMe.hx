@@ -4,10 +4,16 @@ import core.entity.Entity;
 import input.mouseBehaviour.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
+import standard.components.space2d.UtilitySize2D;
+import standard.factory.EntityFactory;
+import standard.module.graphic.GameElementModule;
+import standard.module.graphic.LayerModule;
+import standard.module.graphic.LocationModule;
 import test.component.CompTest;
 import test.component.CompTest2;
 import test.module.ModuleTest;
 import test.module.ModuleTest2;
+import tools.math.Anchor;
 
 /**
  * A Class who contains some static function to test functionnality
@@ -67,40 +73,61 @@ class TestMe
 	
 	public static function testDisplayAndRepresentation() : Void
 	{
-		/*var app : Application;
+		var app : Application;
 		app = new Application();
 		app.init("Application test", 800, 600);
 		
-		var displayModule : LocationModule = new LocationModule(Lib.current.stage, app);
-		var representationModule : DisplayModule = new DisplayModule();
+		var line : Sprite  = new Sprite();
+		line.graphics.beginFill(0xff0000);
+		line.graphics.lineStyle(2.0,0xff0000);
+		line.graphics.lineTo(0, app.height);
+		line.graphics.endFill();
+		line.x = app.width / 2.0;
+		line.y = 0;
 		
-		app.addModule(displayModule);
-		app.addModule(representationModule);
+		var line2 : Sprite  = new Sprite();
+		line2.graphics.beginFill(0xff0000);
+		line2.graphics.lineStyle(2.0,0xff0000);
+		line2.graphics.lineTo(app.width, 0);
+		line2.graphics.endFill();
+		line2.x = 0.0;
+		line2.y = app.height / 2.0;
+		
+		Lib.current.stage.addChild(line);
+		Lib.current.stage.addChild(line2);
+		
+		
+		var layModule : LayerModule = new LayerModule(Lib.current.stage);
+		var gameElementModule : GameElementModule = new GameElementModule(layModule);
+		var locModule : LocationModule = new LocationModule(Lib.current.stage, app);
+		
+		app.addModule(layModule, 0);
+		app.addModule(gameElementModule, 1);
+		app.addModule(locModule, 2);
 		
 		var backLayer : Entity = EntityFactory.createLayer("backLayer", -1, app.width, app.height);
 		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height);
-		var miniLayer : Entity = EntityFactory.createLayer("miniLayer", 1, 50, 50, app.width, 0.0, Anchor.topCenter.clone());
 		
-		var firstElement : Entity = EntityFactory.createGraphicElement("square1", "backLayer","test.png", app.width/2.0, app.height/2.0, 1, Anchor.center.clone(), 1.0, 1.0);
+		var firstElement : Entity = EntityFactory.createGameElement("square1", "backLayer","test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
 		
-		var secondElement : Entity = EntityFactory.createGraphicElement("square2", "mainLayer", "test.png", 0.0, 0.0, 0, Anchor.topLeft.clone(), 1.0, 1.0);
-		var thirdElement : Entity = EntityFactory.createGraphicElement("square3", "mainLayer", "test.png", 50.0, 50.0, 1, Anchor.center.clone(), 0.5, 0.5);
-		var fourthElement : Entity = EntityFactory.createGraphicElement("square4", "mainLayer", "test.png", app.width / 2.0, app.height / 2.0, 1, Anchor.center.clone(), 0.5, 0.5);
+		var secondElement : Entity = EntityFactory.createGameElement("square2", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		var thirdElement : Entity = EntityFactory.createGameElement("square3", "mainLayer", "test.png", 2, new Anchor(50,50,false), Anchor.center, 0.5, 0.5);
+		var fourthElement : Entity = EntityFactory.createGameElement("square4", "mainLayer", "test.png", 3, Anchor.center, Anchor.center, 0.2, 0.2);
 		
-		var size : UtilitySize2D =  cast miniLayer.getComponent(UtilitySize2D);
-		var fifthElement : Entity = EntityFactory.createGraphicElement("square5", "miniLayer", "img/placeholder.png", 0.0, 0.0, 1, Anchor.topLeft.clone(), 1.0, 1.0);
+		var miniLayer : Entity = EntityFactory.createLayer("miniLayer", 1, 50, 50, Anchor.center, Anchor.center);
+		var fifthElement : Entity = EntityFactory.createGameElement("square5", "miniLayer", "img/placeholder.png", 4, Anchor.topLeft, Anchor.topLeft, 0.3, 0.3);
 		
-		
-		app.addEntity(mainLayer);
-		app.addEntity(backLayer);
+		//app.addEntity(mainLayer);
+		//app.addEntity(backLayer);
 		app.addEntity(miniLayer);
 		
-		app.addEntity(firstElement);
+		/*app.addEntity(firstElement);
 		app.addEntity(secondElement);
 		app.addEntity(thirdElement);
-		app.addEntity(fourthElement);
-		app.addEntity(fifthElement);*/
+		app.addEntity(fourthElement);*/
+		app.addEntity(fifthElement);
 		
+		locModule.debugDrawAllDisplayRect();
 	}
 	
 	

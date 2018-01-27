@@ -1,23 +1,22 @@
 package standard.group.graphic;
 
 import core.component.ComponentGroup;
-import standard.components.graphic.Layer;
+import standard.components.graphic.display.GameElementDisplay;
 import standard.components.space2d.Depth;
 
 /**
  * ...
  * @author Breakyt
  */
-class LayerGroup extends ComponentGroup 
+class GameElementGroup extends ComponentGroup 
 {
-
-	public var layer : Layer;
+	public var gameElement : GameElementDisplay;
 	public var depth : Depth;
 	
 	public function new() 
 	{
 		super();
-		this.bindFieldType(Layer, "layer");
+		this.bindFieldType(GameElementDisplay, "gameElement");
 		this.bindFieldType(Depth, "depth");
 	}
 	

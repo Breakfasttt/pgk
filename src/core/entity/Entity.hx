@@ -48,7 +48,13 @@ class Entity
 	}
 	
 	/**
-	 * Add a component. Only one component by type is allowed. 
+	 * Add a component to the entity. Only one component by type is allowed. 
+	 * When you add a component who extends one or more Type, all Super Type is added with 'comp' as data. (except Composant type)
+	 * Exemple : myClassA extends myClassB extends myClassC extends Composant will add on entity :
+	 * 'myClassA' <=> 'comp'
+	 * 'myClassB' <=> 'comp'
+	 * 'myClassC' <=> 'comp'
+	 * Usefull for Group creation on ModuleManager
 	 * @param comp
 	 * @param asType : 	You can specify to use 'comp' as the type 'asType'. Usefull  if you want an optionnal component by setting 'comp' to null
 	 */
@@ -60,36 +66,52 @@ class Entity
 			return;
 		}
 		
+		var compType : Class<Dynamic> = null;
+		compType = asType != null ? asType : Type.getClass(comp);
 		var compTypeName : String = null;
-		if (asType != null)
+		
+		var added : Bool = false;
+		while (compType != null)
 		{
-			compTypeName = Type.getClassName(asType);
-		}
-		else
-		{
-			compTypeName = Type.getClassName(Type.getClass(comp));
+			compTypeName = Type.getClassName(compType);
+			if (m_components.exists(compTypeName))
+				continue;
+			else if(compType != Component) // a tester
+			{
+				added = true;
+				m_components.set(compTypeName , comp);
+			}
+			
+			compType = Type.getSuperClass(compType);
 		}
 		
-		if (m_components.exists(compTypeName))
-			trace("Can't add the component : " + compTypeName + " because this entity : " + this.name + " has already one");
-		else
-		{
-			m_components.set(compTypeName , comp);
+		if(added)
 			compAdded.dispatch(this);
-		}
+		else
+			trace("Can't add the component : " + comp + " because this entity : " + this.name + " has already one");
 	}
 	
 	/**
-	 * Remove a component
+	 * Remove a component from an entity (Remove all Type binded with this compo)
 	 * @param	comp
 	 */
 	public function remove(comp : Component) : Void
 	{
-		
-		
 		var compTypeName : String = Type.getClassName(Type.getClass(comp));
 		m_components.remove(compTypeName);
-		compRemoved.dispatch(this);
+		
+		var toRemove : Array<String> = [];
+		for (key in m_components.keys())
+		{
+			if (m_components.get(key) == comp)
+				toRemove.push(key);
+		}
+		
+		for (compKey in toRemove)
+			m_components.remove(compKey);
+		
+		if(toRemove.length > 0)
+			compRemoved.dispatch(this);
 	}
 	
 	/**
@@ -98,6 +120,9 @@ class Entity
 	 */
 	public function removeByType(type : Class<Dynamic>) : Void
 	{
+		if (type == null)
+			return;
+		
 		var comp : Component = this.getComponent(type);
 		if (comp == null)
 			return;

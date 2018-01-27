@@ -67,22 +67,9 @@ class ComponentGroup
 	@:allow(core.module.ModuleManager)
 	private function bindFieldType(type : Class<Component>, field : String) : Void
 	{		
-		var typeName : String = null;
-		var superType : Class<Dynamic> = type;
-		typeName = Type.getClassName(superType);
-		
-		while (typeName != null)
-		{
-			if(!m_mappingFieldWithType.exists(typeName) && typeName.indexOf("Component") == -1)
-				m_mappingFieldWithType.set(typeName, field);
-				
-			superType = Type.getSuperClass(superType);
-			
-			if(superType != null && superType != Component)
-				typeName = Type.getClassName(superType);
-			else
-				typeName = null;
-		}
+		var typeName : String = Type.getClassName(type);
+		if(!m_mappingFieldWithType.exists(typeName))
+			m_mappingFieldWithType.set(typeName, field);	
 	}
 	
 	/**

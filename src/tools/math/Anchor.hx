@@ -69,15 +69,16 @@ class Anchor
 		}
 	}
 	
-	public function applyOffset(obj : DisplayObject, widthRef : Float = 0.0, heightRef : Float = 0.0) : Void
+	public function applyOffset(obj : DisplayObject, widthRef : Float = 0.0, heightRef : Float = 0.0, invertRatioOffset : Bool = false) : Void
 	{
 		if (obj == null)
 			return;
 		
 		if (ratioMode)
 		{
-			obj.x -= widthRef * anchor.x;
-			obj.y -= heightRef * anchor.y;
+			var invert : Float = invertRatioOffset ? -1 : 1;
+			obj.x -= widthRef * anchor.x * invert;
+			obj.y -= heightRef * anchor.y * invert;
 		}
 		else
 		{

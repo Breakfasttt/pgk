@@ -134,7 +134,7 @@ class Application
 	 * @param	m
 	 * @return
 	 */
-	public function addModule(m : Module<Dynamic>) : Bool
+	public function addModule(m : Module<Dynamic>, priority : Int = -1) : Bool
 	{
 		var moduleCasted : Module<ComponentGroup> = null;  
 		
@@ -148,7 +148,7 @@ class Application
 			return false;
 		}
 		
-		if (this.modManager.addModule(moduleCasted))
+		if (this.modManager.addModule(moduleCasted, priority))
 		{
 			for (e in m_entities)
 				this.modManager.createGroupForModuleIfEntityMatching(e, moduleCasted);

@@ -2,6 +2,7 @@ package standard.module.graphic;
 
 import core.module.Module;
 import openfl.display.Stage;
+import standard.components.graphic.Layer;
 import standard.group.graphic.LayerGroup;
 
 /**
@@ -43,8 +44,8 @@ class LayerModule extends Module<LayerGroup>
 	 */
 	private function removeFromStage(layer : LayerGroup) : Void
 	{
-		if (layer.layer.container.parent != null)
-			layer.layer.container.parent.removeChild(layer.layer.container);
+		if (layer.layer.skin.parent != null)
+			layer.layer.skin.parent.removeChild(layer.layer.skin);
 	}
 	
 	/**
@@ -56,7 +57,7 @@ class LayerModule extends Module<LayerGroup>
 		for (layer in m_compGroups)
 		{
 			removeFromStage(layer);
-			this.stageRef.addChild(layer.layer.container);
+			this.stageRef.addChild(layer.layer.skin);
 		}
 	}
 	
@@ -74,6 +75,22 @@ class LayerModule extends Module<LayerGroup>
 			return 1;
 		else
 			return 0;
+	}
+	
+	/**
+	 * Get a Layer component by his name
+	 * @param	layerEntityName
+	 * @return
+	 */
+	public function getLayer(layerEntityName : String) : Layer
+	{
+		for (group in m_compGroups)
+		{
+			if (group.entityRef.name == layerEntityName)
+				return group.layer;
+		}
+		
+		return null;
 	}
 	
 }

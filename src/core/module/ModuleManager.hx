@@ -89,9 +89,9 @@ class ModuleManager
 	private function sortModules(modA : Module<ComponentGroup>, modB : Module<ComponentGroup>) : Int
 	{
 		if (modA.priority < modB.priority)
-			return 1;
-		else if (modA.priority > modB.priority)
 			return -1;
+		else if (modA.priority > modB.priority)
+			return 1;
 		else
 			return 0;
 	}
