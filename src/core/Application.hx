@@ -148,7 +148,7 @@ class Application
 			return false;
 		}
 		
-		if (this.modManager.addModule(moduleCasted, priority))
+		if (this.modManager.addModule(this, moduleCasted, priority))
 		{
 			for (e in m_entities)
 				this.modManager.createGroupForModuleIfEntityMatching(e, moduleCasted);

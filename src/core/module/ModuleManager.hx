@@ -1,4 +1,5 @@
 package core.module;
+import core.Application;
 import core.component.Component;
 import core.component.ComponentGroup;
 import core.entity.Entity;
@@ -40,11 +41,12 @@ class ModuleManager
 	 * Add a module with a priority to the manager
 	 */
 	@:allow(core.Application)
-	private function addModule(module : Module<ComponentGroup>, priority : Int = -1) : Bool
+	private function addModule(appRef : Application, module : Module<ComponentGroup>, priority : Int = -1) : Bool
 	{
 		if (Lambda.has(m_modules, module))
 			return false;
 		
+		module.setApplicationReference(appRef);
 		module.setPriority(priority);
 		m_modules.push(module);
 		m_modules.sort(sortModules);

@@ -24,14 +24,11 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	private var stageRef : Stage;
 	
-	private var appRef : Application;
-	
 	private var m_debugRect : Map<LocationGroup, Sprite>;
 	
-	public function new(stage : Stage, app  : Application) 
+	public function new(stage : Stage) 
 	{
 		super(LocationGroup);
-		this.appRef = app;
 		this.stageRef = stage;
 		this.m_debugRect = new Map();
 		this.stageRef.addEventListener(Event.RESIZE, onStageResize);
@@ -85,21 +82,14 @@ class LocationModule extends Module <LocationGroup>
 		group.display.skin.scaleY = group.scale.scale.y;
 		
 		var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
-		var pWidth : Float = parentGroup != null ? parentGroup.getWidth() :  this.appRef.width; // todo apply scale of appRef
-		var pHeight : Float = parentGroup != null ? parentGroup.getHeight() :  this.appRef.height; // todo apply scale of appRef
+		var pWidth : Float = parentGroup != null ? parentGroup.getWidth() :  this.m_appRef.width; // todo apply scale of appRef
+		var pHeight : Float = parentGroup != null ? parentGroup.getHeight() :  this.m_appRef.height; // todo apply scale of appRef
 		var pPivot : Anchor = parentGroup != null ? parentGroup.pivot.pivot : Anchor.topLeft;
 		
 		group.position.position2d.relocate(group.display.skin, pWidth, pHeight);
 		
-		/*note :
-		* 
-		* This function call depends if you want to place element always compared to the parent's pivot
-		* or always compared to the parent's topLeft corner
-		* actually we chose the second solution (topLeftCorner) Because of Layer logic. 
-		* An element is always placed dependings of topleft corner.
-		* 
-		* pPivot.applyOffset(group.display.skin, pWidth, pHeight, true);
-		*/
+		if(parentGroup != null && group.position.pivotRelative)
+			pPivot.applyOffset(group.display.skin, pWidth, pHeight, true);
 		
 		group.pivot.pivot.applyOffset(group.display.skin, group.getWidth(), group.getHeight());
 		

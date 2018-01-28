@@ -1,4 +1,5 @@
 package core.module;
+import core.Application;
 import core.component.ComponentGroup;
 import core.entity.Entity;
 import tools.misc.Compare;
@@ -11,6 +12,11 @@ import tools.misc.Compare;
  */
 class Module<T : ComponentGroup>
 {
+	/**
+	 * Reference to the application if necessary
+	 */
+	private var m_appRef : Application;
+	
 	/**
 	 * All ComponentGroup added on this module
 	 */
@@ -103,6 +109,15 @@ class Module<T : ComponentGroup>
 	}
 	
 	/**
+	 * Set a reference to the application
+	 */
+	@:allow(core.module.ModuleManager)
+	private function setApplicationReference(app : Application) : Void
+	{
+		this.m_appRef = app;
+	}	
+	
+	/**
 	 * Set the priority of the module
 	 */
 	@:allow(core.module.ModuleManager)
@@ -136,6 +151,7 @@ class Module<T : ComponentGroup>
 	@:allow(core.module.ModuleManager)
 	private function release() : Void
 	{
+		m_appRef = null;
 		while (m_compGroups.length != 0)
 			removeCompGroup(m_compGroups[0]);
 	}

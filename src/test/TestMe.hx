@@ -99,7 +99,7 @@ class TestMe
 		
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
 		var gameElementModule : GameElementModule = new GameElementModule(layModule);
-		var locModule : LocationModule = new LocationModule(Lib.current.stage, app);
+		var locModule : LocationModule = new LocationModule(Lib.current.stage);
 		
 		app.addModule(layModule, 0);
 		app.addModule(gameElementModule, 1);
