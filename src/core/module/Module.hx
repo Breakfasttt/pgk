@@ -82,6 +82,7 @@ class Module<T : ComponentGroup>
 	 * Check all component on the entity in parameters and his associed ComponentGroup in this module (if exist).
 	 * If entity have not all the necessary component to complete the ComponentGroup. The Group is remove
 	 * Usefull to manage ComponentGroup creation on ModuleManager
+	 * Also check if an optional component is remove and set the field to null if necessary.
 	 */
 	@:allow(core.module.ModuleManager)
 	private function removeGroupOnEntityComponentRemoved(e : Entity) : Void
@@ -90,7 +91,6 @@ class Module<T : ComponentGroup>
 		{
 			if (group.entityRef == e)
 			{
-				
 				var entityComponentsNames : Array<String> = e.getComponentsTypesNames();
 				var groupComponentsNames : Array<String> = group.getTypes();
 				
@@ -103,6 +103,20 @@ class Module<T : ComponentGroup>
 				{
 					this.removeCompGroup(group);
 					return;	
+				}
+				else 
+				{
+					var optionnalGroupComponentTypeName : Array<String> = group.getOptionnalTypes();
+					if (optionnalGroupComponentTypeName.length != 0)
+					{
+						for (optionType in optionnalGroupComponentTypeName)
+						{
+							if (Lambda.has(entityComponentsNames, optionType))
+								continue;
+							else
+								group.setOptionnalFieldByType(optionType, null);
+						}
+					}
 				}
 			}
 		}
@@ -179,7 +193,7 @@ class Module<T : ComponentGroup>
 	
 	/**
 	 * Call when a ComponentGroup is added to this module.
-	 * Need To be override
+	 * May be override
 	 * @param	group
 	 */
 	private function onCompGroupAdded(group : T) : Void
@@ -189,12 +203,34 @@ class Module<T : ComponentGroup>
 	
 	/**
 	 * Call when a ComponentGroup is removed to this module.
-	 * Need To be override
+	 * May be override
 	 * @param	group
 	 */
 	private function onCompGroupRemove(group : T) : Void
 	{
 
+	}
+	
+	/**
+	 * call when this module is added to the app
+	 * May be override
+	 * @param	app
+	 */
+	@:allow(core.module.ModuleManager)
+	private function onAddedToApplication() : Void
+	{
+		
+	}
+	
+	/**
+	 * call when this module is removed to the app
+	 * May be override
+	 * @param	app
+	 */
+	@:allow(core.module.ModuleManager)
+	private function onRemoveFromApplication() : Void
+	{
+		
 	}
 	
 	

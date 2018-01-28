@@ -50,6 +50,7 @@ class ModuleManager
 		module.setPriority(priority);
 		m_modules.push(module);
 		m_modules.sort(sortModules);
+		module.onAddedToApplication();
 		return true;
 	}
 	
@@ -65,6 +66,7 @@ class ModuleManager
 			
 		module.release();	
 		m_modules.remove(module);
+		module.onRemoveFromApplication();
 		return true;
 	}
 	
@@ -127,9 +129,19 @@ class ModuleManager
 		var ok : Bool  = true;
 		var tempComponent : Component = null;
 		tempGroup.init(entity);
+		
+		compGroupTypes = compGroupTypes.concat(tempGroup.getOptionnalTypes());
+		
 		for (type in compGroupTypes)
 		{
 			tempComponent = entity.getComponentByTypeName(type);
+			
+			if (tempGroup.isOptional(type))
+			{
+				tempGroup.setOptionnalFieldByType(type, tempComponent);
+				continue;
+			}
+			
 			if (!tempGroup.setFieldByType(type, tempComponent))
 			{
 				ok = false;

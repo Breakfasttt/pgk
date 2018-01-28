@@ -5,6 +5,7 @@ import input.mouseBehaviour.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
 import standard.components.space2d.UtilitySize2D;
+import standard.components.space2d.resizer.impl.RatioResizer;
 import standard.factory.EntityFactory;
 import standard.module.graphic.GameElementModule;
 import standard.module.graphic.LayerModule;
@@ -99,7 +100,7 @@ class TestMe
 		
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
 		var gameElementModule : GameElementModule = new GameElementModule(layModule);
-		var locModule : LocationModule = new LocationModule(Lib.current.stage);
+		var locModule : LocationModule = new LocationModule(Lib.current.stage, new RatioResizer());
 		
 		app.addModule(layModule, 0);
 		app.addModule(gameElementModule, 1);
@@ -109,8 +110,8 @@ class TestMe
 		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height);
 		
 		var firstElement : Entity = EntityFactory.createGameElement("square1", "backLayer","test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
+		var secondElement : Entity = EntityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
 		
-		var secondElement : Entity = EntityFactory.createGameElement("square2", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
 		var thirdElement : Entity = EntityFactory.createGameElement("square3", "mainLayer", "test.png", 2, new Anchor(50,50,false), Anchor.center, 0.5, 0.5);
 		var fourthElement : Entity = EntityFactory.createGameElement("square4", "mainLayer", "test.png", 3, Anchor.center, Anchor.center, 0.2, 0.2);
 		
@@ -121,10 +122,10 @@ class TestMe
 		//app.addEntity(backLayer);
 		app.addEntity(miniLayer);
 		
-		/*app.addEntity(firstElement);
-		app.addEntity(secondElement);
-		app.addEntity(thirdElement);
-		app.addEntity(fourthElement);*/
+		//app.addEntity(firstElement);
+		//app.addEntity(secondElement);
+		//app.addEntity(thirdElement);
+		//app.addEntity(fourthElement);
 		app.addEntity(fifthElement);
 		
 		locModule.debugDrawAllDisplayRect();

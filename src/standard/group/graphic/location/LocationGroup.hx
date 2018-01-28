@@ -1,4 +1,4 @@
-package standard.group.graphic;
+package standard.group.graphic.location;
 
 import core.component.ComponentGroup;
 import standard.components.graphic.display.Display;
@@ -7,6 +7,7 @@ import standard.components.space2d.Pivot2D;
 import standard.components.space2d.Position2D;
 import standard.components.space2d.Scale2D;
 import standard.components.space2d.UtilitySize2D;
+import standard.components.space2d.resizer.Resizer;
 
 /**
  * A group managed by DisplayModule. See it for more details
@@ -17,8 +18,10 @@ class LocationGroup extends ComponentGroup
 	public var display : Display;
 	public var position : Position2D;
 	public var pivot : Pivot2D;
-	public var utilitySize : UtilitySize2D;
 	public var scale : Scale2D;
+	
+	public var utilitySize : UtilitySize2D;
+	public var resizer : Resizer;
 	
 	public function new() 
 	{
@@ -26,8 +29,10 @@ class LocationGroup extends ComponentGroup
 		this.bindFieldType(Display, "display");
 		this.bindFieldType(Position2D, "position");
 		this.bindFieldType(Pivot2D, "pivot");
-		this.bindFieldType(UtilitySize2D, "utilitySize");
 		this.bindFieldType(Scale2D, "scale");
+		
+		this.bindOptionalFieldType(UtilitySize2D, "utilitySize");
+		this.bindOptionalFieldType(Resizer, "resizer");
 	}
 	
 	/**

@@ -1,8 +1,8 @@
 package standard.factory;
 import core.entity.Entity;
-import standard.components.graphic.Layer;
+import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.Display;
-import standard.components.graphic.display.GameElementDisplay;
+import standard.components.graphic.display.impl.GameElementDisplay;
 import standard.components.space2d.Depth;
 import standard.components.space2d.Pivot2D;
 import standard.components.space2d.Position2D;
@@ -47,7 +47,6 @@ class EntityFactory
 		e.add(new Position2D(position));
 		e.add(new Pivot2D(pivot));
 		e.add(new Scale2D(scaleX,scaleY));
-		e.add(null, UtilitySize2D);
 		return e;
 	}
 	

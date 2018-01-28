@@ -4,13 +4,14 @@ import core.Application;
 import core.module.Module;
 import flash.display.DisplayObjectContainer;
 import flash.display.StageScaleMode;
-import lime.math.Vector2;
 import openfl.display.Sprite;
 import openfl.display.Stage;
 import openfl.events.Event;
 import standard.components.space2d.Position2D;
-import standard.group.graphic.LocationGroup;
+import standard.components.space2d.resizer.Resizer;
+import standard.group.graphic.location.LocationGroup;
 import tools.math.Anchor;
+import tools.math.Vector2D;
 import tools.misc.Color;
 
 /**
@@ -26,12 +27,28 @@ class LocationModule extends Module <LocationGroup>
 	
 	private var m_debugRect : Map<LocationGroup, Sprite>;
 	
-	public function new(stage : Stage) 
+	private var m_appScale : Vector2D;
+	
+	private var m_appResizer : Resizer;
+	
+	public function new(stage : Stage, appResizer : Resizer) 
 	{
 		super(LocationGroup);
 		this.stageRef = stage;
 		this.m_debugRect = new Map();
+		m_appScale = new Vector2D(1.0,1.0);
+		m_appResizer = appResizer;
+	}
+	
+	override function onAddedToApplication():Void 
+	{
 		this.stageRef.addEventListener(Event.RESIZE, onStageResize);
+		onStageResize(null);
+	}
+	
+	override function onRemoveFromApplication():Void 
+	{
+		this.stageRef.removeEventListener(Event.RESIZE, onStageResize);
 	}
 	
 	override function onCompGroupAdded(group:LocationGroup):Void 
@@ -50,7 +67,20 @@ class LocationModule extends Module <LocationGroup>
 	
 	private function onStageResize(event : Event) : Void
 	{
+		calculAppSize();
+		resizeAll();
 		relocateAll();
+	}
+	
+	private function calculAppSize() : Void
+	{
+		m_appResizer.resize(m_appRef.width, m_appRef.height, stageRef.stageWidth, stageRef.stageHeight, m_appScale);
+	}
+	
+	private function resizeAll() : Void
+	{
+		for (group in m_compGroups)
+			resize(group);
 	}
 	
 	private function relocateAll() : Void
@@ -73,23 +103,36 @@ class LocationModule extends Module <LocationGroup>
 		return null;
 	}
 	
+	private function resize(group : LocationGroup) : Void
+	{
+		if (group.resizer == null || group.display.skin == null)
+			return;
+			
+		if (group.display.skin.parent == this.stageRef)
+			group.resizer.resize(group.getWidth(), group.getHeight(), this.stageRef.stageWidth, this.stageRef.stageHeight, group.scale.scale);
+		else if(group.display.skin.parent != null)
+		{
+			var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
+			group.resizer.resize(group.getWidth(), group.getHeight(), parentGroup.getWidth(), parentGroup.getHeight(), group.scale.scale);
+		}
+	}
+	
 	private function relocate(group : LocationGroup) : Void
 	{
-		if (group.display.skin == null)
+		if (group.display.skin == null || group.display.skin.parent == null)
 			return;
 		
 		group.display.skin.scaleX = group.scale.scale.x;
 		group.display.skin.scaleY = group.scale.scale.y;
 		
 		var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
-		var pWidth : Float = parentGroup != null ? parentGroup.getWidth() :  this.m_appRef.width; // todo apply scale of appRef
-		var pHeight : Float = parentGroup != null ? parentGroup.getHeight() :  this.m_appRef.height; // todo apply scale of appRef
-		var pPivot : Anchor = parentGroup != null ? parentGroup.pivot.pivot : Anchor.topLeft;
+		var pWidth : Float = parentGroup != null ? parentGroup.getWidth() : this.m_appRef.width * this.m_appScale.x;
+		var pHeight : Float = parentGroup != null ? parentGroup.getHeight() : this.m_appRef.height * this.m_appScale.y;
 		
 		group.position.position2d.relocate(group.display.skin, pWidth, pHeight);
 		
-		if(parentGroup != null && group.position.pivotRelative)
-			pPivot.applyOffset(group.display.skin, pWidth, pHeight, true);
+		if(group.position.pivotRelative)
+			parentGroup.pivot.pivot.applyOffset(group.display.skin, pWidth, pHeight, true);
 		
 		group.pivot.pivot.applyOffset(group.display.skin, group.getWidth(), group.getHeight());
 		
@@ -98,7 +141,6 @@ class LocationModule extends Module <LocationGroup>
 			debugDrawDisplayRect(group);
 		}
 		#end
-		
 	}
 	
 	private function debugDrawDisplayRect(group : LocationGroup) : Void
@@ -123,8 +165,7 @@ class LocationModule extends Module <LocationGroup>
 			sprite.graphics.drawRect(0, 0, group.getWidth(), group.getHeight());
 			sprite.graphics.endFill();
 			
-			
-			var pivotPosition : Vector2 = new Vector2();
+			var pivotPosition : Vector2D = new Vector2D();
 			
 			if (group.pivot.pivot.ratioMode)
 			{

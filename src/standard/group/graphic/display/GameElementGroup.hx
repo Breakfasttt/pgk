@@ -1,7 +1,7 @@
-package standard.group.graphic;
+package standard.group.graphic.display;
 
 import core.component.ComponentGroup;
-import standard.components.graphic.display.GameElementDisplay;
+import standard.components.graphic.display.impl.GameElementDisplay;
 import standard.components.space2d.Depth;
 
 /**

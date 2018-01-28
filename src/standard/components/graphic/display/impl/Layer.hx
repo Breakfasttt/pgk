@@ -1,4 +1,4 @@
-package standard.components.graphic;
+package standard.components.graphic.display.impl;
 
 import core.component.Component;
 import flash.display.DisplayObjectContainer;

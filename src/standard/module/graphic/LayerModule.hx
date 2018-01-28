@@ -2,8 +2,8 @@ package standard.module.graphic;
 
 import core.module.Module;
 import openfl.display.Stage;
-import standard.components.graphic.Layer;
-import standard.group.graphic.LayerGroup;
+import standard.components.graphic.display.impl.Layer;
+import standard.group.graphic.display.LayerGroup;
 
 /**
  * LayerModule add Layer to the specified stage and sort Layer component each other with there depth component

@@ -1,4 +1,4 @@
-package standard.components.graphic.display;
+package standard.components.graphic.display.impl;
 import flash.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;

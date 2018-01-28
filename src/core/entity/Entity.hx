@@ -16,7 +16,8 @@ class Entity
 	/**
 	 * The name of the entity
 	 */
-	public var name : String;
+	@:allow(core.Application)
+	public var name(default,null) : String;
 	
 	/**
 	 * All components on the entity, bind with there Type to create ComponentGroup on ModuleManager
@@ -56,18 +57,16 @@ class Entity
 	 * 'myClassC' <=> 'comp'
 	 * Usefull for Group creation on ModuleManager
 	 * @param comp
-	 * @param asType : 	You can specify to use 'comp' as the type 'asType'. Usefull  if you want an optionnal component by setting 'comp' to null
 	 */
-	public function add(comp : Component, asType : Class<Dynamic> = null) : Void
+	public function add(comp : Component) : Void
 	{
-		if (comp == null && asType == null)
+		if (comp == null)
 		{
-			trace("Can't add untyped component to entity " + this.name + ". Operation aborted");
+			trace("Can't add null component to entity " + this.name + ". Operation aborted");
 			return;
 		}
 		
-		var compType : Class<Dynamic> = null;
-		compType = asType != null ? asType : Type.getClass(comp);
+		var compType : Class<Dynamic> = Type.getClass(comp);
 		var compTypeName : String = null;
 		
 		var added : Bool = false;

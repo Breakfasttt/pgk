@@ -1,8 +1,8 @@
 package standard.module.graphic;
 
 import core.module.Module;
-import standard.components.graphic.Layer;
-import standard.group.graphic.GameElementGroup;
+import standard.components.graphic.display.impl.Layer;
+import standard.group.graphic.display.GameElementGroup;
 
 /**
  * ...

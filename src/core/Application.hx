@@ -4,6 +4,7 @@ import core.entity.Entity;
 import core.module.Module;
 import core.module.ModuleManager;
 import openfl.Lib;
+import tools.math.Vector2D;
 import tools.time.FrameTicker;
 
 /**
@@ -38,6 +39,11 @@ class Application
 	public var height(default, null) : Float;
 	
 	/**
+	 * Shortcut to application main screen ratio (width/height);
+	 */
+	public var appRatio(default, null) : Float;
+	
+	/**
 	 * The frame ticker of the application.
 	 * Usefull for updating module and get Fps.
 	 */
@@ -52,6 +58,17 @@ class Application
 	 * All entities added on the application
 	 */
 	private var m_entities : Array<Entity>;
+	
+	/**
+	 * All entities name use.
+	 * Usefull to check entity unique name.
+	 */
+	private var m_entitiesNameAdded : Array<String>;
+	
+	/**
+	 * A map to add a number to entities Name Already Used to keep name unique;
+	 */
+	private var m_entitiesNameCounter : Map<String, Int>;
 	
 	public function new() 
 	{
@@ -70,8 +87,12 @@ class Application
 		this.name = name;
 		this.width = width;
 		this.height = height;
+		this.appRatio = this.width / this.height;
 		
-		this.m_entities = [];
+		this.m_entities = new Array<Entity>();
+		this.m_entitiesNameAdded = new Array<String>();
+		this.m_entitiesNameCounter = new Map<String, Int>();
+		
 		this.modManager = new ModuleManager();
 		
 		this.tick = new FrameTicker(Lib.current.stage);
@@ -103,10 +124,42 @@ class Application
 			return false;
 			
 		m_entities.push(e);
+		checkEntityName(e);
 		e.compAdded.add(componentOnEntityAdded);
 		e.compRemoved.add(componentOnEntityRemoved);
 		this.modManager.checkAllModuleMatching(e);
 		return true;
+	}
+	
+	
+	private function checkEntityName(e : Entity) : Void
+	{
+		var valideName : String = e.name;
+		var count : Int = 0;
+		
+		while (Lambda.has(this.m_entitiesNameAdded, valideName))
+		{
+			if (m_entitiesNameCounter.exists(valideName))
+			{
+				count = m_entitiesNameCounter.get(valideName);
+				count += 1;
+				m_entitiesNameCounter.set(valideName, count);
+			}
+			else
+			{
+				count = 1;
+				m_entitiesNameCounter.set(valideName, count);
+			}
+				
+			valideName =  e.name + "_" + count;
+		}
+		
+		m_entitiesNameAdded.push(valideName);
+		
+		if (valideName != e.name)
+			trace("Entity renamed because his old name already exist. Old : " + e.name + " New : " + valideName);
+		
+		e.name = valideName;
 	}
 	
 	/**
@@ -124,6 +177,8 @@ class Application
 		e.compRemoved.remove(componentOnEntityRemoved);
 		this.modManager.checkModuleOnEntityRemoved(e);
 		m_entities.remove(e);
+		m_entitiesNameAdded.remove(e.name);
+		m_entitiesNameCounter.remove(e.name);
 		return true;
 	}
 	

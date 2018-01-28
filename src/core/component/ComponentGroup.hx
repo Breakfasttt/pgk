@@ -30,12 +30,21 @@ class ComponentGroup
 	private var m_mappingFieldWithType : Map<String, String>;
 	
 	/**
+	 * A map to bind an optionnal ComponentGroup Field with his type. 
+	 * Use by Module Manager when a Component Group is instancied.
+	 * Optionnal component is not necessary to add on an Entity to create the ComponentGroup
+	 * A missing optionnal component on the entity set the associed field to null.
+	 */
+	private var m_mappingOptionalFieldWithType : Map<String, String>;
+	
+	/**
 	 * Don't create a ComponentGroup Object directly.
 	 * ComponentGroup need to be extends
 	 */
 	public function new() 
 	{
 		m_mappingFieldWithType = new Map();
+		m_mappingOptionalFieldWithType = new Map();
 	}
 	
 	/**
@@ -48,7 +57,7 @@ class ComponentGroup
 	}
 	
 	/**
-	 * Bind a GroupComponent field to his type and all SuperType if exist (except Component Type) need to be call on new() when you extends this class 
+	 * Bind a GroupComponent field to his type. need to be call on new() when you extends this class 
 	 * for each field. Field need to be public.
 	 * 
 	 * exemple : 
@@ -60,7 +69,7 @@ class ComponentGroup
 	 * 		public function new() : Void
 	 * 		{
 	 *			super();
-	 * 			this.addType(MyComponentClass, "myComponent");
+	 * 			this.bindFieldType(MyComponentClass, "myComponent");
 	 *		}
 	 * }
 	 */
@@ -68,8 +77,45 @@ class ComponentGroup
 	private function bindFieldType(type : Class<Component>, field : String) : Void
 	{		
 		var typeName : String = Type.getClassName(type);
-		if(!m_mappingFieldWithType.exists(typeName))
+		if(!m_mappingFieldWithType.exists(typeName) && !m_mappingOptionalFieldWithType.exists(typeName))
 			m_mappingFieldWithType.set(typeName, field);	
+	}
+	
+	/**
+	 * Bind an optional GroupComponent field to his type. need to be call on new() when you extends this class 
+	 * for each field. Field need to be public.
+	 * 
+	 * exemple : 
+	 * 
+	 * class MyGroup extends ComponentGroup
+	 * {
+	 * 		public var myOptionalComponent : MyComponentClass;
+	 * 
+	 * 		public function new() : Void
+	 * 		{
+	 *			super();
+	 * 			this.bindOptionalFieldType(MyComponentClass, "myOptionalComponent");
+	 *		}
+	 * }
+	 */
+	@:allow(core.module.ModuleManager)
+	private function bindOptionalFieldType(type : Class<Component>, field : String) : Void
+	{		
+		var typeName : String = Type.getClassName(type);
+		if (!m_mappingOptionalFieldWithType.exists(typeName) && !m_mappingFieldWithType.exists(typeName))
+		{
+			m_mappingOptionalFieldWithType.set(typeName, field);
+			Reflect.setProperty(this, field, null);
+		}
+	}
+	
+	/**
+	 * Return true if the specified 'type' is optional
+	 */
+	@:allow(core.module.ModuleManager)
+	private function isOptional(type : String) : Bool
+	{
+		return m_mappingOptionalFieldWithType.exists(type);
 	}
 	
 	/**
@@ -89,6 +135,22 @@ class ComponentGroup
 	}
 	
 	/**
+	 * Access to binding Field<=>Class map
+	 * Use by Module and ModuleManager
+	 */
+	@:allow(core.module.ModuleManager)
+	@:allow(core.module.Module)
+	private function getOptionnalTypes() : Array<String>
+	{
+		var arr : Array<String> = [];
+		
+		for (key in m_mappingOptionalFieldWithType.keys())
+			arr.push(key);
+		
+		return arr;
+	}
+	
+	/**
 	 * Set the specified field (if exist) by a component Object using the binding map.
 	 * return false if fail (wrong type, field doesn't exist), true otherwise
 	 */
@@ -98,6 +160,36 @@ class ComponentGroup
 		try
 		{
 			var field : String = m_mappingFieldWithType.get(typeName);
+			
+			if (field == null)
+			{
+				trace("Fail to set a group field with this type : " + typeName +" and object " + obj);
+				return false;
+			}
+				
+			Reflect.setProperty(this, field, obj);
+		}
+		catch (e : Dynamic)
+		{
+			trace("Fail to set a field with this type : " + typeName +" and object " + obj);
+			trace("Error : " + e);
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Set the specified optionnal field (if exist) by a component Object using the binding map.
+	 * return false if fail (wrong type, field doesn't exist), true otherwise
+	 */
+	@:allow(core.module.ModuleManager)
+	@:allow(core.module.Module)
+	private function setOptionnalFieldByType(typeName : String, obj : Component) : Bool
+	{
+		try
+		{
+			var field : String = m_mappingOptionalFieldWithType.get(typeName);
 			
 			if (field == null)
 			{
