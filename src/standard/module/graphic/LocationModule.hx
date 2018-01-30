@@ -23,27 +23,33 @@ class LocationModule extends Module <LocationGroup>
 	/**
 	 * The stage of the application.
 	 */
-	private var stageRef : Stage;
+	private var m_stageRef : Stage;
 	
-	private var m_debugRect : Map<LocationGroup, Sprite>;
+	/**
+	 * A map of Location representation Usefull only for debug
+	 */
+	private var m_debugRect : Map<LocationGroup, Sprite>;	
 	
-	
-	public function new(stage : Stage, appResizer : Resizer) 
+	/**
+	 * Display module relocate display component with space2d component
+	 * @param	stage : The reference stage (in general Lib.current.stage)
+	 */
+	public function new(stage : Stage) 
 	{
 		super(LocationGroup);
-		this.stageRef = stage;
+		this.m_stageRef = stage;
 		this.m_debugRect = new Map();
 	}
 	
 	override function onAddedToApplication():Void 
 	{
-		this.stageRef.addEventListener(Event.RESIZE, onStageResize);
+		this.m_stageRef.addEventListener(Event.RESIZE, onStageResize);
 		onStageResize(null);
 	}
 	
 	override function onRemoveFromApplication():Void 
 	{
-		this.stageRef.removeEventListener(Event.RESIZE, onStageResize);
+		this.m_stageRef.removeEventListener(Event.RESIZE, onStageResize);
 	}
 	
 	override function onCompGroupAdded(group:LocationGroup):Void 
@@ -59,28 +65,40 @@ class LocationModule extends Module <LocationGroup>
 	{
 		relocateAll(); // todo improve this
 	}
-	
+
+	/**
+	 * Function call when a stage Resize is detected
+	 * @param	event
+	 */
 	private function onStageResize(event : Event) : Void
 	{
-		trace("StageW : " + stageRef.stageWidth + " StageH : " + stageRef.stageHeight);
-		
 		resizeAll();
 		relocateAll();
 	}
 	
-	
+	/**
+	 * Resize all group
+	 */
 	private function resizeAll() : Void
 	{
 		for (group in m_compGroups)
 			resize(group);
 	}
 	
+	/**
+	 * Replace all element in a 2d space
+	 */
 	private function relocateAll() : Void
 	{
 		for (group in m_compGroups)
 			relocate(group);
 	}
 	
+	/**
+	 * Get the LocationGroup parent of the specified displayObjectContainer (if exist, else return null)
+	 * @param	parent
+	 * @return
+	 */
 	private function getParentLocation(parent : DisplayObjectContainer) : LocationGroup
 	{
 		if (parent == null)
@@ -95,13 +113,17 @@ class LocationModule extends Module <LocationGroup>
 		return null;
 	}
 	
+	/**
+	 * Resize group by setting is scale2d component using his Resizer if exist
+	 * @param	group
+	 */
 	private function resize(group : LocationGroup) : Void
 	{
 		if (group.resizer == null || group.display.skin == null)
 			return;
 			
-		if (group.display.skin.parent == this.stageRef)
-			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), this.stageRef.stageWidth, this.stageRef.stageHeight, group.scale.scale);
+		if (group.display.skin.parent == this.m_stageRef)
+			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), this.m_stageRef.stageWidth, this.m_stageRef.stageHeight, group.scale.scale);
 		else if(group.display.skin.parent != null)
 		{
 			var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
@@ -109,6 +131,10 @@ class LocationModule extends Module <LocationGroup>
 		}
 	}
 	
+	/**
+	 * Relocate the display.skin of the group using scale, size and position
+	 * @param	group
+	 */
 	private function relocate(group : LocationGroup) : Void
 	{
 		if (group.display.skin == null || group.display.skin.parent == null)
@@ -126,10 +152,10 @@ class LocationModule extends Module <LocationGroup>
 			pWidth = parentGroup.getWidth();
 			pHeight = parentGroup.getHeight();
 		}
-		else if (group.display.skin.parent == this.stageRef)
+		else if (group.display.skin.parent == this.m_stageRef)
 		{
-			pWidth = this.stageRef.stageWidth;
-			pHeight = this.stageRef.stageHeight;
+			pWidth = this.m_stageRef.stageWidth;
+			pHeight = this.m_stageRef.stageHeight;
 		}
 		else
 		{
@@ -151,6 +177,10 @@ class LocationModule extends Module <LocationGroup>
 		#end
 	}
 	
+	/**
+	 * Create, draw and add to display list an alpha square who represent The LocationGroup (using space2d component)
+	 * @param	group
+	 */
 	private function debugDrawDisplayRect(group : LocationGroup) : Void
 	{
 		if (group.display.skin == null)
@@ -195,7 +225,11 @@ class LocationModule extends Module <LocationGroup>
 		}
 	}
 	
-	public function debugDrawAllDisplayRect() : Void
+	/**
+	 * On debug : Show all debug LocationGroup's rectangle on the displayList if not already active.
+	 * If active, Hide all debug LocationGroup's rectangle.
+	 */
+	public function debugShowLocGroupRect() : Void
 	{
 		for (group in m_compGroups)
 		{

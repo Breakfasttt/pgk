@@ -28,6 +28,20 @@ class Vector2D
 	}
 	
 	/**
+	 * set x/y coordinate with 'x/y' parameters.
+	 * This operation modify 'this' Vector2D
+	 * return 'this'
+	 * @param	p
+	 * @return this
+	 */
+	public inline function set(x : Float = 0.0, y : Float = 0.0) : Vector2D
+	{
+		this.x = x;
+		this.y = y;
+		return this;
+	}
+	
+	/**
 	 * Add p coordinate with this Vector2D.
 	 * This operation modify 'this' Vector2D
 	 * This operation doesn't modify 'p' vector2D

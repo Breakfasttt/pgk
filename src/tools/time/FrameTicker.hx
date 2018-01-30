@@ -20,7 +20,7 @@ class FrameTicker
 	private var m_now : Float;
 	
 	public var elapsedSinceStart(default, null) : Float;
-	public var lastDelta(default, null) : Float;
+	public var lastDelta(default, null) : Float; // in ms
 	
 	public function new(objet : DisplayObject) 
 	{

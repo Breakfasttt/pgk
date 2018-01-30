@@ -50,6 +50,11 @@ class Application
 	public var tick(default, null) : FrameTicker;
 	
 	/**
+	 * FPS actualise each update() call.
+	 */
+	public var actualFps(default, null) : Float;
+	
+	/**
 	 * The module manager. Use it if you need to get a specific module.
 	 */
 	public var modManager(default, null) : ModuleManager;
@@ -95,6 +100,7 @@ class Application
 		
 		this.modManager = new ModuleManager();
 		
+		this.actualFps = 0.0;
 		this.tick = new FrameTicker(Lib.current.stage);
 		this.tick.tick.add(update);
 		this.tick.start();
@@ -107,6 +113,7 @@ class Application
 	 */
 	private function update(dTime : Float) : Void
 	{
+		this.actualFps = 1000 / dTime;
 		modManager.update(dTime);
 	}
 	

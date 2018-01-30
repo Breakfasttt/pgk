@@ -1,5 +1,6 @@
 package;
 
+import tools.debug.ExecTimeCounter;
 import openfl.Lib;
 import openfl.display.DisplayObjectContainer;
 import openfl.display.Sprite;
@@ -21,8 +22,14 @@ class Main extends Sprite
 		Lib.current.stage.showDefaultContextMenu = false;
 		Lib.current.stage.addEventListener(MouseEvent.RIGHT_CLICK, function(osef : Dynamic){})  ;
 		
-		//TestMe.testDragMouseBehaviour();
+		var counter : ExecTimeCounter = new ExecTimeCounter();
+		
+		counter.start();
+		TestMe.testDragMouseBehaviour();
+		counter.stop();
+		trace("elapsed : " + counter.timeElapsed);
+		
 		//TestMe.testApplicationModuleEntityAndComposant();
-		TestMe.testDisplayAndRepresentation();
+		//TestMe.testDisplayAndRepresentation();
 	}
 }

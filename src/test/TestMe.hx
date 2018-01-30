@@ -1,12 +1,13 @@
 package test;
 import core.Application;
 import core.entity.Entity;
-import input.mouseBehaviour.DragBehaviour;
+import input.behaviour.impl.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
 import standard.components.space2d.UtilitySize2D;
 import standard.components.space2d.resizer.impl.RatioResizer;
 import standard.factory.EntityFactory;
+import standard.module.debug.DebugModule;
 import standard.module.graphic.GameElementModule;
 import standard.module.graphic.LayerModule;
 import standard.module.graphic.LocationModule;
@@ -100,14 +101,14 @@ class TestMe
 		
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
 		var gameElementModule : GameElementModule = new GameElementModule(layModule);
-		var locModule : LocationModule = new LocationModule(Lib.current.stage, new RatioResizer());
+		var locModule : LocationModule = new LocationModule(Lib.current.stage);
 		
 		app.addModule(layModule, 0);
 		app.addModule(gameElementModule, 1);
 		app.addModule(locModule, 2);
 		
 		var backLayer : Entity = EntityFactory.createLayer("backLayer", -1, app.width, app.height);
-		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height);
+		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
 		mainLayer.add(new RatioResizer());
 		
 		var firstElement : Entity = EntityFactory.createGameElement("square1", "backLayer","test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
@@ -129,7 +130,7 @@ class TestMe
 		//app.addEntity(fourthElement);
 		//app.addEntity(fifthElement);
 		
-		locModule.debugDrawAllDisplayRect();
+		//locModule.debugDrawAllDisplayRect();
 	}
 	
 	
@@ -138,6 +139,14 @@ class TestMe
 	 */
 	public static function testDragMouseBehaviour() : Void
 	{
+		var app : Application;
+		app = new Application();
+		app.init("Application test", 800, 600);
+		
+		
+		app.addModule(new DebugModule());
+		
+		
 		var redSquare : Sprite;
 		var mouseBehaviour : DragBehaviour;		
 		
@@ -152,7 +161,7 @@ class TestMe
 		Lib.current.stage.addChild(redSquare);
 		
 		mouseBehaviour = new DragBehaviour(redSquare);
-		mouseBehaviour.stageAsBoundary = true;
+		mouseBehaviour.appAsBoundary = true;
 		//m_mouseBehaviour.setBoundary(0, Lib.current.stage.stageWidth, 0, Lib.current.stage.stageHeight);
 	}
 	

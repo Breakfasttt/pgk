@@ -1,4 +1,5 @@
-package input;
+package input.pointerImpl;
+import input.data.PointerData;
 import msignal.Signal.Signal1;
 import openfl.display.InteractiveObject;
 import openfl.events.Event;
@@ -8,13 +9,13 @@ import openfl.events.MouseEvent;
  * ...
  * @author Breakyt
  */
-class MouseSignals 
+class MouseSignals implements IPointerSignals
 {
 
 	/**
 	 * The interactive object who listen mouse signal
 	 */
-	public var object(default, null) : InteractiveObject;
+	public var objectRef(default, null) : InteractiveObject;
 	
 	/**
 	 * enable/disable all left mouse button signal
@@ -68,127 +69,113 @@ class MouseSignals
 	 * Signal dispatch when a left-click (press and release action) happen.
 	 * leftClickEnable must be set as true
 	 */
-	public var click : Signal1<MouseData>;
+	public var click : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a double left-click (press and release action *2) happen.
 	 * leftClickEnable must be set as true
 	 */
-	public var doubleClick : Signal1<MouseData>;
+	public var doubleClick : Signal1<PointerData>;
 
 	/**
 	 * Signal dispatch when a left-press happen (left mouse button hold down)
 	 * leftClickEnable must be set as true
 	 */
-	public var press : Signal1<MouseData>;
+	public var press : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a left-release happen (left mouse button just up/release)
 	 * leftClickEnable must be set as true
 	 */
-	public var release : Signal1<MouseData>;
+	public var release : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a right-click happen(press and release action).
 	 * rightClickEnable must be set as true
 	 */
-	public var rightClick: Signal1<MouseData>;
+	public var rightClick: Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a right-press happen (right mouse button hold down)
 	 * rightClickEnable must be set as true
 	 */
-	public var rightPress : Signal1<MouseData>;
+	public var rightPress : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a right-release happen (right mouse button just up/release)
 	 * rightClickEnable must be set as true
 	 */
-	public var rightRelease : Signal1<MouseData>;
+	public var rightRelease : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a mouse scroll button click happen (press and release action)
 	 * scrollEnable must be set as true
 	 */
-	public var scrollClick : Signal1<MouseData>;
+	public var scrollClick : Signal1<PointerData>;
 	
 	
 	/**
 	 * Signal dispatch when a mouse scroll button-press happen (scroll mouse button hold down)
 	 * scrollEnable must be set as true
 	 */
-	public var scrollPress : Signal1<MouseData>;
+	public var scrollPress : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a mouse scroll button-release happen (scroll mouse button just up/release)
 	 * scrollEnable must be set as true
 	 */
-	public var scrollRelease : Signal1<MouseData>;
+	public var scrollRelease : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when mouse scroll
 	 * scrollEnable must be set as true
 	 */
-	public var scroll : Signal1<MouseData>;
+	public var scroll : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when mouse move only on this.object
 	 * moveEnable must be set as true
 	 */
-	public var localMove : Signal1<MouseData>;
-	
-	/**
-	 * Signal dispatch when mouse move anywhere on the stage
-	 * moveEnable must be set as true
-	 */
-	public var worldMove : Signal1<MouseData>;
-	
+	public var move : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when roll over the interactive object
 	 */
-	public var rollOver : Signal1<MouseData>;
+	public var rollOver : Signal1<PointerData>;
 	
 	
 	/**
 	 * Signal dispatch when roll out the interactive object 
 	 */
-	public var rollOut : Signal1<MouseData>;
-	
-	/**
-	 * Signal dispatch when mouse leave the stage
-	 */
-	public var leaveWorld : Signal1<MouseData>;
+	public var rollOut : Signal1<PointerData>;
 	
 	
 	/**
 	 * An help variable send by all signal. (read only)
 	 */
-	private var m_lastMouseData : MouseData;
+	private var m_lastMouseData : PointerData;
 	
 	public function new(interactiveObject : InteractiveObject, leftClick : Bool = true, rightClick :  Bool = false, scroll : Bool = false, localMove : Bool = false, worldMove : Bool = false) 
 	{
-		this.object = interactiveObject;
+		this.objectRef = interactiveObject;
 		
-		this.m_lastMouseData = new MouseData();
+		this.m_lastMouseData = new PointerData();
 		
-		this.click = new Signal1<MouseData>();
-		this.doubleClick = new Signal1<MouseData>();
-		this.press = new Signal1<MouseData>();
-		this.release = new Signal1<MouseData>();
-		this.rightClick = new Signal1<MouseData>();
-		this.rightPress = new Signal1<MouseData>();
-		this.rightRelease = new Signal1<MouseData>();
-		this.scrollClick = new Signal1<MouseData>();
-		this.scrollPress = new Signal1<MouseData>();
-		this.scrollRelease = new Signal1<MouseData>();
-		this.scroll = new Signal1<MouseData>();
-		this.localMove = new Signal1<MouseData>();
-		this.worldMove = new Signal1<MouseData>();
-		this.rollOver = new Signal1<MouseData>();
-		this.rollOut = new Signal1<MouseData>();
+		this.click = new Signal1<PointerData>();
+		this.doubleClick = new Signal1<PointerData>();
+		this.press = new Signal1<PointerData>();
+		this.release = new Signal1<PointerData>();
+		this.rightClick = new Signal1<PointerData>();
+		this.rightPress = new Signal1<PointerData>();
+		this.rightRelease = new Signal1<PointerData>();
+		this.scrollClick = new Signal1<PointerData>();
+		this.scrollPress = new Signal1<PointerData>();
+		this.scrollRelease = new Signal1<PointerData>();
+		this.scroll = new Signal1<PointerData>();
+		this.move = new Signal1<PointerData>();
+		this.rollOver = new Signal1<PointerData>();
+		this.rollOut = new Signal1<PointerData>();
 		
-		this.leaveWorld = new Signal1 <MouseData>();
 		
 		this.releaseOutsideObject = false;
 		this.releaseWithRollOut = true;
@@ -281,172 +268,116 @@ class MouseSignals
 	 */
 	private function attachListeners() : Void
 	{
-		if (this.object == null)
+		if (this.objectRef == null)
 			return;
 			
-		attachWorldListener();	
+		if(!objectRef.hasEventListener(MouseEvent.ROLL_OUT))	
+			objectRef.addEventListener(MouseEvent.ROLL_OUT, onRollOut);
 			
-		if(!object.hasEventListener(MouseEvent.ROLL_OUT))	
-			object.addEventListener(MouseEvent.ROLL_OUT, onRollOut);
-			
-		if(!object.hasEventListener(MouseEvent.ROLL_OVER))	
-			object.addEventListener(MouseEvent.ROLL_OVER, onRollOver);			
+		if(!objectRef.hasEventListener(MouseEvent.ROLL_OVER))	
+			objectRef.addEventListener(MouseEvent.ROLL_OVER, onRollOver);			
 			
 		if (this.leftClickEnable)
 		{
-			if(!object.hasEventListener(MouseEvent.CLICK))	
-				object.addEventListener(MouseEvent.CLICK, onClick);
+			if(!objectRef.hasEventListener(MouseEvent.CLICK))	
+				objectRef.addEventListener(MouseEvent.CLICK, onClick);
 			
-			if(!object.hasEventListener(MouseEvent.DOUBLE_CLICK))	
-				object.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
+			if(!objectRef.hasEventListener(MouseEvent.DOUBLE_CLICK))	
+				objectRef.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
 				
-			if(!object.hasEventListener(MouseEvent.MOUSE_DOWN))	
-				object.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			if(!objectRef.hasEventListener(MouseEvent.MOUSE_DOWN))	
+				objectRef.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			
-			if(!releaseOutsideObject && !object.hasEventListener(MouseEvent.MOUSE_UP))	
-				object.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			if(!releaseOutsideObject && !objectRef.hasEventListener(MouseEvent.MOUSE_UP))	
+				objectRef.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 		
 		if (this.scrollEnable)
 		{
-			if(!object.hasEventListener(MouseEvent.MIDDLE_CLICK))	
-				object.addEventListener(MouseEvent.MIDDLE_CLICK, onMiddleClick);
+			if(!objectRef.hasEventListener(MouseEvent.MIDDLE_CLICK))	
+				objectRef.addEventListener(MouseEvent.MIDDLE_CLICK, onMiddleClick);
 			
-			if(!object.hasEventListener(MouseEvent.MOUSE_WHEEL))	
-				object.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
+			if(!objectRef.hasEventListener(MouseEvent.MOUSE_WHEEL))	
+				objectRef.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 			
-			if(!object.hasEventListener(MouseEvent.MIDDLE_MOUSE_DOWN))	
-				object.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
+			if(!objectRef.hasEventListener(MouseEvent.MIDDLE_MOUSE_DOWN))	
+				objectRef.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
 			
-			if(!releaseOutsideObject && !object.hasEventListener(MouseEvent.MIDDLE_MOUSE_UP))	
-				object.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);		
+			if(!releaseOutsideObject && !objectRef.hasEventListener(MouseEvent.MIDDLE_MOUSE_UP))	
+				objectRef.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);		
 		}
 		
 		if (this.rightClickEnable)
 		{
-			if(!object.hasEventListener(MouseEvent.RIGHT_CLICK))	
-				object.addEventListener(MouseEvent.RIGHT_CLICK, onRightClick);
+			if(!objectRef.hasEventListener(MouseEvent.RIGHT_CLICK))	
+				objectRef.addEventListener(MouseEvent.RIGHT_CLICK, onRightClick);
 				
-			if(!object.hasEventListener(MouseEvent.RIGHT_MOUSE_DOWN))
-				object.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
+			if(!objectRef.hasEventListener(MouseEvent.RIGHT_MOUSE_DOWN))
+				objectRef.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
 				
-			if(!releaseOutsideObject && !object.hasEventListener(MouseEvent.RIGHT_MOUSE_UP))	
-				object.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
+			if(!releaseOutsideObject && !objectRef.hasEventListener(MouseEvent.RIGHT_MOUSE_UP))	
+				objectRef.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
 		}
 		
-		if(this.localMoveEnable && !object.hasEventListener(MouseEvent.MOUSE_MOVE))	
-			object.addEventListener(MouseEvent.MOUSE_MOVE, onLocalMouseMove);
+		if(this.localMoveEnable && !objectRef.hasEventListener(MouseEvent.MOUSE_MOVE))	
+			objectRef.addEventListener(MouseEvent.MOUSE_MOVE, onLocalMouseMove);
 	}
 	
-	/**
-	 * add event/mousevent  who depend of the stage
-	 */
-	private function attachWorldListener() : Void
-	{
-		if (this.object == null)
-			return;
-		else if (this.object.stage == null)
-		{
-			if(!this.object.hasEventListener(Event.ADDED_TO_STAGE))
-				this.object.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-				
-			return;
-		}
-		
-		object.stage.addEventListener(MouseEvent.RELEASE_OUTSIDE, onReleaseOutside);
-		object.stage.addEventListener(Event.MOUSE_LEAVE, onMouseLeaveStage);
-		
-		if(!this.object.hasEventListener(Event.REMOVED_FROM_STAGE))
-			this.object.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage);
-		
-		if (this.worldMoveEnable)
-			object.stage.addEventListener(MouseEvent.MOUSE_MOVE, onWorldMouseMove);
-			
-		if (releaseOutsideObject)
-		{
-			if (this.rightClickEnable && !object.hasEventListener(MouseEvent.RIGHT_MOUSE_UP))
-				object.stage.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
-				
-			if (this.scrollEnable && !object.hasEventListener(MouseEvent.MIDDLE_MOUSE_UP))	
-				object.stage.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);	
-				
-			if (this.leftClickEnable && !object.hasEventListener(MouseEvent.MOUSE_UP))	
-				object.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-		}
-	}
 	
 	/**
 	 * remove all MouseEvent Listener
 	 */
 	private function removeListeners() : Void
 	{
-		if (this.object == null)
+		if (this.objectRef == null)
 			return;
 			
-		removeWorldListener();	
-			
-		if(object.hasEventListener(MouseEvent.CLICK))	
-			object.removeEventListener(MouseEvent.CLICK, onClick);
+		if(objectRef.hasEventListener(MouseEvent.CLICK))	
+			objectRef.removeEventListener(MouseEvent.CLICK, onClick);
 		
-		if(object.hasEventListener(MouseEvent.DOUBLE_CLICK))	
-			object.removeEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
+		if(objectRef.hasEventListener(MouseEvent.DOUBLE_CLICK))	
+			objectRef.removeEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
 		
-		if(object.hasEventListener(MouseEvent.MOUSE_DOWN))	
-			object.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		if(objectRef.hasEventListener(MouseEvent.MOUSE_DOWN))	
+			objectRef.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		
-		if(object.hasEventListener(MouseEvent.MOUSE_UP))	
-			object.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+		if(objectRef.hasEventListener(MouseEvent.MOUSE_UP))	
+			objectRef.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
-		if(object.hasEventListener(MouseEvent.MIDDLE_CLICK))	
-			object.removeEventListener(MouseEvent.MIDDLE_CLICK, onMiddleClick);
+		if(objectRef.hasEventListener(MouseEvent.MIDDLE_CLICK))	
+			objectRef.removeEventListener(MouseEvent.MIDDLE_CLICK, onMiddleClick);
 		
-		if(object.hasEventListener(MouseEvent.MIDDLE_MOUSE_DOWN))	
-			object.removeEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
+		if(objectRef.hasEventListener(MouseEvent.MIDDLE_MOUSE_DOWN))	
+			objectRef.removeEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
 		
-		if(object.hasEventListener(MouseEvent.MIDDLE_MOUSE_UP))	
-			object.removeEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
+		if(objectRef.hasEventListener(MouseEvent.MIDDLE_MOUSE_UP))	
+			objectRef.removeEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
 			
-		if(object.hasEventListener(MouseEvent.MOUSE_WHEEL))	
-			object.removeEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
+		if(objectRef.hasEventListener(MouseEvent.MOUSE_WHEEL))	
+			objectRef.removeEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 			
-		if(object.hasEventListener(MouseEvent.RIGHT_CLICK))	
-			object.removeEventListener(MouseEvent.RIGHT_CLICK, onRightClick);
+		if(objectRef.hasEventListener(MouseEvent.RIGHT_CLICK))	
+			objectRef.removeEventListener(MouseEvent.RIGHT_CLICK, onRightClick);
 			
-		if(object.hasEventListener(MouseEvent.RIGHT_MOUSE_DOWN))	
-			object.removeEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
+		if(objectRef.hasEventListener(MouseEvent.RIGHT_MOUSE_DOWN))	
+			objectRef.removeEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
 			
-		if(object.hasEventListener(MouseEvent.RIGHT_MOUSE_UP))	
-			object.removeEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
+		if(objectRef.hasEventListener(MouseEvent.RIGHT_MOUSE_UP))	
+			objectRef.removeEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
 			
-		if(object.hasEventListener(MouseEvent.MOUSE_MOVE))	
-			object.removeEventListener(MouseEvent.MOUSE_MOVE, onLocalMouseMove);
+		if(objectRef.hasEventListener(MouseEvent.MOUSE_MOVE))	
+			objectRef.removeEventListener(MouseEvent.MOUSE_MOVE, onLocalMouseMove);
 			
-		if(object.hasEventListener(MouseEvent.RELEASE_OUTSIDE))	
-			object.removeEventListener(MouseEvent.RELEASE_OUTSIDE, onReleaseOutside);			
+		if(objectRef.hasEventListener(MouseEvent.RELEASE_OUTSIDE))	
+			objectRef.removeEventListener(MouseEvent.RELEASE_OUTSIDE, onReleaseOutside);			
 			
-		if(object.hasEventListener(MouseEvent.ROLL_OUT))	
-			object.removeEventListener(MouseEvent.ROLL_OUT, onRollOut);
+		if(objectRef.hasEventListener(MouseEvent.ROLL_OUT))	
+			objectRef.removeEventListener(MouseEvent.ROLL_OUT, onRollOut);
 			
-		if(object.hasEventListener(MouseEvent.ROLL_OVER))	
-			object.removeEventListener(MouseEvent.ROLL_OVER, onRollOver);
+		if(objectRef.hasEventListener(MouseEvent.ROLL_OVER))	
+			objectRef.removeEventListener(MouseEvent.ROLL_OVER, onRollOver);
 	}
 	
-	/**
-	 * remove event listener who depend of the stage
-	 */
-	private function removeWorldListener() : Void
-	{
-		if (this.object == null)
-			return;
-		else if (this.object.stage == null)
-			return;
-			
-		object.stage.removeEventListener(MouseEvent.RELEASE_OUTSIDE, onReleaseOutside);
-		object.stage.removeEventListener(Event.MOUSE_LEAVE, onMouseLeaveStage);
-		object.stage.removeEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
-		object.stage.removeEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);	
-		object.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-	}
 	
 	/**
 	 * refresh listener when the object is added to the stage.
@@ -455,51 +386,43 @@ class MouseSignals
 	 */
 	private function onAddedToStage(event : Event)
 	{
-		this.object.stage.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		this.objectRef.stage.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		this.removeListeners();
 		this.attachListeners();
 	}
 	
 	private function onRemoveFromStage(event : Event)
 	{
-		this.object.stage.removeEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage);
+		this.objectRef.stage.removeEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage);
 		this.removeListeners();
 		this.attachListeners();
 	}
 	
-	private function retrieveEssentialMouseData(event : MouseEvent) : Void
-	{
-		m_lastMouseData.target = this.object;
-		m_lastMouseData.altModifier = event.altKey;
-		m_lastMouseData.ctrlModifier = event.ctrlKey;
-		m_lastMouseData.deltaScroll = event.delta;
-		m_lastMouseData.localPosition.setTo(event.localX, event.localY);
-		m_lastMouseData.worldPosition.setTo(event.stageX, event.stageY);
-	}
+
 	
 	//{ ==== Mouse Left button event handling ====
 	
 	private function onClick(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.click.dispatch(m_lastMouseData);
 	}
 	
 	private function onDoubleClick(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.doubleClick.dispatch(m_lastMouseData);
 	}
 	
 	private function onMouseDown(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.press.dispatch(m_lastMouseData);
 	}
 	
 	private function onMouseUp(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.release.dispatch(m_lastMouseData);
 	}
 	
@@ -509,25 +432,25 @@ class MouseSignals
 	
 	private function onMiddleMouseDown(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.scrollPress.dispatch(m_lastMouseData);
 	}
 	
 	private function onMiddleMouseUp(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.scrollRelease.dispatch(m_lastMouseData);
 	}
 	
 	private function onMiddleClick(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.scrollClick.dispatch(m_lastMouseData);
 	}
 	
 	private function onMouseWheel(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.scroll.dispatch(m_lastMouseData);
 	}
 	
@@ -537,19 +460,19 @@ class MouseSignals
 	
 	private function onRightClick(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.rightClick.dispatch(m_lastMouseData);
 	}
 	
 	private function onRightMouseDown(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.rightPress.dispatch(m_lastMouseData);
 	}
 	
 	private function onRightMouseUp(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.rightRelease.dispatch(m_lastMouseData);
 	}
 	
@@ -560,24 +483,11 @@ class MouseSignals
 	
 	private function onLocalMouseMove(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
-		this.localMove.dispatch(m_lastMouseData);
+		m_lastMouseData.retrieveEventData(event);
+		this.move.dispatch(m_lastMouseData);
 	}
 	
-	private function onWorldMouseMove(event : MouseEvent) : Void
-	{
-		this.retrieveEssentialMouseData(event);
-		this.worldMove.dispatch(m_lastMouseData);
-		
-		if (object.stage != null)
-		{
-			if (m_lastMouseData.worldPosition.x < 0.0 || m_lastMouseData.worldPosition.x > object.stage.stageWidth
-				||  m_lastMouseData.worldPosition.y < 0.0 || m_lastMouseData.worldPosition.y > object.stage.stageHeight)
-			{
-				onMouseLeaveStage(null);
-			}
-		}
-	}
+
 	
 	//} ========================================
 	
@@ -586,12 +496,8 @@ class MouseSignals
 	
 	private function onReleaseOutside(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.release.dispatch(m_lastMouseData);
-		
-		//realease outside works only with left click
-		//this.rightRelease.dispatch(m_lastMouseData);
-		//this.scrollRelease.dispatch(m_lastMouseData);
 	}
 	
 	private function onMouseLeaveStage(event : Event) : Void
@@ -599,15 +505,15 @@ class MouseSignals
 		m_lastMouseData.altModifier = false;
 		m_lastMouseData.ctrlModifier = false;
 		m_lastMouseData.deltaScroll = 0;
-		m_lastMouseData.localPosition.setTo(0, 0);
+		m_lastMouseData.localPosition.set(0, 0);
 		m_lastMouseData.target = null;
-		m_lastMouseData.worldPosition.setTo(0, 0);
-		this.leaveWorld.dispatch(m_lastMouseData);
+		m_lastMouseData.worldPosition.set(0, 0);
+		//this.leaveWorld.dispatch(m_lastMouseData);
 	}
 	
 	private function onRollOut(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.rollOut.dispatch(m_lastMouseData);
 		
 		if (releaseWithRollOut)
@@ -621,7 +527,7 @@ class MouseSignals
 	
 	private function onRollOver(event : MouseEvent) : Void
 	{
-		this.retrieveEssentialMouseData(event);
+		m_lastMouseData.retrieveEventData(event);
 		this.rollOver.dispatch(m_lastMouseData);
 	}
 	
@@ -636,10 +542,10 @@ class MouseSignals
 	 */
 	public function enable(enable : Bool = true) : Void
 	{
-		if (this.object == null)
+		if (this.objectRef == null)
 			return;
 			
-		this.object.mouseEnabled = enable;
+		this.objectRef.mouseEnabled = enable;
 	}
 	
 	public function delete() : Void
@@ -657,7 +563,7 @@ class MouseSignals
 		this.scrollPress.removeAll();
 		this.scrollRelease.removeAll();
 		this.scroll.removeAll();
-		this.localMove.removeAll();
+		this.move.removeAll();
 		this.rollOver.removeAll();
 		this.rollOut.removeAll();
 		
@@ -672,11 +578,11 @@ class MouseSignals
 		this.scrollPress = null;
 		this.scrollRelease = null;
 		this.scroll = null;
-		this.localMove = null;
+		this.move = null;
 		this.rollOver = null;
 		this.rollOut = null;
 		
-		this.object = null;
+		this.objectRef = null;
 	}
 	
 	//} ========================================
