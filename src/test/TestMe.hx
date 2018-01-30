@@ -108,6 +108,7 @@ class TestMe
 		
 		var backLayer : Entity = EntityFactory.createLayer("backLayer", -1, app.width, app.height);
 		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height);
+		mainLayer.add(new RatioResizer());
 		
 		var firstElement : Entity = EntityFactory.createGameElement("square1", "backLayer","test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
 		var secondElement : Entity = EntityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
@@ -118,15 +119,15 @@ class TestMe
 		var miniLayer : Entity = EntityFactory.createLayer("miniLayer", 1, 50, 50, Anchor.center, Anchor.center);
 		var fifthElement : Entity = EntityFactory.createGameElement("square5", "miniLayer", "img/placeholder.png", 4, Anchor.topLeft, Anchor.topLeft, 0.3, 0.3);
 		
-		//app.addEntity(mainLayer);
+		app.addEntity(mainLayer);
 		//app.addEntity(backLayer);
-		app.addEntity(miniLayer);
+		//app.addEntity(miniLayer);
 		
 		//app.addEntity(firstElement);
-		//app.addEntity(secondElement);
+		app.addEntity(secondElement);
 		//app.addEntity(thirdElement);
 		//app.addEntity(fourthElement);
-		app.addEntity(fifthElement);
+		//app.addEntity(fifthElement);
 		
 		locModule.debugDrawAllDisplayRect();
 	}

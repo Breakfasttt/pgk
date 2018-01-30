@@ -21,23 +21,23 @@ class RatioResizer extends Resizer
 		var targetRatio : Float = targetWidth / targetHeight;
 		var initObjRatio : Float = initWidthAtScale1 / initHeightAtScale1;
 		
-		var newScaleX : Float = 1.0;
-		var newScaleY : Float = 1.0;
+		var newWidth : Float = initWidthAtScale1;
+		var newHeight : Float = initHeightAtScale1;
 		
 		if (targetRatio < initObjRatio)
 		{
-			newScaleX = targetWidth / initWidthAtScale1;
-			newScaleY = newScaleX / initObjRatio;
+			newWidth = targetWidth;
+			newHeight = newWidth / initObjRatio;
 		}
 		else
 		{
 			
-			newScaleY = targetHeight / initHeightAtScale1;
-			newScaleX = newScaleY * initObjRatio;
+			newHeight = targetHeight;
+			newWidth = newHeight * initObjRatio;
 		}
 		
-		scaleResult.x = newScaleX;
-		scaleResult.y = newScaleY;
+		scaleResult.x = newWidth / initWidthAtScale1;
+		scaleResult.y = newHeight / initHeightAtScale1;
 	}
 	
 	override public function delete():Void 

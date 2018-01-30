@@ -58,5 +58,30 @@ class LocationGroup extends ComponentGroup
 			
 		return utilitySize.width * scale.scale.x;
 	}
+		
+	/**
+	 * tools fonction to get width at scale 1.0
+	 * scale is not apply
+	 */
+	public function getWidthAtScale1() : Float
+	{
+		if (utilitySize == null)
+			return display.skin.width / display.skin.scaleX; 
+			
+		return utilitySize.width;
+	}	
+	
+
+	/**
+	 * tools fonction to get height at scale 1.0
+	 * scale is not apply
+	 */
+	public function getHeightAtScale1() : Float
+	{
+		if (utilitySize == null)
+			return display.skin.height / display.skin.scaleY; 
+			
+		return utilitySize.height;
+	}
 	
 }

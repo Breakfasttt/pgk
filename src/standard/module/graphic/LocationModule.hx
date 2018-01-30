@@ -27,17 +27,12 @@ class LocationModule extends Module <LocationGroup>
 	
 	private var m_debugRect : Map<LocationGroup, Sprite>;
 	
-	private var m_appScale : Vector2D;
-	
-	private var m_appResizer : Resizer;
 	
 	public function new(stage : Stage, appResizer : Resizer) 
 	{
 		super(LocationGroup);
 		this.stageRef = stage;
 		this.m_debugRect = new Map();
-		m_appScale = new Vector2D(1.0,1.0);
-		m_appResizer = appResizer;
 	}
 	
 	override function onAddedToApplication():Void 
@@ -67,15 +62,12 @@ class LocationModule extends Module <LocationGroup>
 	
 	private function onStageResize(event : Event) : Void
 	{
-		calculAppSize();
+		trace("StageW : " + stageRef.stageWidth + " StageH : " + stageRef.stageHeight);
+		
 		resizeAll();
 		relocateAll();
 	}
 	
-	private function calculAppSize() : Void
-	{
-		m_appResizer.resize(m_appRef.width, m_appRef.height, stageRef.stageWidth, stageRef.stageHeight, m_appScale);
-	}
 	
 	private function resizeAll() : Void
 	{
@@ -109,11 +101,11 @@ class LocationModule extends Module <LocationGroup>
 			return;
 			
 		if (group.display.skin.parent == this.stageRef)
-			group.resizer.resize(group.getWidth(), group.getHeight(), this.stageRef.stageWidth, this.stageRef.stageHeight, group.scale.scale);
+			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), this.stageRef.stageWidth, this.stageRef.stageHeight, group.scale.scale);
 		else if(group.display.skin.parent != null)
 		{
 			var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
-			group.resizer.resize(group.getWidth(), group.getHeight(), parentGroup.getWidth(), parentGroup.getHeight(), group.scale.scale);
+			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), parentGroup.getWidth(), parentGroup.getHeight(), group.scale.scale);
 		}
 	}
 	
@@ -125,9 +117,25 @@ class LocationModule extends Module <LocationGroup>
 		group.display.skin.scaleX = group.scale.scale.x;
 		group.display.skin.scaleY = group.scale.scale.y;
 		
+		var pWidth : Float =  0.0; 
+		var pHeight : Float = 0.0; 
 		var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
-		var pWidth : Float = parentGroup != null ? parentGroup.getWidth() : this.m_appRef.width * this.m_appScale.x;
-		var pHeight : Float = parentGroup != null ? parentGroup.getHeight() : this.m_appRef.height * this.m_appScale.y;
+		
+		if (parentGroup != null)
+		{
+			pWidth = parentGroup.getWidth();
+			pHeight = parentGroup.getHeight();
+		}
+		else if (group.display.skin.parent == this.stageRef)
+		{
+			pWidth = this.stageRef.stageWidth;
+			pHeight = this.stageRef.stageHeight;
+		}
+		else
+		{
+			pWidth = m_appRef.width;
+			pHeight = m_appRef.height;
+		}
 		
 		group.position.position2d.relocate(group.display.skin, pWidth, pHeight);
 		
