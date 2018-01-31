@@ -1,4 +1,5 @@
 package input;
+import input.data.PointerData;
 import msignal.Signal.Signal1;
 import openfl.Lib;
 import openfl.display.Stage;
@@ -31,24 +32,29 @@ class WorldSignal
 	/**
 	 * Signal dispatch when mouse leave the stage
 	 */
-	public var leaveWorld : Signal1<Event>;
+	public var leaveWorld : Signal1<PointerData>;
 
 	/**
 	 * Signal dispatch when a pointer (Touch/Mouse) move anywhere on the stage
 	 */
-	public var worldPointerMove : Signal1<Event>;
+	public var worldPointerMove : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a pointer (Touch/Mouse) press anywhere on the stage
 	 * @param	stageRef
 	 */
-	public var worldPointerPress : Signal1<Event>
+	public var worldPointerPress : Signal1<PointerData>;
 	
 	/**
 	 * Signal dispatch when a pointer (Touch/Mouse) press anywhere on the stage
 	 * @param	stageRef
 	 */
-	public var worldPointerRelease : Signal1<Event>
+	public var worldPointerRelease : Signal1<PointerData>;
+	
+	/**
+	 * PointerData dispatched
+	 */
+	private var m_lastMouseData : PointerData;
 	
 	public function new(stageRef : Stage = null) 
 	{
@@ -59,10 +65,12 @@ class WorldSignal
 		
 		m_eventChecker = new EventChecker(m_stageRef);
 		
-		this.leaveWorld = new Signal1();
-		this.worldPointerMove = new Signal1();
-		this.worldPointerPress = new Signal1();
-		this.worldPointerRelease = new Signal1();
+		m_lastMouseData = new PointerData();
+		
+		this.leaveWorld = new Signal1<PointerData>();
+		this.worldPointerMove = new Signal1<PointerData>();
+		this.worldPointerPress = new Signal1<PointerData>();
+		this.worldPointerRelease = new Signal1<PointerData>();
 		
 		addListeners();
 	}
@@ -73,7 +81,7 @@ class WorldSignal
 		m_eventChecker.addEvent(MouseEvent.RELEASE_OUTSIDE, onMouseLeaveWorld);
 		m_eventChecker.addEvent(MouseEvent.MOUSE_MOVE, onWorldMouseMove);
 		m_eventChecker.addEvent(MouseEvent.MOUSE_UP, onMouseUp);
-		m_eventChecker.addEvent(MouseEvent.MOUSE_DOWN, onMouseUp);
+		m_eventChecker.addEvent(MouseEvent.MOUSE_DOWN, onMouseDown);
 	}
 	
 	private function removeListeners() : Void
@@ -87,24 +95,34 @@ class WorldSignal
 	
 	private function onMouseLeaveWorld(event : Event) : Void
 	{
+		m_lastMouseData.retrieveEventData(event);
 		this.leaveWorld.dispatch(m_lastMouseData);
 	}
 	
 	private function onWorldMouseMove(event : MouseEvent) : Void
 	{
-		this.worldMove.dispatch(m_lastMouseData);
+		m_lastMouseData.retrieveEventData(event);
+		this.worldPointerMove.dispatch(m_lastMouseData);
 		
-		//remove this when refactoring is finish, keep the code only
-		/*
-		if (objectRef.stage != null)
+
+		if (	m_lastMouseData.worldPosition.x < 0.0 || m_lastMouseData.worldPosition.x > m_stageRef.stageWidth
+			||  m_lastMouseData.worldPosition.y < 0.0 || m_lastMouseData.worldPosition.y > m_stageRef.stageHeight)
 		{
-			if (m_lastMouseData.worldPosition.x < 0.0 || m_lastMouseData.worldPosition.x > objectRef.stage.stageWidth
-				||  m_lastMouseData.worldPosition.y < 0.0 || m_lastMouseData.worldPosition.y > objectRef.stage.stageHeight)
-			{
-				onMouseLeaveStage(null);
-			}
-		}*/
-	}	
+			onMouseLeaveWorld(null);
+		}
+	}
+	
+	private function onMouseUp(event : Event) : Void
+	{
+		m_lastMouseData.retrieveEventData(event);
+		this.worldPointerRelease.dispatch(m_lastMouseData);
+	}
+	
+	private function onMouseDown(event : Event) : Void
+	{
+		m_lastMouseData.retrieveEventData(event);
+		this.worldPointerPress.dispatch(m_lastMouseData);
+	}
 	
 	static function get_self():WorldSignal 
 	{

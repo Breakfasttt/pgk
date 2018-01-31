@@ -16,6 +16,14 @@ interface IPointerSignals
 	public var objectRef(default, null) : InteractiveObject;
 	
 	/**
+	 * enable/disable release with roll out mode
+	 * enable : when roll out is detect, all release signals are dispatch
+	 * Else, nothing append
+	 * default = true;
+	 */	
+	public var releaseWithRollOut : Bool;	
+	
+	/**
 	 * Signal dispatch when pointer is pressed on the specified object
 	 */
 	public var press : Signal1<PointerData>;

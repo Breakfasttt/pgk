@@ -161,8 +161,7 @@ class TestMe
 		Lib.current.stage.addChild(redSquare);
 		
 		mouseBehaviour = new DragBehaviour(redSquare);
-		mouseBehaviour.appAsBoundary = true;
-		//m_mouseBehaviour.setBoundary(0, Lib.current.stage.stageWidth, 0, Lib.current.stage.stageHeight);
+		mouseBehaviour.setBoundary(0, app.width, 0, app.height);
 	}
 	
 }

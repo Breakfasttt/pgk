@@ -20,12 +20,12 @@ class EventChecker
 	 * The map of binded function
 	 * @param	objRef
 	 */
-	private var m_bindedFunction : Map<String, Array<Dynamic>>
+	private var m_bindedFunction : Map<String, Array<Dynamic>>;
 	
 	public function new(objRef : InteractiveObject) 
 	{
 		m_objRef = objRef;
-		m_bindedFunction = new Map<String, Array<Dynamic>>()
+		m_bindedFunction = new Map<String, Array<Dynamic>>();
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class EventChecker
 	public function addEvent(eventName : String, funct : Dynamic) : Bool
 	{
 		if (m_objRef == null)
-			return;
+			return false;
 		
 		var m_toolsArray : Array<Dynamic> = null;
 		
@@ -47,7 +47,7 @@ class EventChecker
 			m_toolsArray = new Array<Dynamic>();
 			
 		if (Lambda.has(m_toolsArray, funct))
-			return false:
+			return false;
 					
 		m_objRef.addEventListener(eventName, funct);
 		m_toolsArray.push(funct);
@@ -64,7 +64,7 @@ class EventChecker
 	public function removeEvent(eventName : String, functRef : Dynamic = null) : Bool
 	{
 		if (m_objRef == null)
-			return;
+			return false;
 		
 		if (!m_bindedFunction.exists(eventName))
 			return false;

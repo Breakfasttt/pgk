@@ -1,6 +1,8 @@
 package input.behaviour;
 import core.entity.Entity;
-import input.pointerImpl.MouseSignals;
+import input.IPointerSignals;
+import input.WorldSignal;
+import input.pointerImpl.BasicMouseSignals;
 
 /**
  * ...
@@ -9,13 +11,28 @@ import input.pointerImpl.MouseSignals;
 class PointerBehaviour 
 {
 	/**
-	 * the signals manager
+	 * The world Pointer Signal of necessary.
 	 */
-	private var m_signals : MouseSignals;
+	private var m_worldSignals : WorldSignal;
 	
-	public function new(mouseSignals : MouseSignals) 
+	/**
+	 * A Pointer signal manager (see BasicMouseSignal for exemple)
+	 */
+	private var m_signals : IPointerSignals;
+	
+	/**
+	 * @param	mouseSignals : A Pointer signal manager (see BasicMouseSignal for exemple)
+	 * @param	worldSignals : The world pointer signals manager. If set to null, it's use the WorldSignal.self singleton
+	 */
+	public function new(mouseSignals : IPointerSignals, worldSignals : WorldSignal = null) 
 	{
 		m_signals = mouseSignals;
+		
+		if (worldSignals == null)
+			m_worldSignals = WorldSignal.self;
+		else
+			m_worldSignals = worldSignals;
+		
 	}
 	
 }

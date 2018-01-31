@@ -1,10 +1,12 @@
 package input.behaviour.impl;
 
 import input.data.PointerData;
-import input.pointerImpl.MouseSignals;
+import input.pointerImpl.BasicMouseSignals;
+import input.pointerImpl.BasicPointerSignals;
 import openfl.Lib;
 import openfl.display.InteractiveObject;
 import openfl.geom.Point;
+import tools.math.Vector2D;
 
 /**
  * ...
@@ -18,22 +20,17 @@ class DragBehaviour extends PointerBehaviour
 	private var m_minY : Float;
 	private var m_maxY : Float;
 	
-	private var m_localStartPoint : Point;
-	
-	public var appAsBoundary : Bool;
+	private var m_localStartPoint : Vector2D;
 	
 	public function new(object : InteractiveObject) : Void
 	{
-		if (object == null)
-			throw "object can't be null for dragBehaviour";
+		super(null);
 		
-		super(new MouseSignals(object, true, false, false, false, true));
+		m_localStartPoint = new Vector2D();
+		
+		this.m_signals = new BasicPointerSignals(object);
 		this.m_signals.releaseWithRollOut = false;
 		this.m_signals.press.addOnce(onStart);
-		appAsBoundary = true;
-		
-		if (appAsBoundary)
-			setBoundary(0, Lib.current.stage.stageWidth, 0, Lib.current.stage.stageHeight);
 	}
 	
 	
@@ -55,10 +52,10 @@ class DragBehaviour extends PointerBehaviour
 	
 	private function onStart(mousedata : PointerData)
 	{
-		/*m_localStartPoint = mousedata.localPosition.clone();
-		this.m_signals.worldMove.add(onMove);
+		m_localStartPoint.copy(mousedata.localPosition);
+		m_worldSignals.worldPointerMove.add(onMove);
+		m_worldSignals.leaveWorld.addOnce(onEnd);
 		this.m_signals.release.addOnce(onEnd);
-		//this.m_signals.leaveWorld.addOnce(onEnd);*/
 	}
 	
 	private function onMove(mousedata : PointerData) : Void
@@ -79,8 +76,8 @@ class DragBehaviour extends PointerBehaviour
 	
 	private function onEnd(mousedata : PointerData) : Void
 	{
-		/*this.m_signals.worldMove.remove(onMove);
-		this.m_signals.press.addOnce(onStart);*/
+		m_worldSignals.worldPointerMove.remove(onMove);
+		m_signals.press.addOnce(onStart);
 	}
 	
 }

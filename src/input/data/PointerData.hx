@@ -1,5 +1,5 @@
 package input.data;
-import input.pointerImpl.MouseSignals;
+import input.pointerImpl.BasicMouseSignals;
 import openfl.display.InteractiveObject;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
@@ -12,22 +12,22 @@ import tools.math.Vector2D;
  */
 class PointerData 
 {
-	@:allow(input.pointerImpl.MouseSignals)
+	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var target(default,null) : InteractiveObject;
 	
-	@:allow(input.pointerImpl.MouseSignals)
+	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var localPosition(default,null) : Vector2D;
 	
-	@:allow(input.pointerImpl.MouseSignals)
+	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var worldPosition(default,null) : Vector2D;
 	
-	@:allow(input.pointerImpl.MouseSignals)
+	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var deltaScroll(default,null) : Float;
 	
-	@:allow(input.pointerImpl.MouseSignals)
+	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var altModifier(default,null) : Bool;
 	
-	@:allow(input.pointerImpl.MouseSignals)
+	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var ctrlModifier(default,null) : Bool;
 	
 	public function new() 
