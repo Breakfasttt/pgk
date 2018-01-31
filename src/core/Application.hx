@@ -4,6 +4,8 @@ import core.entity.Entity;
 import core.module.Module;
 import core.module.ModuleManager;
 import openfl.Lib;
+import openfl.ui.Multitouch;
+import openfl.ui.MultitouchInputMode;
 import tools.math.Vector2D;
 import tools.time.FrameTicker;
 
@@ -70,6 +72,8 @@ class Application
 	 */
 	private var m_entitiesNameAdded : Array<String>;
 	
+	public var multitouchActive(default,null) : Bool;
+	
 	/**
 	 * A map to add a number to entities Name Already Used to keep name unique;
 	 */
@@ -93,6 +97,7 @@ class Application
 		this.width = width;
 		this.height = height;
 		this.appRatio = this.width / this.height;
+		this.actualFps = 0.0;
 		
 		this.m_entities = new Array<Entity>();
 		this.m_entitiesNameAdded = new Array<String>();
@@ -100,7 +105,8 @@ class Application
 		
 		this.modManager = new ModuleManager();
 		
-		this.actualFps = 0.0;
+		this.checkPointerMode();
+		
 		this.tick = new FrameTicker(Lib.current.stage);
 		this.tick.tick.add(update);
 		this.tick.start();
@@ -258,6 +264,19 @@ class Application
 	private function componentOnEntityRemoved(e : Entity) : Void
 	{
 		this.modManager.checkModuleOnEntityComponentRemoved(e);
+	}
+	
+	private function checkPointerMode() : Void
+	{
+		if (Multitouch.supportsTouchEvents)
+		{
+			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+			multitouchActive = true;
+			trace("MultiTouch Active");
+		}
+		else
+			multitouchActive = false;
+		
 	}
 	
 	

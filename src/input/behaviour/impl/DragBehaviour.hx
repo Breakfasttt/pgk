@@ -63,44 +63,80 @@ class DragBehaviour extends PointerBehaviour
 	
 	private function onStart(mousedata : PointerData)
 	{
-		m_localStartPoint.copy(mousedata.localPosition);
-		m_worldSignals.worldPointerMove.add(onMove);
-		m_worldSignals.leaveWorld.addOnce(onEnd);
-		this.m_signals.release.addOnce(onEnd);
-		
-		this.lastCoord.copy(m_localStartPoint);
-		if (this.startCb != null)
-			this.startCb(this.lastCoord);
+		try
+		{
+			m_localStartPoint.copy(mousedata.localPosition);
+			m_worldSignals.worldPointerMove.add(onMove);
+			
+			this.m_signals.release.addOnce(onEnd);
+			m_worldSignals.leaveWorld.addOnce(onEnd);
+			m_worldSignals.worldPointerRelease.add(isPointerReleasedOutBound);
+			
+			this.lastCoord.copy(m_localStartPoint);
+			if (this.startCb != null)
+				this.startCb(this.lastCoord);
+		}
+		catch (e : Dynamic)
+		{
+			trace("onStart :"  + e);
+		}
 	}
 	
 	private function onMove(mousedata : PointerData) : Void
 	{
-		lastCoord.x =  mousedata.worldPosition.x - m_localStartPoint.x;
-		lastCoord.y =  mousedata.worldPosition.y - m_localStartPoint.y;
-		
-		if (m_minX >= 0 && lastCoord.x < m_minX)
-			lastCoord.x = m_minX;
-		if (m_maxX >= 0 && lastCoord.x > m_maxX)
-			lastCoord.x = m_maxX;
-		if (m_minY >= 0 && lastCoord.y < m_minY)
-			lastCoord.y = m_minY;
-		if (m_maxY >= 0 && lastCoord.y > m_maxY)
-			lastCoord.y = m_maxY;
+		try
+		{
+			lastCoord.x =  mousedata.worldPosition.x - m_localStartPoint.x;
+			lastCoord.y =  mousedata.worldPosition.y - m_localStartPoint.y;
 			
-		if (this.moveCb != null)
-			this.moveCb(this.lastCoord);
+			if (m_minX >= 0 && lastCoord.x < m_minX)
+				lastCoord.x = m_minX;
+			if (m_maxX >= 0 && lastCoord.x > m_maxX)
+				lastCoord.x = m_maxX;
+			if (m_minY >= 0 && lastCoord.y < m_minY)
+				lastCoord.y = m_minY;
+			if (m_maxY >= 0 && lastCoord.y > m_maxY)
+				lastCoord.y = m_maxY;
+				
+			if (this.moveCb != null)
+				this.moveCb(this.lastCoord);
+		}
+		catch (e : Dynamic)
+		{
+			trace("onMove :"  + e);
+		}
+	}
+	
+	private function isPointerReleasedOutBound(pointerData : PointerData) : Void
+	{
+		if (m_minX >= 0 && pointerData.worldPosition.x < m_minX)
+			onEnd(pointerData);
+		if (m_maxX >= 0 && pointerData.worldPosition.x > m_maxX)
+			onEnd(pointerData);
+		if (m_minY >= 0 && pointerData.worldPosition.y < m_minY)
+			onEnd(pointerData);
+		if (m_maxY >= 0 && pointerData.worldPosition.y > m_maxY)
+			onEnd(pointerData);
 	}
 	
 	private function onEnd(mousedata : PointerData) : Void
 	{
-		m_worldSignals.worldPointerMove.remove(onMove);
-		m_signals.press.addOnce(onStart);	
-		
-		lastCoord.x =  mousedata.worldPosition.x - m_localStartPoint.x;
-		lastCoord.y =  mousedata.worldPosition.y - m_localStartPoint.y;		
-		
-		if (this.endCb != null)
-			this.endCb(this.lastCoord);
+		try
+		{
+			m_worldSignals.worldPointerMove.remove(onMove);
+			m_worldSignals.worldPointerRelease.remove(isPointerReleasedOutBound);
+			m_signals.press.addOnce(onStart);	
+			
+			lastCoord.x =  mousedata.worldPosition.x - m_localStartPoint.x;
+			lastCoord.y =  mousedata.worldPosition.y - m_localStartPoint.y;		
+			
+			if (this.endCb != null)
+				this.endCb(this.lastCoord);
+			}
+		catch (e : Dynamic)
+		{
+			trace("onEnd :"  + e);
+		}
 	}
 	
 }

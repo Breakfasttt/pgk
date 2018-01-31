@@ -5,6 +5,7 @@ import openfl.Lib;
 import openfl.display.Stage;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
+import openfl.events.TouchEvent;
 import tools.event.EventChecker;
 
 /**
@@ -78,19 +79,34 @@ class WorldSignal
 	private function addListeners() : Void
 	{
 		m_eventChecker.addEvent(Event.MOUSE_LEAVE, onMouseLeaveWorld);
+		
+		#if !android //todo improve this
 		m_eventChecker.addEvent(MouseEvent.RELEASE_OUTSIDE, onMouseLeaveWorld);
 		m_eventChecker.addEvent(MouseEvent.MOUSE_MOVE, onWorldMouseMove);
 		m_eventChecker.addEvent(MouseEvent.MOUSE_UP, onMouseUp);
 		m_eventChecker.addEvent(MouseEvent.MOUSE_DOWN, onMouseDown);
+		#else
+		m_eventChecker.addEvent(TouchEvent.TOUCH_BEGIN, onMouseDown);
+		m_eventChecker.addEvent(TouchEvent.TOUCH_END, onMouseUp);
+		m_eventChecker.addEvent(TouchEvent.TOUCH_MOVE, onWorldMouseMove);
+		#end
 	}
 	
 	private function removeListeners() : Void
 	{
+		
 		m_eventChecker.removeEvent(Event.MOUSE_LEAVE);
+		
+		#if !android
 		m_eventChecker.removeEvent(MouseEvent.RELEASE_OUTSIDE);
 		m_eventChecker.removeEvent(MouseEvent.MOUSE_MOVE);
 		m_eventChecker.removeEvent(MouseEvent.MOUSE_UP);
 		m_eventChecker.removeEvent(MouseEvent.MOUSE_DOWN);
+		#else
+		m_eventChecker.removeEvent(TouchEvent.TOUCH_BEGIN);
+		m_eventChecker.removeEvent(TouchEvent.TOUCH_END);
+		m_eventChecker.removeEvent(TouchEvent.TOUCH_MOVE);
+		#end
 	}
 	
 	private function onMouseLeaveWorld(event : Event) : Void

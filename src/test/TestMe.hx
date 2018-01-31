@@ -168,6 +168,9 @@ class TestMe
 	
 	public static function updatePosition(position : Vector2D, obj : Sprite) : Void
 	{
+		if (obj == null)
+			return;
+		
 		obj.x = position.x;
 		obj.y = position.y;
 	}

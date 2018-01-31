@@ -89,7 +89,7 @@ class BasicMouseSignals implements IPointerSignals
 		
 		m_eventChecker = new EventChecker(this.objectRef);
 		
-		this.m_lastMouseData = new PointerData();
+		m_lastMouseData = new PointerData();
 		
 		this.click = new Signal1<PointerData>();
 		this.doubleClick = new Signal1<PointerData>();
@@ -224,7 +224,7 @@ class BasicMouseSignals implements IPointerSignals
 		this.objectRef = null;
 	}
 	
-	function set_localMoveEnable(value:Bool):Bool 
+	private function set_localMoveEnable(value:Bool):Bool 
 	{
 		this.removeListeners();
 		localMoveEnable = value;

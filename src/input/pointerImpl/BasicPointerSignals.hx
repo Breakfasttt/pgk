@@ -5,7 +5,7 @@ package input.pointerImpl;
  */
 typedef BasicPointerSignals =
 #if android
-	BasicMouseSignals; // todo
+	BasicTouchSignals;
 #else
 	BasicMouseSignals;
 #end
