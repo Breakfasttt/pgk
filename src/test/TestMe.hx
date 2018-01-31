@@ -16,6 +16,7 @@ import test.component.CompTest2;
 import test.module.ModuleTest;
 import test.module.ModuleTest2;
 import tools.math.Anchor;
+import tools.math.Vector2D;
 
 /**
  * A Class who contains some static function to test functionnality
@@ -162,6 +163,13 @@ class TestMe
 		
 		mouseBehaviour = new DragBehaviour(redSquare);
 		mouseBehaviour.setBoundary(0, app.width, 0, app.height);
+		mouseBehaviour.moveCb = updatePosition.bind(_, redSquare);
+	}
+	
+	public static function updatePosition(position : Vector2D, obj : Sprite) : Void
+	{
+		obj.x = position.x;
+		obj.y = position.y;
 	}
 	
 }

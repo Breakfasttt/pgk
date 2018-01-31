@@ -5,7 +5,7 @@ import input.WorldSignal;
 import input.pointerImpl.BasicMouseSignals;
 
 /**
- * ...
+ * Extends Pointer behaviour to make specific pointer comportement like drag'n'drop
  * @author Breakyt
  */
 class PointerBehaviour 
