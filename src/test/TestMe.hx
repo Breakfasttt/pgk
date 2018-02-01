@@ -4,6 +4,7 @@ import core.entity.Entity;
 import input.behaviour.impl.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
+import standard.components.input.DragComponent;
 import standard.components.space2d.UtilitySize2D;
 import standard.components.space2d.resizer.impl.RatioResizer;
 import standard.factory.EntityFactory;
@@ -11,6 +12,7 @@ import standard.module.debug.DebugModule;
 import standard.module.graphic.GameElementModule;
 import standard.module.graphic.LayerModule;
 import standard.module.graphic.LocationModule;
+import standard.module.input.PointerBehaviourModule;
 import test.component.CompTest;
 import test.component.CompTest2;
 import test.module.ModuleTest;
@@ -142,36 +144,33 @@ class TestMe
 	{
 		var app : Application;
 		app = new Application();
-		app.init("Application test", 800, 600);
+		app.init("Application test", 1280, 720);
 		
 		
-		app.addModule(new DebugModule());
+		var layModule : LayerModule = new LayerModule(Lib.current.stage);
+		var gameElementModule : GameElementModule = new GameElementModule(layModule);
+		var locModule : LocationModule = new LocationModule(Lib.current.stage);
+		var pointerModule : PointerBehaviourModule = new PointerBehaviourModule();
+		
+		app.addModule(layModule, 0);
+		app.addModule(gameElementModule, 1);
+		app.addModule(pointerModule, 2);
+		app.addModule(locModule, 3);
+		app.addModule(new DebugModule(), 4);
 		
 		
-		var redSquare : Sprite;
-		var mouseBehaviour : DragBehaviour;		
+		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
+		mainLayer.add(new RatioResizer());
 		
-		redSquare = new Sprite();
-		redSquare.graphics.beginFill(0xff00000);
-		redSquare.graphics.drawRect(0, 0, 50, 50);
-		redSquare.graphics.endFill();
+		var firstElement : Entity = EntityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		firstElement.add(new DragComponent());
 		
-		redSquare.x = 50;
-		redSquare.y = 50;
+		app.addEntity(mainLayer);
+		app.addEntity(firstElement);
 		
-		Lib.current.stage.addChild(redSquare);
-		
-		mouseBehaviour = new DragBehaviour(redSquare);
-		mouseBehaviour.moveCb = updatePosition.bind(_, redSquare);
+		locModule.debugShowLocGroupRect();
+		locModule.forceResize();
 	}
 	
-	public static function updatePosition(position : Vector2D, obj : Sprite) : Void
-	{
-		if (obj == null)
-			return;
-		
-		obj.x = position.x;
-		obj.y = position.y;
-	}
 	
 }

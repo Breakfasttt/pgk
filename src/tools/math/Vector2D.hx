@@ -61,6 +61,25 @@ class Vector2D
 	}
 	
 	/**
+	 * Substract p coordinate with this Vector2D.
+	 * This operation modify 'this' Vector2D
+	 * This operation doesn't modify 'p' vector2D
+	 * if 'p' is null, operation is abort
+	 * return 'this'
+	 * @param	p
+	 * @return this
+	 */
+	public inline function substract(p : Vector2D) : Vector2D
+	{
+		if (p == null)
+			return this;
+		
+		this.x -= p.x;
+		this.y -= p.y;
+		return this;
+	}
+	
+	/**
 	 * Scale the coordinates by a factor.
 	 * This operation modify 'this' Vector2D
 	 * @param	factor

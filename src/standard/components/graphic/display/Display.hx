@@ -1,5 +1,6 @@
 package standard.components.graphic.display;
 import core.component.Component;
+import core.entity.Entity;
 import msignal.Signal.Signal0;
 import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
@@ -15,6 +16,7 @@ class Display extends Component
 {
 	/**
 	 * The container who contains all Sprite/animation, etc.
+	 * Skin.name is set to Entity.name when added to the application on LocationModule
 	 * default = null;
 	 */
 	public var skin(default, null) : DisplayObjectContainer;
@@ -30,6 +32,17 @@ class Display extends Component
 	{
 		super();
 		this.skin = null;
+	}
+	
+	/**
+	 * Set the name of the skin with the entity name
+	 */
+	public function setSkinName(entity : Entity) : Void
+	{
+		if (this.skin == null && entity == null)
+			return;
+		
+		this.skin.name = entity.name;
 	}
 	
 	/**

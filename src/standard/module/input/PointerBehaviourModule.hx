@@ -28,4 +28,9 @@ class PointerBehaviourModule extends Module <PointerBehaviourGroup>
 		group.behaviour.delete();
 	}
 	
+	override public function update(delta:Float):Void 
+	{
+		
+	}
+	
 }

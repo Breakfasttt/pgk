@@ -150,12 +150,12 @@ class Entity
 	 * @param	type
 	 * @return
 	 */
-	public function getComponent(type : Class<Dynamic>) : Component
+	public function getComponent<T : Component>(type : Class<T>) : T
 	{
 		for (component in m_components)
 		{
-			if (Type.getClass(component) == type)
-				return component;
+			if (Std.is(component, type))
+				return cast component;
 		}
 		
 		return null;

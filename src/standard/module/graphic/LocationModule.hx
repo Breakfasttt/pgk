@@ -54,6 +54,7 @@ class LocationModule extends Module <LocationGroup>
 	
 	override function onCompGroupAdded(group:LocationGroup):Void 
 	{
+		group.display.setSkinName(group.entityRef);
 		relocate(group);
 	}
 	
@@ -219,10 +220,17 @@ class LocationModule extends Module <LocationGroup>
 			sprite.graphics.beginFill(Color.red, 0.5);
 			sprite.graphics.drawCircle(pivotPosition.x, pivotPosition.y, 3.0);
 			sprite.graphics.endFill();
+			sprite.mouseEnabled = false;
+			sprite.mouseChildren = false;
 			
 			group.display.skin.addChildAt(sprite,group.display.skin.numChildren);
 			m_debugRect.set(group, sprite);
 		}
+	}
+	
+	public function forceResize() : Void
+	{
+		onStageResize(null);
 	}
 	
 	/**

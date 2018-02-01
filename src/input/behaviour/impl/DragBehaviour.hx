@@ -47,6 +47,11 @@ class DragBehaviour extends PointerBehaviour
 	private var m_parentPosition : Vector2D;
 	
 	/**
+	 * The objectParentPosition
+	 */
+	private var m_parentScale : Vector2D;
+	
+	/**
 	 * Last World coordonate calculated
 	 */
 	public var lastCoord(default,null) : Vector2D; 
@@ -79,6 +84,7 @@ class DragBehaviour extends PointerBehaviour
 		m_localStartPoint = new Vector2D();
 		lastCoord = new Vector2D(object.x, object.y);
 		m_parentPosition = new Vector2D();
+		m_parentScale = new Vector2D();
 		
 		this.m_signals = new BasicPointerSignals(object);
 		this.m_signals.releaseWithRollOut = false;
@@ -100,13 +106,16 @@ class DragBehaviour extends PointerBehaviour
 			if (Std.is(m_targetObject.parent, Stage))
 			{
 				m_parentPosition.set(0, 0);
+				m_parentScale.set(0, 0);
 				var stage : Stage = cast m_targetObject.parent;
 				setBoundary(0.0, 0.0, stage.stageWidth, stage.stageHeight);
 			}
 			else
 			{
 				m_parentPosition.set(m_targetObject.parent.x, m_targetObject.parent.y);
-				setBoundary(0, 0, m_targetObject.parent.width, m_targetObject.parent.height);
+				m_parentScale.set(m_targetObject.parent.scaleX, m_targetObject.parent.scaleY);
+				
+				setBoundary(0, 0, m_targetObject.parent.width / m_parentScale.x, m_targetObject.parent.height / m_parentScale.y);
 			}
 		}			
 			
@@ -169,9 +178,7 @@ class DragBehaviour extends PointerBehaviour
 				return;
 			
 			setUpFromParent();
-			
-			lastCoord.x =  mousedata.worldPosition.x + m_parentPosition.x - m_localStartPoint.x;
-			lastCoord.y =  mousedata.worldPosition.y + m_parentPosition.x - m_localStartPoint.y;
+			lastCoord.copy(mousedata.worldPosition).substract(m_parentPosition).divide(m_parentScale).substract(m_localStartPoint);
 			
 			if (m_minX >= 0 && lastCoord.x < m_minX)
 				lastCoord.x = m_minX;

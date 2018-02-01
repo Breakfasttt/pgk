@@ -1,8 +1,11 @@
 package standard.components.input;
+import core.Application;
 import core.entity.Entity;
 import input.behaviour.impl.DragBehaviour;
 import standard.components.graphic.display.Display;
 import standard.components.space2d.Position2D;
+import standard.components.space2d.Scale2D;
+import standard.components.space2d.UtilitySize2D;
 import tools.math.Vector2D;
 
 /**
@@ -12,13 +15,14 @@ import tools.math.Vector2D;
 class DragComponent extends PointerBehaviourComponent 
 {
 
+	private var m_appRef : Application;
+	
 	private var m_displayRef : Display;
 	private var m_position2DRef : Position2D;
 	
 	public function new() 
 	{
 		super();
-		
 	}
 	
 	override public function setEntityRef(entityRef:Entity):Void 
@@ -43,7 +47,7 @@ class DragComponent extends PointerBehaviourComponent
 	
 	private function onEntityMove(pos : Vector2D) : Void
 	{
-		m_position2DRef.position2d.anchor.set(pos);
+		m_position2DRef.position2d.anchor.copy(pos);
 	}
 	
 	override public function delete():Void 
