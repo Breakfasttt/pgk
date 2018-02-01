@@ -376,4 +376,8 @@ class Vector2D
 		return newP;
 	}
 	
+	public function toString() : String
+	{
+		return "X : " + this.x + " / Y : " + this.y;
+	}
 }

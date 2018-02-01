@@ -156,10 +156,6 @@ class BasicTouchSignals implements IPointerSignals
 	
 	private function onClick(event : TouchEvent) : Void
 	{
-		trace("onClick");
-		m_lastMouseData.retrieveEventData(event);
-		this.click.dispatch(m_lastMouseData);
-		
 		var now : Float = Date.now().getTime();
 		
 		if (now - m_tapStartTime < 500 && !m_doubleTapAlreadyMade)
@@ -171,60 +167,49 @@ class BasicTouchSignals implements IPointerSignals
 		{
 			m_doubleTapAlreadyMade = false;
 			m_tapStartTime = now;
+			m_lastMouseData.retrieveEventData(event);
+			this.click.dispatch(m_lastMouseData);
 		}
-		trace("ok");
 	}
 	
 	private function onDoubleClick(event : TouchEvent) : Void
 	{
-		trace("onDoubleClick");
 		m_lastMouseData.retrieveEventData(event);
 		this.doubleClick.dispatch(m_lastMouseData);
-		trace("ok");
 	}
 	
 	private function onTouchDown(event : TouchEvent) : Void
 	{
-		trace("onTouchDown");
 		m_lastMouseData.retrieveEventData(event);
 		this.press.dispatch(m_lastMouseData);
-		trace("ok");
 	}
 	
 	private function onTouchUp(event : TouchEvent) : Void
 	{
-		trace("onTouchUp");
 		m_lastMouseData.retrieveEventData(event);
 		this.release.dispatch(m_lastMouseData);
-		trace("ok");
 	}
 	
 	private function onLocalMouseMove(event : TouchEvent) : Void
 	{
-		trace("onLocalMouseMove");
 		m_lastMouseData.retrieveEventData(event);
 		this.move.dispatch(m_lastMouseData);
-		trace("ok");
 	}
 
 	private function onRollOut(event : TouchEvent) : Void
 	{
-		trace("onRollOut");
 		m_lastMouseData.retrieveEventData(event);
 		this.rollOut.dispatch(m_lastMouseData);
 		
 		if (releaseWithRollOut)
 			this.release.dispatch(m_lastMouseData);
 			
-		trace("ok");	
 	}
 	
 	private function onRollOver(event : TouchEvent) : Void
 	{
-		trace("onRollOver");
 		m_lastMouseData.retrieveEventData(event);
 		this.rollOver.dispatch(m_lastMouseData);
-		trace("ok");
 	}
 	
 	//} ========================================	

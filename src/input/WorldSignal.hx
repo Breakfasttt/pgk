@@ -78,17 +78,17 @@ class WorldSignal
 	
 	private function addListeners() : Void
 	{
-		m_eventChecker.addEvent(Event.MOUSE_LEAVE, onMouseLeaveWorld);
+		m_eventChecker.addEvent(Event.MOUSE_LEAVE, onPointerLeaveWorld);
 		
 		#if !android //todo improve this
-		m_eventChecker.addEvent(MouseEvent.RELEASE_OUTSIDE, onMouseLeaveWorld);
-		m_eventChecker.addEvent(MouseEvent.MOUSE_MOVE, onWorldMouseMove);
-		m_eventChecker.addEvent(MouseEvent.MOUSE_UP, onMouseUp);
-		m_eventChecker.addEvent(MouseEvent.MOUSE_DOWN, onMouseDown);
+		m_eventChecker.addEvent(MouseEvent.RELEASE_OUTSIDE, onPointerLeaveWorld);
+		m_eventChecker.addEvent(MouseEvent.MOUSE_MOVE, onWorldPointerMove);
+		m_eventChecker.addEvent(MouseEvent.MOUSE_UP, onWorldPointerUp);
+		m_eventChecker.addEvent(MouseEvent.MOUSE_DOWN, onWorldPointerDown);
 		#else
-		m_eventChecker.addEvent(TouchEvent.TOUCH_BEGIN, onMouseDown);
-		m_eventChecker.addEvent(TouchEvent.TOUCH_END, onMouseUp);
-		m_eventChecker.addEvent(TouchEvent.TOUCH_MOVE, onWorldMouseMove);
+		m_eventChecker.addEvent(TouchEvent.TOUCH_BEGIN, onWorldPointerDown);
+		m_eventChecker.addEvent(TouchEvent.TOUCH_END, onWorldPointerUp);
+		m_eventChecker.addEvent(TouchEvent.TOUCH_MOVE, onWorldPointerMove);
 		#end
 	}
 	
@@ -109,32 +109,31 @@ class WorldSignal
 		#end
 	}
 	
-	private function onMouseLeaveWorld(event : Event) : Void
+	private function onPointerLeaveWorld(event : Event) : Void
 	{
 		m_lastMouseData.retrieveEventData(event);
 		this.leaveWorld.dispatch(m_lastMouseData);
 	}
 	
-	private function onWorldMouseMove(event : MouseEvent) : Void
+	private function onWorldPointerMove(event : Event) : Void
 	{
 		m_lastMouseData.retrieveEventData(event);
 		this.worldPointerMove.dispatch(m_lastMouseData);
 		
-
 		if (	m_lastMouseData.worldPosition.x < 0.0 || m_lastMouseData.worldPosition.x > m_stageRef.stageWidth
 			||  m_lastMouseData.worldPosition.y < 0.0 || m_lastMouseData.worldPosition.y > m_stageRef.stageHeight)
 		{
-			onMouseLeaveWorld(null);
+			onPointerLeaveWorld(null);
 		}
 	}
 	
-	private function onMouseUp(event : Event) : Void
+	private function onWorldPointerUp(event : Event) : Void
 	{
 		m_lastMouseData.retrieveEventData(event);
 		this.worldPointerRelease.dispatch(m_lastMouseData);
 	}
 	
-	private function onMouseDown(event : Event) : Void
+	private function onWorldPointerDown(event : Event) : Void
 	{
 		m_lastMouseData.retrieveEventData(event);
 		this.worldPointerPress.dispatch(m_lastMouseData);
@@ -146,6 +145,4 @@ class WorldSignal
 			self = new WorldSignal();
 		return self;
 	}
-
-	
 }

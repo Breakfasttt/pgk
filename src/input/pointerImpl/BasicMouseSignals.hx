@@ -105,7 +105,6 @@ class BasicMouseSignals implements IPointerSignals
 		attachListeners();
 	}
 
-	
 	/**
 	 * Attach MouseEvent Listener depending of mouse behaviour (left/right/scroll/move enable)
 	 */

@@ -65,10 +65,12 @@ class DragBehaviour extends PointerBehaviour
 	{
 		try
 		{
+			trace("drag start");
 			m_localStartPoint.copy(mousedata.localPosition);
 			m_worldSignals.worldPointerMove.add(onMove);
 			
-			this.m_signals.release.addOnce(onEnd);
+			//this.m_signals.release.addOnce(onEnd);
+			m_worldSignals.worldPointerRelease.addOnce(onEnd);
 			m_worldSignals.leaveWorld.addOnce(onEnd);
 			m_worldSignals.worldPointerRelease.add(isPointerReleasedOutBound);
 			
@@ -97,7 +99,7 @@ class DragBehaviour extends PointerBehaviour
 				lastCoord.y = m_minY;
 			if (m_maxY >= 0 && lastCoord.y > m_maxY)
 				lastCoord.y = m_maxY;
-				
+
 			if (this.moveCb != null)
 				this.moveCb(this.lastCoord);
 		}
@@ -109,14 +111,14 @@ class DragBehaviour extends PointerBehaviour
 	
 	private function isPointerReleasedOutBound(pointerData : PointerData) : Void
 	{
-		if (m_minX >= 0 && pointerData.worldPosition.x < m_minX)
+		if (	m_minX >= 0 && pointerData.worldPosition.x < m_minX 
+			||	m_maxX >= 0 && pointerData.worldPosition.x > m_maxX
+			||	m_minY >= 0 && pointerData.worldPosition.y < m_minY
+			||	m_maxY >= 0 && pointerData.worldPosition.y > m_maxY)
+			
+		{
 			onEnd(pointerData);
-		if (m_maxX >= 0 && pointerData.worldPosition.x > m_maxX)
-			onEnd(pointerData);
-		if (m_minY >= 0 && pointerData.worldPosition.y < m_minY)
-			onEnd(pointerData);
-		if (m_maxY >= 0 && pointerData.worldPosition.y > m_maxY)
-			onEnd(pointerData);
+		}
 	}
 	
 	private function onEnd(mousedata : PointerData) : Void

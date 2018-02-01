@@ -12,30 +12,27 @@ import tools.math.Vector2D;
  */
 class PointerData 
 {
-	@:allow(input.pointerImpl.BasicMouseSignals)
+	public var pointerId(default, null) : Int;
+	
 	public var target(default,null) : InteractiveObject;
 	
-	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var localPosition(default,null) : Vector2D;
 	
-	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var worldPosition(default,null) : Vector2D;
 	
-	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var deltaScroll(default,null) : Float;
 	
-	@:allow(input.pointerImpl.BasicMouseSignals)
 	public var altModifier(default,null) : Bool;
 	
-	@:allow(input.pointerImpl.BasicMouseSignals)
-	public var ctrlModifier(default,null) : Bool;
+	public var ctrlModifier(default, null) : Bool;
+	
+	
 	
 	public function new() 
 	{
 		localPosition = new Vector2D();
 		worldPosition = new Vector2D();
 	}
-	
 	
 	public function retrieveEventData(event : Event) : Void
 	{
@@ -56,9 +53,9 @@ class PointerData
 		}
 	}
 	
-	
 	private function retrieveMouseData(event : MouseEvent) : Void
 	{
+		this.pointerId = 0;
 		this.target = event.target;
 		this.altModifier = event.altKey;
 		this.ctrlModifier = event.ctrlKey;
@@ -69,6 +66,7 @@ class PointerData
 	
 	private function retrieveTouchData(event : TouchEvent) : Void
 	{
+		this.pointerId = event.touchPointID;
 		this.target = event.target;
 		this.altModifier = event.altKey;
 		this.ctrlModifier = event.ctrlKey;
@@ -79,6 +77,6 @@ class PointerData
 	
 	public function toString() : String
 	{
-		return "target : " + target + " localPosition :"  + localPosition + " worldPosition : " + worldPosition + " deltaScroll : " + deltaScroll  + " altModifier : " + altModifier + " ctrlModifier :" + ctrlModifier; 
+		return "PointerId : " + pointerId + " target : " + target + " localPosition :"  + localPosition + " worldPosition : " + worldPosition + " deltaScroll : " + deltaScroll  + " altModifier : " + altModifier + " ctrlModifier :" + ctrlModifier; 
 	}
 }
