@@ -35,4 +35,12 @@ class PointerBehaviour
 		
 	}
 	
+	public function delete() : Void
+	{
+		m_worldSignals = null;
+		if (m_signals != null)
+			m_signals.delete();
+
+	}
+	
 }

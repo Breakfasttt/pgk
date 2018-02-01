@@ -162,7 +162,6 @@ class TestMe
 		Lib.current.stage.addChild(redSquare);
 		
 		mouseBehaviour = new DragBehaviour(redSquare);
-		mouseBehaviour.setBoundary(0, app.width, 0, app.height);
 		mouseBehaviour.moveCb = updatePosition.bind(_, redSquare);
 	}
 	

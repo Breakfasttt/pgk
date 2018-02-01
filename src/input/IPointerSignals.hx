@@ -77,4 +77,10 @@ interface IPointerSignals
 	 */
 	private function set_localMoveEnable(value:Bool):Bool;
 	
+	/**
+	 * function delete to clean reference and created object.
+	 */
+	public function delete() : Void;
+	
+	
 }

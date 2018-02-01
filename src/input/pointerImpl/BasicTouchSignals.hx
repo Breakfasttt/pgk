@@ -212,6 +212,30 @@ class BasicTouchSignals implements IPointerSignals
 		this.rollOver.dispatch(m_lastMouseData);
 	}
 	
+	public function delete() : Void
+	{
+		removeListeners();
+		
+		this.click.removeAll();
+		this.doubleClick.removeAll();
+		this.press.removeAll();
+		this.release.removeAll();
+		this.move.removeAll();
+		this.rollOver.removeAll();
+		this.rollOut.removeAll();
+		
+		this.click = null;
+		this.doubleClick = null;
+		this.press = null;
+		this.release = null;
+
+		this.move = null;
+		this.rollOver = null;
+		this.rollOut = null;
+		
+		this.objectRef = null;
+	}
+	
 	//} ========================================	
 	
 	
