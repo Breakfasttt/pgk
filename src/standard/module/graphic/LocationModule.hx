@@ -4,6 +4,7 @@ import core.Application;
 import core.module.Module;
 import flash.display.DisplayObjectContainer;
 import flash.display.StageScaleMode;
+import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.display.Stage;
 import openfl.events.Event;
@@ -122,6 +123,9 @@ class LocationModule extends Module <LocationGroup>
 	{
 		if (group.resizer == null || group.display.skin == null)
 			return;
+		
+		trace("Resize with window : " + Lib.application.window.width + "/" + Lib.application.window.height);
+		trace("Resize with stage : " + this.m_stageRef.stageWidth + "/" + this.m_stageRef.stageHeight);
 			
 		if (group.display.skin.parent == this.m_stageRef)
 			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), this.m_stageRef.stageWidth, this.m_stageRef.stageHeight, group.scale.scale);

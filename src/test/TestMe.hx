@@ -169,7 +169,7 @@ class TestMe
 		app.addEntity(firstElement);
 		
 		locModule.debugShowLocGroupRect();
-		locModule.forceResize();
+		//locModule.forceResize();
 	}
 	
 	

@@ -21,6 +21,7 @@ class DebugModule extends Module<DebugGroup>
 		m_fpsTF.textColor = 0xff0000;
 		m_fpsTF.width = 300;
 		m_fpsTF.height = 50;
+		m_fpsTF.mouseEnabled = false;
 	}
 	
 	override function onAddedToApplication():Void 
