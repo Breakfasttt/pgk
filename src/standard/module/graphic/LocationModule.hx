@@ -1,6 +1,7 @@
 package standard.module.graphic;
 
 import core.Application;
+import core.entity.Entity;
 import core.module.Module;
 import flash.display.DisplayObjectContainer;
 import flash.display.StageScaleMode;
@@ -97,18 +98,39 @@ class LocationModule extends Module <LocationGroup>
 	}
 	
 	/**
-	 * Get the LocationGroup parent of the specified displayObjectContainer (if exist, else return null)
+	 * Get a location group by his entity. (if exist, else return null
+	 * @param	e
+	 * @return
+	 */
+	public function getEntityLocation(e : Entity) : LocationGroup
+	{
+		if (e == null)
+			return null;
+			
+		for (group in m_compGroups)
+		{
+			if (group.entityRef == e)
+			{
+				return group;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Get the LocationGroup  of the specified displayObjectContainer (if exist, else return null)
 	 * @param	parent
 	 * @return
 	 */
-	private function getParentLocation(parent : DisplayObjectContainer) : LocationGroup
+	public function getLocation(skin : DisplayObjectContainer) : LocationGroup
 	{
-		if (parent == null)
+		if (skin == null)
 			return null;
 		
 		for (group in m_compGroups)
 		{
-			if (group.display.skin == parent)
+			if (group.display.skin == skin)
 				return group;
 		}
 		
@@ -124,14 +146,14 @@ class LocationModule extends Module <LocationGroup>
 		if (group.resizer == null || group.display.skin == null)
 			return;
 		
-		trace("Resize with window : " + Lib.application.window.width + "/" + Lib.application.window.height);
-		trace("Resize with stage : " + this.m_stageRef.stageWidth + "/" + this.m_stageRef.stageHeight);
+		//trace("Resize with window : " + Lib.application.window.width + "/" + Lib.application.window.height);
+		//trace("Resize with stage : " + this.m_stageRef.stageWidth + "/" + this.m_stageRef.stageHeight);
 			
 		if (group.display.skin.parent == this.m_stageRef)
 			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), this.m_stageRef.stageWidth, this.m_stageRef.stageHeight, group.scale.scale);
 		else if(group.display.skin.parent != null)
 		{
-			var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
+			var parentGroup : LocationGroup = getLocation(group.display.skin.parent);
 			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), parentGroup.getWidth(), parentGroup.getHeight(), group.scale.scale);
 		}
 	}
@@ -150,7 +172,7 @@ class LocationModule extends Module <LocationGroup>
 		
 		var pWidth : Float =  0.0; 
 		var pHeight : Float = 0.0; 
-		var parentGroup : LocationGroup = getParentLocation(group.display.skin.parent);
+		var parentGroup : LocationGroup = getLocation(group.display.skin.parent);
 		
 		if (parentGroup != null)
 		{

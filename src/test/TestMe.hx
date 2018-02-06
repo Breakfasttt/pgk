@@ -4,7 +4,8 @@ import core.entity.Entity;
 import input.behaviour.impl.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
-import standard.components.input.DragComponent;
+import standard.components.input.PointerBehavioursComponent;
+import standard.components.input.utils.DragEntity;
 import standard.components.space2d.UtilitySize2D;
 import standard.components.space2d.resizer.impl.RatioResizer;
 import standard.factory.EntityFactory;
@@ -12,7 +13,7 @@ import standard.module.debug.DebugModule;
 import standard.module.graphic.GameElementModule;
 import standard.module.graphic.LayerModule;
 import standard.module.graphic.LocationModule;
-import standard.module.input.PointerBehaviourModule;
+import standard.module.input.PointerBehavioursModule;
 import test.component.CompTest;
 import test.component.CompTest2;
 import test.module.ModuleTest;
@@ -150,12 +151,12 @@ class TestMe
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
 		var gameElementModule : GameElementModule = new GameElementModule(layModule);
 		var locModule : LocationModule = new LocationModule(Lib.current.stage);
-		var pointerModule : PointerBehaviourModule = new PointerBehaviourModule();
+		var pointerModule : PointerBehavioursModule = new PointerBehavioursModule();
 		
 		app.addModule(layModule, 0);
 		app.addModule(gameElementModule, 1);
-		app.addModule(pointerModule, 2);
-		app.addModule(locModule, 3);
+		app.addModule(locModule, 2);
+		app.addModule(pointerModule, 3);
 		app.addModule(new DebugModule(), 4);
 		
 		
@@ -163,12 +164,15 @@ class TestMe
 		mainLayer.add(new RatioResizer());
 		
 		var firstElement : Entity = EntityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
-		firstElement.add(new DragComponent());
+		
+		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
+		entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
+		firstElement.add(entPointerBehaviour);			
 		
 		app.addEntity(mainLayer);
 		app.addEntity(firstElement);
 		
-		locModule.debugShowLocGroupRect();
+		//locModule.debugShowLocGroupRect();
 		//locModule.forceResize();
 	}
 	
