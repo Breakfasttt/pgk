@@ -1,4 +1,5 @@
 package standard.components.graphic.display;
+import assets.model.Model;
 import core.component.Component;
 import core.entity.Entity;
 import msignal.Signal.Signal0;
@@ -19,7 +20,7 @@ class Display extends Component
 	 * Skin.name is set to Entity.name when added to the application on LocationModule
 	 * default = null;
 	 */
-	public var skin(default, null) : DisplayObjectContainer;
+	public var model(default, null) : Model;
 	
 	/**
 	 * When True, the Location Module draw a colored Rectangle whoe represents the Box of this display
@@ -31,7 +32,7 @@ class Display extends Component
 	public function new()
 	{
 		super();
-		this.skin = null;
+		this.model = null;
 	}
 	
 	/**
@@ -39,26 +40,13 @@ class Display extends Component
 	 */
 	public function setSkinName(entity : Entity) : Void
 	{
-		if (this.skin == null && entity == null)
+		if (this.model == null  && entity == null)
+			return;
+			
+		if (this.model.skin == null)
 			return;
 		
-		this.skin.name = entity.name;
+		this.model.skin.name = entity.name;
 	}
-	
-	/**
-	 * Usefull function to create a square when a Display doesn't exist or can't be created.
-	 * @return Sprite
-	 */
-	private function createSquare(w : Float = 50.0, h : Float = 50, color : Null<UInt> = null) : Sprite
-	{
-		if (color == null)
-			color = Color.randomColor();
-		
-		var result : Sprite = new Sprite();
-		result.graphics.beginFill(color);
-		result.graphics.drawRect(0, 0, w, h);
-		result.graphics.endFill();
-		return result;
-	}	
 	
 }

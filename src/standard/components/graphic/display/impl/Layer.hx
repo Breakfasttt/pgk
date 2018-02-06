@@ -1,5 +1,8 @@
 package standard.components.graphic.display.impl;
 
+import assets.model.Model;
+import assets.model.impl.EmptyModel;
+import assets.model.impl.SimpleModel;
 import core.component.Component;
 import flash.display.DisplayObjectContainer;
 import openfl.display.Sprite;
@@ -20,8 +23,8 @@ class Layer extends Display
 	{
 		super();
 		
-		if (this.skin == null)	
-			this.skin = new Sprite();
+		if (this.model == null)	
+			this.model = new EmptyModel();
 	}
 	
 }

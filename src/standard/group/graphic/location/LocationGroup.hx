@@ -42,7 +42,7 @@ class LocationGroup extends ComponentGroup
 	public function getHeight() : Float
 	{
 		if (utilitySize == null)
-			return display.skin.height; // scale already taken in this parameters
+			return display.model.skin.height; // scale already taken in this parameters
 			
 		return utilitySize.height * scale.scale.y;
 	}
@@ -54,7 +54,7 @@ class LocationGroup extends ComponentGroup
 	public function getWidth() : Float
 	{
 		if (utilitySize == null)
-			return display.skin.width; // scale already taken in this parameters
+			return display.model.skin.width; // scale already taken in this parameters
 			
 		return utilitySize.width * scale.scale.x;
 	}
@@ -66,7 +66,7 @@ class LocationGroup extends ComponentGroup
 	public function getWidthAtScale1() : Float
 	{
 		if (utilitySize == null)
-			return display.skin.width / display.skin.scaleX; 
+			return display.model.skin.width / display.model.skin.scaleX; 
 			
 		return utilitySize.width;
 	}	
@@ -79,7 +79,7 @@ class LocationGroup extends ComponentGroup
 	public function getHeightAtScale1() : Float
 	{
 		if (utilitySize == null)
-			return display.skin.height / display.skin.scaleY; 
+			return display.model.skin.height / display.model.skin.scaleY; 
 			
 		return utilitySize.height;
 	}

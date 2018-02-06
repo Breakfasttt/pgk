@@ -63,11 +63,11 @@ class DragEntity extends EntityPointerBehaviour
 		m_minPosition = new Vector2D();
 		m_maxPosition = new Vector2D();
 			
-		m_parentLocationRef = m_locModule.getLocation(m_locationRef.display.skin.parent);
+		m_parentLocationRef = m_locModule.getLocation(m_locationRef.display.model.skin.parent);
 			
 		m_locationRef.position.position2d.ratioMode = false;
 			
-		m_pointerBehaviour = new DragBehaviour(m_locationRef.display.skin);
+		m_pointerBehaviour = new DragBehaviour(m_locationRef.display.model.skin);
 		
 		cast(m_pointerBehaviour, DragBehaviour).startCb = onDragStart;
 		cast(m_pointerBehaviour, DragBehaviour).moveCb = onEntityMove;
@@ -85,7 +85,7 @@ class DragEntity extends EntityPointerBehaviour
 		else
 		{
 			if (m_parentLocationRef.position.position2d.ratioMode)
-				m_parentPosition.set(m_parentLocationRef.display.skin.x, m_parentLocationRef.display.skin.y); //improve this
+				m_parentPosition.set(m_parentLocationRef.display.model.skin.x, m_parentLocationRef.display.model.skin.y); //improve this
 			else
 				m_parentPosition.copy(m_parentLocationRef.position.position2d.anchor);
 				

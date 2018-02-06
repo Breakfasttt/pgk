@@ -40,8 +40,8 @@ class GameElementModule extends Module<GameElementGroup>
 	 */
 	private function removeFromStage(element : GameElementGroup) : Void
 	{
-		if (element.gameElement.skin != null && element.gameElement.skin.parent != null)
-			element.gameElement.skin.parent.removeChild(element.gameElement.skin);
+		if (element.gameElement.model != null && element.gameElement.model.skin != null && element.gameElement.model.skin.parent != null)
+			element.gameElement.model.skin.parent.removeChild(element.gameElement.model.skin);
 	}
 	
 	/**
@@ -53,14 +53,14 @@ class GameElementModule extends Module<GameElementGroup>
 		m_compGroups.sort(sortGroupFunc);
 		for (element in m_compGroups)
 		{
-			if (element.gameElement.skin == null)
+			if (element.gameElement.model.skin == null)
 				continue;
 			
 			removeFromStage(element);
 			layer = m_layerModule.getLayer(element.gameElement.entityLayerName);
 			
 			if (layer != null)
-				layer.skin.addChild(element.gameElement.skin);
+				layer.model.skin.addChild(element.gameElement.model.skin);
 		}
 	}	
 	

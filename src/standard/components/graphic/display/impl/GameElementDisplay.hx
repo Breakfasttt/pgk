@@ -1,4 +1,5 @@
 package standard.components.graphic.display.impl;
+import assets.model.impl.SimpleModel;
 import flash.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
@@ -19,47 +20,30 @@ class GameElementDisplay extends Display
 	 * If layer not found or Null, the Display will not be add to the display list
 	 */
 	public var entityLayerName : String;
-		
-	/**
-	 * The name of the model
-	 */
-	public var modelName(default,null) : String;
 	
 	public function new(entityLayerName : String, modelName:String) 
 	{
 		super();
 		this.entityLayerName = entityLayerName;
-		this.modelName = modelName;
-		applyModel();
+		this.setModel(modelName);
 	}
 	
 	private function removeModel() : Void
 	{
-		if(this.skin != null)
-			this.skin = null;
+		if (this.model != null)
+		{
+			this.model.delete();
+			this.model = null;
+		}
 	}	
 	
 	public function setModel(modelName : String) : Void
 	{
-		//todo 
-	}
-	
-	private function applyModel() : Void
-	{
-		removeModel();
-		
-		if (!Assets.exists(this.modelName, AssetType.IMAGE))
-		{
-			trace("Warning : Can't find " + this.modelName  + ". A Random Colored Square 50*50 is created for this display");
-			this.skin = this.createSquare();
-		}
+		if (this.model != null)
+			this.model.setModel(modelName);
 		else
-		{
-			//todo => manage many type of model (animation, bitmap, movieclip, etc)
-			var bmd : BitmapData = Assets.getBitmapData(this.modelName);
-			this.skin = new Sprite(); 
-			this.skin .addChild(new Bitmap(bmd));
-		}
+			this.model = new SimpleModel(modelName);
+			
 	}
 	
 }

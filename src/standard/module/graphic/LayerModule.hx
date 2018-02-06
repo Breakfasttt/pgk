@@ -44,8 +44,8 @@ class LayerModule extends Module<LayerGroup>
 	 */
 	private function removeFromStage(layer : LayerGroup) : Void
 	{
-		if (layer.layer.skin.parent != null)
-			layer.layer.skin.parent.removeChild(layer.layer.skin);
+		if (layer.layer.model.skin.parent != null)
+			layer.layer.model.skin.parent.removeChild(layer.layer.model.skin);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ class LayerModule extends Module<LayerGroup>
 		for (layer in m_compGroups)
 		{
 			removeFromStage(layer);
-			this.stageRef.addChild(layer.layer.skin);
+			this.stageRef.addChild(layer.layer.model.skin);
 		}
 	}
 	

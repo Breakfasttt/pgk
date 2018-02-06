@@ -1,12 +1,10 @@
 package test;
 import core.Application;
 import core.entity.Entity;
-import input.behaviour.impl.DragBehaviour;
 import openfl.Lib;
 import openfl.display.Sprite;
 import standard.components.input.PointerBehavioursComponent;
 import standard.components.input.utils.DragEntity;
-import standard.components.space2d.UtilitySize2D;
 import standard.components.space2d.resizer.impl.RatioResizer;
 import standard.factory.EntityFactory;
 import standard.module.debug.DebugModule;
@@ -19,7 +17,7 @@ import test.component.CompTest2;
 import test.module.ModuleTest;
 import test.module.ModuleTest2;
 import tools.math.Anchor;
-import tools.math.Vector2D;
+import assets.model.Model;
 
 /**
  * A Class who contains some static function to test functionnality
