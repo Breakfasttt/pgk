@@ -1,4 +1,5 @@
 package assets.model;
+import assets.model.library.ModelData;
 import flash.display.DisplayObjectContainer;
 
 /**
@@ -6,7 +7,7 @@ import flash.display.DisplayObjectContainer;
  */
 interface IModel 
 {
-	public var modelName(default, null) : String;
+	public var modelData(default, null) : ModelData;
 	
 	public var skin(default, null) : DisplayObjectContainer;
 	
@@ -24,11 +25,7 @@ interface IModel
 	
 	private function prepare() : Void;
 	
-	private function release() : Void;
-	
 	public function delete() : Void;
-	
-	public function setModel(modelName : String) : Void;
 	
 	public function setAnim(animName : String) : Void;
 	

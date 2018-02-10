@@ -39,10 +39,11 @@ class GameElementDisplay extends Display
 	
 	public function setModel(modelName : String) : Void
 	{
-		if (this.model != null)
+		//todo
+		/*if (this.model != null)
 			this.model.setModel(modelName);
 		else
-			this.model = new SimpleModel(modelName);
+			this.model = new SimpleModel(modelName);*/
 			
 	}
 	

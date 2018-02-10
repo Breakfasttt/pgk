@@ -1,6 +1,7 @@
 package assets.model.impl;
 
 import assets.model.Model;
+import assets.model.library.ModelData;
 import flash.display.BitmapData;
 import openfl.Assets;
 import openfl.display.Bitmap;
@@ -18,16 +19,16 @@ class SimpleModel extends Model
 	private var m_bitmap : Bitmap;
 	
 	
-	public function new(modelName:String) 
+	public function new(modelData:ModelData) 
 	{
-		super(modelName);
+		super(modelData);
 	}
 	
 	override function prepare():Void 
 	{
 		try
 		{
-			m_bitmapDataRef = Assets.getBitmapData(this.modelName);
+			m_bitmapDataRef = Assets.getBitmapData(this.modelData.mainResourcePath);
 			m_bitmap = new Bitmap(m_bitmapDataRef);
 			this.skin = new Sprite();
 			this.skin.addChild(m_bitmap);
@@ -35,35 +36,17 @@ class SimpleModel extends Model
 		catch (e : Dynamic)
 		{
 			this.skin = this.createSquare();
-			trace("Can't find modelName :" + this.modelName + " in assets. Replace it with random color 50*50 square");
+			trace("Can't find ressource :" + this.modelData.mainResourcePath + " in assets for this model : " + this.modelData.name + ". Replace it with random color 50*50 square");
 			
 		}
 	}
 	
-	override function release():Void 
+	override public function delete():Void 
 	{
 		this.skin.removeChild(m_bitmap);
 		m_bitmap = null;
 		m_bitmapDataRef = null;
 		this.skin = null;
-	}
-	
-	override public function delete():Void 
-	{
-		this.release();
-	}
-	
-	override public function setModel(modelName:String):Void 
-	{
-		if (Assets.getBitmapData(modelName) == null)
-		{
-			trace("Can't set new model because not found on Asset : " + modelName);
-			return;
-		}
-		
-		super.setModel(modelName);
-		release();
-		prepare();
 	}
 	
 	override public function setAnim(animName : String):Void 

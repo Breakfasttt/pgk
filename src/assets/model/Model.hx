@@ -1,4 +1,5 @@
 package assets.model;
+import assets.model.library.ModelData;
 import flash.display.DisplayObjectContainer;
 import openfl.display.Sprite;
 import tools.misc.Color;
@@ -12,7 +13,7 @@ class Model implements IModel
 
 	public static var firstFrameAnim(default, null) : String = "firstFrameAnim";
 	
-	public var modelName(default, null):String;
+	public var modelData(default, null) : ModelData;
 	
 	public var skin(default, null):DisplayObjectContainer;
 	
@@ -28,9 +29,9 @@ class Model implements IModel
 	
 	public var animSpeed:Int;
 	
-	public function new(modelName : String) 
+	public function new(modelData : ModelData) 
 	{
-		this.modelName = modelName;
+		this.modelData = modelData;
 		this.skin = null;
 		m_animsNames = new Array();
 		this.currentAnim = Model.firstFrameAnim;
@@ -46,19 +47,9 @@ class Model implements IModel
 		trace("Model:: prepare() must be override");
 	}
 	
-	function release():Void 
-	{
-		trace("Model:: release() must be override");
-	}
-	
 	public function delete():Void 
 	{
 		trace("Model:: delete() must be override");
-	}
-	
-	public function setModel(modelName:String):Void 
-	{
-		this.modelName = modelName;
 	}
 	
 	public function setAnim(animName:String):Void 

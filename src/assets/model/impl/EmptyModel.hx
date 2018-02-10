@@ -1,6 +1,8 @@
 package assets.model.impl;
 
 import assets.model.Model;
+import assets.model.library.ModelData;
+import assets.model.library.ModelType;
 import flash.display.BitmapData;
 import openfl.Assets;
 import openfl.display.Bitmap;
@@ -16,7 +18,7 @@ class EmptyModel extends Model
 	
 	public function new() 
 	{
-		super("");
+		super(new ModelData("emptyModel", "", ModelType.empty.getName(), ""));
 	}
 	
 	override function prepare():Void 
@@ -24,19 +26,9 @@ class EmptyModel extends Model
 		this.skin = new Sprite();
 	}
 	
-	override function release():Void 
-	{
-		this.skin = null;
-	}
-	
 	override public function delete():Void 
 	{
-		this.release();
-	}
-	
-	override public function setModel(modelName:String):Void 
-	{
-		//not special effect for EmptyModel. 
+		this.skin = null;
 	}
 	
 	override public function setAnim(animName : String):Void 
