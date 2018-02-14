@@ -1,7 +1,9 @@
 package standard.factory;
 import assets.model.Model;
 import assets.model.library.ModelLibrary;
+import assets.model.library.ModelType;
 import core.entity.Entity;
+import standard.components.graphic.animation.Animation;
 import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.Display;
 import standard.components.graphic.display.impl.GameElementDisplay;
@@ -53,6 +55,11 @@ class EntityFactory
 	{
 		var e : Entity = new Entity(name);
 		var model : Model = m_modelLibrary.getModel(modelName);
+		
+		if (model.modelData.type == ModelType.spriteSheet)
+			e.add(new Animation(model, "walk-front")); // todo => improve this
+			
+		
 		e.add(new GameElementDisplay(parentLayer, model));
 		e.add(new Depth(depth));
 		e.add(new Position2D(position));

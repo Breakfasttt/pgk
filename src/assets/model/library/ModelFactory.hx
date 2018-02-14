@@ -2,6 +2,7 @@ package assets.model.library;
 import assets.model.Model;
 import assets.model.impl.EmptyModel;
 import assets.model.impl.SimpleModel;
+import assets.model.impl.SpriteSheetModel;
 
 /**
  * ...
@@ -56,7 +57,7 @@ class ModelFactory
 	private function createSpriteSheetModel(modelData : ModelData) : Model
 	{
 		//todo
-		return null;
+		return new SpriteSheetModel(modelData);
 	}
 	
 	

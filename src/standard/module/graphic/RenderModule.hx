@@ -46,6 +46,9 @@ class RenderModule extends Module<RenderGroup>
 	{
 		for (group in m_compGroups)
 		{
+			if (group.display.model == null)
+				continue;
+			
 			if (group.animation == null && group.display.renderBitmap.bitmapData == null)
 			{
 				group.display.renderBitmap.bitmapData = group.display.model.getFirstFrame();

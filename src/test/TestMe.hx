@@ -7,6 +7,7 @@ import core.Application;
 import core.entity.Entity;
 import openfl.Lib;
 import openfl.display.Sprite;
+import standard.components.graphic.animation.Animation;
 import standard.components.input.PointerBehavioursComponent;
 import standard.components.input.utils.DragEntity;
 import standard.components.space2d.resizer.impl.RatioResizer;
@@ -166,9 +167,9 @@ class TestMe
 		
 		app.addModule(layModule, 0);
 		app.addModule(gameElementModule, 1);
-		app.addModule(locModule, 2);
-		app.addModule(pointerModule, 3);
-		app.addModule(renderModule, 4);
+		app.addModule(renderModule, 2);
+		app.addModule(locModule, 3);
+		app.addModule(pointerModule, 4);
 		app.addModule(new DebugModule(), 5);
 		
 		
@@ -177,7 +178,7 @@ class TestMe
 		
 		var firstElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
 		
-		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "test", 1, Anchor.topCenter, Anchor.topLeft, 1.0, 1.0);
+		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "spritesheet1", 1, Anchor.topCenter, Anchor.topLeft, 1.0, 1.0);
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
@@ -188,7 +189,7 @@ class TestMe
 		app.addEntity(firstElement);
 		
 		
-		//locModule.debugShowLocGroupRect();
+		locModule.debugShowLocGroupRect();
 		//locModule.forceResize();
 	}
 	

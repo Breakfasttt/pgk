@@ -48,10 +48,10 @@ class ModelDataLoader
 		var result : Array<ModelData> = new Array<ModelData>();
 		var tempData : ModelData = null;
 		var modelType : ModelType = null;
-		var modelJsonData : String = "";
 		
 		for (modelData in dataJson)
 		{
+			var modelJsonData : String = "";
 			modelType = this.getModelTypeWithExtention(modelData.mainResourcePath);
 			
 			if (modelType == ModelType.spriteSheet)

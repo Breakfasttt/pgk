@@ -118,7 +118,7 @@ class Animation extends Component
 		if (!m_needUpdate)
 			return;
 			
-		m_progression += dt * currentFrameRate * speedRatio * m_sens;
+		m_progression += (dt / 1000) * currentFrameRate * speedRatio * m_sens;
 		
 		if (m_progression < 0.0)
 		{
@@ -129,7 +129,7 @@ class Animation extends Component
 			m_progression = loop ? 0.0 : currentMaxFrame;
 		}
 		
-		currentFrame = Math.ceil(m_progression);
+		currentFrame = Math.floor(m_progression);
 	}
 	
 	public function checkAnimEnded() : Void

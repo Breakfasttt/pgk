@@ -21,13 +21,20 @@ class ModelData
 		this.mainResourcePath = mainResourcePath;
 		this.type = type;
 		
-		try
-		{
-			this.jsonData = Json.parse(jsonData);
-		}
-		catch (e : Dynamic)
-		{
+		if (jsonData == null || jsonData == "")
 			this.jsonData = null;
+		else
+		{
+		
+			try
+			{
+				this.jsonData = Json.parse(jsonData);
+			}
+			catch (e : Dynamic)
+			{
+				trace("WARNING : Json parsing failed for model : " + this.name + " reason : " + e);
+				this.jsonData = null;
+			}
 		}
 	}
 }
