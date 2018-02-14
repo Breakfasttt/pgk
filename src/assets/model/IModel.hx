@@ -1,6 +1,8 @@
 package assets.model;
 import assets.model.library.ModelData;
 import flash.display.DisplayObjectContainer;
+import openfl.display.BitmapData;
+import tools.math.Vector2D;
 
 /**
  * @author Breakyt
@@ -9,38 +11,29 @@ interface IModel
 {
 	public var modelData(default, null) : ModelData;
 	
-	public var skin(default, null) : DisplayObjectContainer;
+	private var m_frameratesByAnim :  Map<String, Int>;
 	
-	public var currentAnim(default, null) : String;
+	private var m_bmdByAnim : Map<String, Array<BitmapData>>;
 	
-	public var currentFrame : Int;
-	
-	public var loop : Bool;
-	
-	public var rewind : Bool;
-	
-	public var animSpeed : Int;
-	
-	private var m_animsNames : Array<String>;
+	private var m_offsetByAnim :  Map<String, Array<Vector2D>>;
 	
 	private function prepare() : Void;
 	
 	public function delete() : Void;
 	
-	public function setAnim(animName : String) : Void;
-	
 	public function getAnims() : Array<String>;
 	
-	public function goToFrame(frame : Int) : Void;
+	public function getBitmapData(frame : Int, anim : String = null) : BitmapData;
 	
-	public function stop() : Void;
+	public function getBitmapDataOffset(frame : Int, anim : String = null) : Vector2D;
 	
-	public function play() : Void;
+	public function getFirstFrame() : BitmapData;
 	
-	public function goToAndStop(frame : Int) : Void;
+	public function getNbreFrame(anim : String = null) : Int;
 	
-	public function goToAndPlay(frame : Int) : Void;
+	public function getAnimFrameRate(anim : String = null) : Int;
 	
-	public function update(dt : Float) : Void;
+	public function exists(anim : String) : Bool; 
+	
 	
 }

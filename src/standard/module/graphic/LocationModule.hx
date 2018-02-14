@@ -133,7 +133,7 @@ class LocationModule extends Module <LocationGroup>
 			if (group.display.model == null)
 				continue;
 			
-			if (group.display.model.skin == skin)
+			if (group.display.skin == skin)
 				return group;
 		}
 		
@@ -152,11 +152,11 @@ class LocationModule extends Module <LocationGroup>
 		//trace("Resize with window : " + Lib.application.window.width + "/" + Lib.application.window.height);
 		//trace("Resize with stage : " + this.m_stageRef.stageWidth + "/" + this.m_stageRef.stageHeight);
 			
-		if (group.display.model.skin.parent == this.m_stageRef)
+		if (group.display.skin.parent == this.m_stageRef)
 			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), this.m_stageRef.stageWidth, this.m_stageRef.stageHeight, group.scale.scale);
-		else if(group.display.model.skin.parent != null)
+		else if(group.display.skin.parent != null)
 		{
-			var parentGroup : LocationGroup = getLocation(group.display.model.skin.parent);
+			var parentGroup : LocationGroup = getLocation(group.display.skin.parent);
 			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), parentGroup.getWidth(), parentGroup.getHeight(), group.scale.scale);
 		}
 	}
@@ -167,22 +167,22 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	private function relocate(group : LocationGroup) : Void
 	{
-		if (group.display.model == null || group.display.model.skin.parent == null)
+		if (group.display.model == null || group.display.skin.parent == null)
 			return;
 		
-		group.display.model.skin.scaleX = group.scale.scale.x;
-		group.display.model.skin.scaleY = group.scale.scale.y;
+		group.display.skin.scaleX = group.scale.scale.x;
+		group.display.skin.scaleY = group.scale.scale.y;
 		
 		var pWidth : Float =  0.0; 
 		var pHeight : Float = 0.0; 
-		var parentGroup : LocationGroup = getLocation(group.display.model.skin.parent);
+		var parentGroup : LocationGroup = getLocation(group.display.skin.parent);
 		
 		if (parentGroup != null)
 		{
 			pWidth = parentGroup.getWidth();
 			pHeight = parentGroup.getHeight();
 		}
-		else if (group.display.model.skin.parent == this.m_stageRef)
+		else if (group.display.skin.parent == this.m_stageRef)
 		{
 			pWidth = this.m_stageRef.stageWidth;
 			pHeight = this.m_stageRef.stageHeight;
@@ -193,12 +193,12 @@ class LocationModule extends Module <LocationGroup>
 			pHeight = m_appRef.height;
 		}
 		
-		group.position.position2d.relocate(group.display.model.skin, pWidth, pHeight);
+		group.position.position2d.relocate(group.display.skin, pWidth, pHeight);
 		
 		if(group.position.pivotRelative)
-			parentGroup.pivot.pivot.applyOffset(group.display.model.skin, pWidth, pHeight, true);
+			parentGroup.pivot.pivot.applyOffset(group.display.skin, pWidth, pHeight, true);
 		
-		group.pivot.pivot.applyOffset(group.display.model.skin, group.getWidth(), group.getHeight());
+		group.pivot.pivot.applyOffset(group.display.skin, group.getWidth(), group.getHeight());
 		
 		#if debug
 		{
@@ -220,7 +220,7 @@ class LocationModule extends Module <LocationGroup>
 		{
 			if (m_debugRect.exists(group))
 			{
-				group.display.model.skin.removeChild(m_debugRect.get(group));
+				group.display.skin.removeChild(m_debugRect.get(group));
 				m_debugRect.remove(group);
 			}
 		}
@@ -252,7 +252,7 @@ class LocationModule extends Module <LocationGroup>
 			sprite.mouseEnabled = false;
 			sprite.mouseChildren = false;
 			
-			group.display.model.skin.addChildAt(sprite,group.display.model.skin.numChildren);
+			group.display.skin.addChildAt(sprite,group.display.skin.numChildren);
 			m_debugRect.set(group, sprite);
 		}
 	}

@@ -7,6 +7,8 @@ package tools.math;
 class Vector2D 
 {
 
+	public static var origin : Vector2D = new Vector2D();
+	
 	/**
 	 * the X coordinate
 	 */

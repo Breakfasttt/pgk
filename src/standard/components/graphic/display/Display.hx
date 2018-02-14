@@ -3,6 +3,7 @@ import assets.model.Model;
 import core.component.Component;
 import core.entity.Entity;
 import msignal.Signal.Signal0;
+import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
 import openfl.display.Sprite;
@@ -23,6 +24,13 @@ class Display extends Component
 	public var model(default, null) : Model;
 	
 	/**
+	 * The display container where the current img of model is added
+	 */
+	public var skin(default, null):DisplayObjectContainer;
+	
+	public var renderBitmap(default, null) : Bitmap;
+	
+	/**
 	 * When True, the Location Module draw a colored Rectangle whoe represents the Box of this display
 	 * + a blue circle for the pivot
 	 * Use only for debug
@@ -33,6 +41,9 @@ class Display extends Component
 	{
 		super();
 		this.model = null;
+		this.skin = new Sprite();
+		this.renderBitmap = new Bitmap();
+		this.skin.addChild(this.renderBitmap);
 	}
 	
 	/**
@@ -40,13 +51,10 @@ class Display extends Component
 	 */
 	public function setSkinName(entity : Entity) : Void
 	{
-		if (this.model == null || entity == null)
-			return;
-			
-		if (this.model.skin == null)
+		if (this.skin == null)
 			return;
 		
-		this.model.skin.name = entity.name;
+		this.skin.name = entity.name;
 	}
 	
 	/**
@@ -56,9 +64,9 @@ class Display extends Component
 	{
 		if (this.model != null)
 		{
-			if (this.model.skin != null && this.model.skin.parent != null)
-				this.model.skin.parent.removeChild(this.model.skin);
-			
+			if (this.renderBitmap != null)
+				this.renderBitmap.bitmapData = null;
+				
 			this.model = null;
 		}
 	}	
@@ -73,6 +81,6 @@ class Display extends Component
 			releaseModel();
 			
 		this.model = model;
-	}	
+	}
 	
 }

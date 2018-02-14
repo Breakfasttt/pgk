@@ -1,7 +1,10 @@
 package assets.model;
 import assets.model.library.ModelData;
 import flash.display.DisplayObjectContainer;
+import openfl.display.BitmapData;
 import openfl.display.Sprite;
+import openfl.geom.Rectangle;
+import tools.math.Vector2D;
 import tools.misc.Color;
 
 /**
@@ -13,32 +16,20 @@ class Model implements IModel
 
 	public static var firstFrameAnim(default, null) : String = "firstFrameAnim";
 	
+	private var m_frameratesByAnim :  Map<String, Int>;
+	
 	public var modelData(default, null) : ModelData;
 	
-	public var skin(default, null):DisplayObjectContainer;
+	private var m_bmdByAnim : Map<String, Array<BitmapData>>;
 	
-	private var m_animsNames : Array<String>;
-	
-	public var currentAnim(default, null) : String;
-	
-	public var currentFrame:Int;
-	
-	public var loop:Bool;
-	
-	public var rewind:Bool;
-	
-	public var animSpeed:Int;
+	private var m_offsetByAnim :  Map<String, Array<Vector2D>>;
 	
 	public function new(modelData : ModelData) 
 	{
 		this.modelData = modelData;
-		this.skin = null;
-		m_animsNames = new Array();
-		this.currentAnim = Model.firstFrameAnim;
-		this.currentFrame = 1;
-		this.loop = true;
-		this.rewind = false;
-		this.animSpeed = 30;
+		m_frameratesByAnim = new Map();
+		m_bmdByAnim = new Map();
+		m_offsetByAnim = new Map();
 		this.prepare();
 	}	
 	
@@ -49,65 +40,98 @@ class Model implements IModel
 	
 	public function delete():Void 
 	{
-		trace("Model:: delete() must be override");
+		for (key in m_bmdByAnim.keys())
+		{
+			var arr = m_bmdByAnim.get(key);
+			if (arr == null)
+				continue;
+				
+			arr.splice(0, arr.length);
+		}
+		
+		m_bmdByAnim = new Map();
+		m_frameratesByAnim = new Map();
 	}
 	
-	public function setAnim(animName:String):Void 
+	public function exists(anim : String) : Bool
 	{
-		trace("Model:: setAnim() must be override");
+		return m_bmdByAnim.exists(anim);
 	}
 	
 	public function getAnims():Array<String> 
 	{
-		return m_animsNames.copy();
+		var result : Array<String> = new Array<String>();
+		
+		for (key in m_bmdByAnim.keys())
+			result.push(key);
+		
+		return result;
 	}
 	
-	
-	public function goToFrame(frame:Int):Void 
+	public function getAnimFrameRate(anim : String = null) : Int
 	{
-		trace("Model:: goToFrame() must be override");
+		return m_frameratesByAnim.get(anim);
 	}
 	
-	public function stop():Void 
+	public function getNbreFrame(anim : String = null) : Int
 	{
-		trace("Model:: stop() must be override");
+		anim = anim == null ? Model.firstFrameAnim : anim;
+		
+		if (!m_bmdByAnim.exists(anim))
+			return -1;
+			
+		if (m_bmdByAnim.get(anim) == null)
+			return -1;
+			
+		return m_bmdByAnim.get(anim).length;
 	}
 	
-	public function play():Void 
+	public function getFirstFrame() : BitmapData
 	{
-		trace("Model:: play() must be override");
+		return this.getBitmapData(1, Model.firstFrameAnim);
 	}
 	
-	public function goToAndStop(frame:Int):Void 
+	public function getBitmapData(frameIndex : Int, anim : String = null) : BitmapData
 	{
-		this.goToAndStop(frame);
-		this.stop();
+		anim = anim == null ? Model.firstFrameAnim : anim;
+		
+		var frames : Array<BitmapData> = m_bmdByAnim.get(anim);
+		
+		if (frames == null || frames.length == 0)
+			return null;
+			
+		if (frameIndex >= frames.length)
+			frameIndex = frames.length - 1;
+			
+		return frames[frameIndex];
 	}
 	
-	public function goToAndPlay(frame:Int):Void 
+	public function getBitmapDataOffset(frameIndex : Int, anim : String = null) : Vector2D
 	{
-		this.goToAndPlay(frame);
-		this.play();
-	}
-	
-	public function update(dt : Float) : Void
-	{
-		trace("Model:: update() must be override");
+		anim = anim == null ? Model.firstFrameAnim : anim;
+		
+		var frames : Array<Vector2D> = m_offsetByAnim.get(anim);
+		
+		if (frames == null || frames.length == 0)
+			return Vector2D.origin;
+			
+		if (frameIndex >= frames.length)
+			return Vector2D.origin;
+			
+		return frames[frameIndex];
 	}
 	
 	/**
 	 * Usefull function to create a square when a Display doesn't exist or can't be created.
 	 * @return Sprite
 	 */
-	private function createSquare(w : Float = 50.0, h : Float = 50, color : Null<UInt> = null) : Sprite
+	private function createSquare(w : Int = 50, h : Int = 50, color : Null<UInt> = null) : BitmapData
 	{
 		if (color == null)
 			color = Color.randomColor();
 		
-		var result : Sprite = new Sprite();
-		result.graphics.beginFill(color);
-		result.graphics.drawRect(0, 0, w, h);
-		result.graphics.endFill();
+		var result : BitmapData = new BitmapData(w,h,false,color);
+		result.fillRect(new Rectangle(0, 0, w, h), color);
 		return result;
 	}		
 	

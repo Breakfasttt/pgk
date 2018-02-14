@@ -14,11 +14,6 @@ import openfl.display.Sprite;
 class SimpleModel extends Model 
 {
 
-	private var m_bitmapDataRef : BitmapData;
-	
-	private var m_bitmap : Bitmap;
-	
-	
 	public function new(modelData:ModelData) 
 	{
 		super(modelData);
@@ -26,47 +21,20 @@ class SimpleModel extends Model
 	
 	override function prepare():Void 
 	{
+		var arr : Array<BitmapData> = [];
 		try
 		{
-			m_bitmapDataRef = Assets.getBitmapData(this.modelData.mainResourcePath);
-			m_bitmap = new Bitmap(m_bitmapDataRef);
-			this.skin = new Sprite();
-			this.skin.addChild(m_bitmap);
+			arr.push( Assets.getBitmapData(this.modelData.mainResourcePath));
 		}
 		catch (e : Dynamic)
 		{
-			this.skin = this.createSquare();
+			arr.push(this.createSquare());
 			trace("Can't find ressource :" + this.modelData.mainResourcePath + " in assets for this model : " + this.modelData.name + ". Replace it with random color 50*50 square");
-			
 		}
+		
+		m_bmdByAnim.set(Model.firstFrameAnim, arr);
+		m_offsetByAnim.set(Model.firstFrameAnim, new Array());
+		m_frameratesByAnim.set(Model.firstFrameAnim, 1);
 	}
-	
-	override public function delete():Void 
-	{
-		this.skin.removeChild(m_bitmap);
-		m_bitmap = null;
-		m_bitmapDataRef = null;
-		this.skin = null;
-	}
-	
-	override public function setAnim(animName : String):Void 
-	{
-		//not special for SimpleModel. A simple model is a unique bitmap
-	}
-	
-	override public function stop():Void 
-	{
-		//not special for SimpleModel. A simple model is a unique bitmap
-	}
-	
-	override public function play():Void 
-	{
-		//not special for SimpleModel. A simple model is a unique bitmap
-	}
-	
-	override public function update(dt:Float):Void 
-	{
-		//not special for SimpleModel. A simple model is a unique bitmap
-	}
-	
+
 }

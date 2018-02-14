@@ -14,8 +14,6 @@ import openfl.display.Sprite;
  */
 class EmptyModel extends Model 
 {
-
-	
 	public function new(name : String) 
 	{
 		super(new ModelData(name, "", ModelType.empty, ""));
@@ -23,32 +21,8 @@ class EmptyModel extends Model
 	
 	override function prepare():Void 
 	{
-		this.skin = new Sprite();
-	}
-	
-	override public function delete():Void 
-	{
-		this.skin = null;
-	}
-	
-	override public function setAnim(animName : String):Void 
-	{
-		//not special effect for EmptyModel. 
-	}
-	
-	override public function stop():Void 
-	{
-		//not special effect for EmptyModel. 
-	}
-	
-	override public function play():Void 
-	{
-		//not special effect for EmptyModel. 
-	}
-	
-	override public function update(dt:Float):Void 
-	{
-		//not special effect for EmptyModel. 
+		m_bmdByAnim.set(Model.firstFrameAnim, new Array());
+		m_frameratesByAnim.set(Model.firstFrameAnim, 1);
 	}
 	
 }

@@ -15,6 +15,7 @@ import standard.module.debug.DebugModule;
 import standard.module.graphic.GameElementModule;
 import standard.module.graphic.LayerModule;
 import standard.module.graphic.LocationModule;
+import standard.module.graphic.RenderModule;
 import standard.module.input.PointerBehavioursModule;
 import test.component.CompTest;
 import test.component.CompTest2;
@@ -161,12 +162,14 @@ class TestMe
 		var gameElementModule : GameElementModule = new GameElementModule(layModule);
 		var locModule : LocationModule = new LocationModule(Lib.current.stage);
 		var pointerModule : PointerBehavioursModule = new PointerBehavioursModule();
+		var renderModule : RenderModule = new RenderModule();
 		
 		app.addModule(layModule, 0);
 		app.addModule(gameElementModule, 1);
 		app.addModule(locModule, 2);
 		app.addModule(pointerModule, 3);
-		app.addModule(new DebugModule(), 4);
+		app.addModule(renderModule, 4);
+		app.addModule(new DebugModule(), 5);
 		
 		
 		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
@@ -174,7 +177,7 @@ class TestMe
 		
 		var firstElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
 		
-		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "test2", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "test", 1, Anchor.topCenter, Anchor.topLeft, 1.0, 1.0);
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
