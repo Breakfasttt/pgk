@@ -8,5 +8,6 @@ enum ModelType
 {
 	unknow;
 	empty;
-	simple;	
+	simple;
+	spriteSheet;
 }

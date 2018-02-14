@@ -1,4 +1,5 @@
 package standard.components.graphic.display.impl;
+import assets.model.Model;
 import assets.model.impl.SimpleModel;
 import flash.display.Sprite;
 import openfl.display.Bitmap;
@@ -21,30 +22,17 @@ class GameElementDisplay extends Display
 	 */
 	public var entityLayerName : String;
 	
-	public function new(entityLayerName : String, modelName:String) 
+	/**
+	 * @param	entityLayerName : the name of the Layer Parent Entity. if not exist, Gameelement will be added to the Stage instead of a layer
+	 * @param	model
+	 */
+	public function new(entityLayerName : String, model:Model) 
 	{
 		super();
 		this.entityLayerName = entityLayerName;
-		this.setModel(modelName);
+		this.setModel(model);
 	}
 	
-	private function removeModel() : Void
-	{
-		if (this.model != null)
-		{
-			this.model.delete();
-			this.model = null;
-		}
-	}	
-	
-	public function setModel(modelName : String) : Void
-	{
-		//todo
-		/*if (this.model != null)
-			this.model.setModel(modelName);
-		else
-			this.model = new SimpleModel(modelName);*/
-			
-	}
+
 	
 }

@@ -53,7 +53,7 @@ class GameElementModule extends Module<GameElementGroup>
 		m_compGroups.sort(sortGroupFunc);
 		for (element in m_compGroups)
 		{
-			if (element.gameElement.model.skin == null)
+			if (element.gameElement.model == null || element.gameElement.model.skin == null)
 				continue;
 			
 			removeFromStage(element);

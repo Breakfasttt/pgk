@@ -130,6 +130,9 @@ class LocationModule extends Module <LocationGroup>
 		
 		for (group in m_compGroups)
 		{
+			if (group.display.model == null)
+				continue;
+			
 			if (group.display.model.skin == skin)
 				return group;
 		}

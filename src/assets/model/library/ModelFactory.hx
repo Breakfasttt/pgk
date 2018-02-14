@@ -29,6 +29,14 @@ class ModelFactory
 			}
 			case ModelType.simple :
 			{
+				return createSimpleModel(modelData);
+			}
+			case ModelType.spriteSheet :
+			{
+				return createSpriteSheetModel(modelData);
+			}
+			default : 
+			{
 				return createEmptyModel(modelData);
 			}
 		}
@@ -37,12 +45,18 @@ class ModelFactory
 	
 	private function createEmptyModel(modelData : ModelData) : Model
 	{
-		return new EmptyModel(modelData);	
+		return new EmptyModel(modelData.name);	
 	}
 	
 	private function createSimpleModel(modelData : ModelData) : Model
 	{
 		return new SimpleModel(modelData);
+	}
+	
+	private function createSpriteSheetModel(modelData : ModelData) : Model
+	{
+		//todo
+		return null;
 	}
 	
 	

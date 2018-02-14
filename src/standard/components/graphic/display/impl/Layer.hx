@@ -17,15 +17,17 @@ import standard.components.graphic.display.Display;
 class Layer extends Display 
 {
 	/**
-	 * You can specify your own DisplayObjectContainer. By default : Sprite()
+	 * You can specify your own Model. By default an  EmptyModel is created for layer
 	 * @param	container
 	 */
-	public function new(container : DisplayObjectContainer = null) 
+	public function new(customModel : Model = null) 
 	{
 		super();
 		
-		if (this.model == null)	
-			this.model = new EmptyModel();
+		if (customModel == null)	
+			customModel = new EmptyModel("");
+			
+		setModel(customModel);
 	}
 	
 }

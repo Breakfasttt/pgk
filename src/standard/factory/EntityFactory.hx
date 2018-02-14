@@ -1,4 +1,6 @@
 package standard.factory;
+import assets.model.Model;
+import assets.model.library.ModelLibrary;
 import core.entity.Entity;
 import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.Display;
@@ -17,6 +19,14 @@ import tools.math.Anchor;
 class EntityFactory 
 {
 
+	private var m_modelLibrary : ModelLibrary;
+	
+	
+	public function new(modelLibrary : ModelLibrary)
+	{
+		m_modelLibrary = modelLibrary;
+	}
+	
 	/**
 	 * A layer is a display container where other graphic Element can be added.
 	 * @param	layerName
@@ -25,7 +35,7 @@ class EntityFactory
 	 * @param	h
 	 * @return
 	 */
-	public static function createLayer(layerName : String, depth : Float, w : Float, h : Float, position : Anchor = null, pivot : Anchor = null) : Entity
+	public function createLayer(layerName : String, depth : Float, w : Float, h : Float, position : Anchor = null, pivot : Anchor = null) : Entity
 	{
 		var e : Entity = new Entity(layerName);
 		e.add(new Layer());
@@ -37,12 +47,13 @@ class EntityFactory
 		return e;
 	}
 	
-	public static function createGameElement(	name : String, parentLayer : String, assetPath : String, 
+	public function createGameElement(	name : String, parentLayer : String, modelName : String, 
 												depth : Float, position : Anchor, pivot : Anchor, 
 												scaleX : Float = 1.0, scaleY : Float = 1.0) : Entity
 	{
 		var e : Entity = new Entity(name);
-		e.add(new GameElementDisplay(parentLayer, assetPath));
+		var model : Model = m_modelLibrary.getModel(modelName);
+		e.add(new GameElementDisplay(parentLayer, model));
 		e.add(new Depth(depth));
 		e.add(new Position2D(position));
 		e.add(new Pivot2D(pivot));

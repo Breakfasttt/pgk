@@ -15,19 +15,11 @@ class ModelData
 	
 	public var jsonData(default, null) : Dynamic;
 	
-	public function new(name : String, mainResourcePath : String, type : String, jsonData : String) : Void
+	public function new(name : String, mainResourcePath : String, type : ModelType, jsonData : String) : Void
 	{
 		this.name = name;
 		this.mainResourcePath = mainResourcePath;
-		
-		try
-		{
-			this.type = Type.createEnum(ModelType, type);
-		}
-		catch (e : Dynamic)
-		{
-			this.type = ModelType.unknow;
-		}
+		this.type = type;
 		
 		try
 		{

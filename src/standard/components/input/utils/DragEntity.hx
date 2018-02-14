@@ -56,6 +56,12 @@ class DragEntity extends EntityPointerBehaviour
 		if (m_locationRef == null)
 			return;
 			
+		if (m_locationRef.display.model == null)
+			return;
+			
+		if (m_locationRef.display.model.skin == null)
+			return;
+			
 		m_startPosition = new Vector2D();
 		m_parentPosition = new Vector2D();
 		m_parentScale = new Vector2D();

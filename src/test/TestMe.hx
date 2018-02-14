@@ -1,4 +1,8 @@
 package test;
+import assets.model.library.ModelData;
+import assets.model.library.ModelDataLoader;
+import assets.model.library.ModelFactory;
+import assets.model.library.ModelLibrary;
 import core.Application;
 import core.entity.Entity;
 import openfl.Lib;
@@ -100,6 +104,10 @@ class TestMe
 		Lib.current.stage.addChild(line);
 		Lib.current.stage.addChild(line2);
 		
+		var modelLibrary : ModelLibrary = new ModelLibrary(new ModelFactory());
+		modelLibrary.loadModels("model/modelDescriptor.json");
+		var entityFactory : EntityFactory = new EntityFactory(modelLibrary);
+		
 		
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
 		var gameElementModule : GameElementModule = new GameElementModule(layModule);
@@ -109,18 +117,18 @@ class TestMe
 		app.addModule(gameElementModule, 1);
 		app.addModule(locModule, 2);
 		
-		var backLayer : Entity = EntityFactory.createLayer("backLayer", -1, app.width, app.height);
-		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
+		var backLayer : Entity = entityFactory.createLayer("backLayer", -1, app.width, app.height);
+		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
 		mainLayer.add(new RatioResizer());
 		
-		var firstElement : Entity = EntityFactory.createGameElement("square1", "backLayer","test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
-		var secondElement : Entity = EntityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		var firstElement : Entity = entityFactory.createGameElement("square1", "backLayer","test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
+		var secondElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
 		
-		var thirdElement : Entity = EntityFactory.createGameElement("square3", "mainLayer", "test.png", 2, new Anchor(50,50,false), Anchor.center, 0.5, 0.5);
-		var fourthElement : Entity = EntityFactory.createGameElement("square4", "mainLayer", "test.png", 3, Anchor.center, Anchor.center, 0.2, 0.2);
+		var thirdElement : Entity = entityFactory.createGameElement("square3", "mainLayer", "test.png", 2, new Anchor(50,50,false), Anchor.center, 0.5, 0.5);
+		var fourthElement : Entity = entityFactory.createGameElement("square4", "mainLayer", "test.png", 3, Anchor.center, Anchor.center, 0.2, 0.2);
 		
-		var miniLayer : Entity = EntityFactory.createLayer("miniLayer", 1, 50, 50, Anchor.center, Anchor.center);
-		var fifthElement : Entity = EntityFactory.createGameElement("square5", "miniLayer", "img/placeholder.png", 4, Anchor.topLeft, Anchor.topLeft, 0.3, 0.3);
+		var miniLayer : Entity = entityFactory.createLayer("miniLayer", 1, 50, 50, Anchor.center, Anchor.center);
+		var fifthElement : Entity = entityFactory.createGameElement("square5", "miniLayer", "img/placeholder.png", 4, Anchor.topLeft, Anchor.topLeft, 0.3, 0.3);
 		
 		app.addEntity(mainLayer);
 		//app.addEntity(backLayer);
@@ -145,6 +153,9 @@ class TestMe
 		app = new Application();
 		app.init("Application test", 1280, 720);
 		
+		var modelLibrary : ModelLibrary = new ModelLibrary(new ModelFactory());
+		modelLibrary.loadModels("model/modelDescriptor.json");
+		var entityFactory : EntityFactory = new EntityFactory(modelLibrary);
 		
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
 		var gameElementModule : GameElementModule = new GameElementModule(layModule);
@@ -158,21 +169,26 @@ class TestMe
 		app.addModule(new DebugModule(), 4);
 		
 		
-		var mainLayer : Entity = EntityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
+		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
 		mainLayer.add(new RatioResizer());
 		
-		var firstElement : Entity = EntityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		var firstElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		
+		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "test2", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
 		firstElement.add(entPointerBehaviour);			
 		
 		app.addEntity(mainLayer);
+		app.addEntity(secondElement);
 		app.addEntity(firstElement);
+		
 		
 		//locModule.debugShowLocGroupRect();
 		//locModule.forceResize();
 	}
+	
 	
 	
 }

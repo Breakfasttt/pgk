@@ -40,7 +40,7 @@ class Display extends Component
 	 */
 	public function setSkinName(entity : Entity) : Void
 	{
-		if (this.model == null  && entity == null)
+		if (this.model == null || entity == null)
 			return;
 			
 		if (this.model.skin == null)
@@ -48,5 +48,31 @@ class Display extends Component
 		
 		this.model.skin.name = entity.name;
 	}
+	
+	/**
+	 * Release the associed model. This function remove model from the display list too
+	 */
+	public function releaseModel() : Void
+	{
+		if (this.model != null)
+		{
+			if (this.model.skin != null && this.model.skin.parent != null)
+				this.model.skin.parent.removeChild(this.model.skin);
+			
+			this.model = null;
+		}
+	}	
+	
+	/**
+	 * Set the model of this display. Release the previous model if exist
+	 * @param	model
+	 */
+	public function setModel(model : Model) : Void
+	{
+		if (this.model != null)
+			releaseModel();
+			
+		this.model = model;
+	}	
 	
 }

@@ -16,9 +16,9 @@ class EmptyModel extends Model
 {
 
 	
-	public function new() 
+	public function new(name : String) 
 	{
-		super(new ModelData("emptyModel", "", ModelType.empty.getName(), ""));
+		super(new ModelData(name, "", ModelType.empty, ""));
 	}
 	
 	override function prepare():Void 

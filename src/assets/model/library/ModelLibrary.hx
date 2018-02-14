@@ -13,18 +13,17 @@ class ModelLibrary
 	
 	private var m_modelConfigFilePath : String;
 	
-	//private var m_modelFactory : ModelFactory;
+	private var m_modelFactory : ModelFactory;
 	
-	public function new()
+	private var m_modelLoader : ModelDataLoader;
+	
+	public function new(factory : ModelFactory)
 	{
 		m_modelConfigFilePath = "";
 		m_models = new Map();
+		m_modelFactory = factory;
 	}
 	
-	public function loadModels(modelConfigFilePath : String) : Void
-	{
-		m_modelConfigFilePath = modelConfigFilePath;
-	}
 	
 	public function hasModel(modelName : String) : Bool 
 	{
@@ -38,6 +37,9 @@ class ModelLibrary
 	
 	public function addModel(modelName : String, model : Model, eraseOld : Bool = false)
 	{
+		if (model == null)
+			return;
+		
 		var oldModel : Model = m_models.get(modelName);
 		
 		if (oldModel !=null && !eraseOld)
@@ -62,6 +64,21 @@ class ModelLibrary
 			model.delete();
 			
 		m_models.remove(modelName);
+	}
+	
+	public function loadModels(modelDescriptorFile : String) : Void
+	{
+		if (m_modelFactory == null)
+		{
+			trace("WARNING :: Can't load models because factory is null - ABORTED");
+			return;
+		}
+		
+		var modelDataLoader : ModelDataLoader = new ModelDataLoader(modelDescriptorFile);
+		var modelsData : Array<ModelData> = modelDataLoader.loadModelData();		
+		
+		for (data in modelsData)
+			this.addModel(data.name, m_modelFactory.createModel(data));
 	}
 	
 }

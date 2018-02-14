@@ -31,9 +31,9 @@ class Main extends Sprite
 		trace("=== Application starting.... ======");
 		this.removeEventListener(Event.ADDED_TO_STAGE, onMainAddedToStage);
 		var counter : ExecTimeCounter = new ExecTimeCounter();
-		counter.start();
+		//counter.start();
 		TestMe.testDragMouseBehaviour();
-		counter.stop();
+		//counter.stop();
 		trace("elapsed : " + counter.timeElapsed);
 		//TestMe.testApplicationModuleEntityAndComposant();
 		//TestMe.testDisplayAndRepresentation();		
