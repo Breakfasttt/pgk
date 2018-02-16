@@ -179,8 +179,8 @@ class LocationModule extends Module <LocationGroup>
 		
 		if (parentGroup != null)
 		{
-			pWidth = parentGroup.getWidth();
-			pHeight = parentGroup.getHeight();
+			pWidth = parentGroup.getWidthAtScale1();
+			pHeight = parentGroup.getHeightAtScale1();
 		}
 		else if (group.display.skin.parent == this.m_stageRef)
 		{

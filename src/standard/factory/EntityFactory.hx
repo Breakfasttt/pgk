@@ -51,14 +51,20 @@ class EntityFactory
 	
 	public function createGameElement(	name : String, parentLayer : String, modelName : String, 
 												depth : Float, position : Anchor, pivot : Anchor, 
+												startAnim : String = null, 
 												scaleX : Float = 1.0, scaleY : Float = 1.0) : Entity
 	{
 		var e : Entity = new Entity(name);
 		var model : Model = m_modelLibrary.getModel(modelName);
 		
-		if (model.modelData.type == ModelType.spriteSheet)
-			e.add(new Animation(model, "walk-front")); // todo => improve this
-			
+		startAnim = startAnim == null ? Model.firstFrameAnim : startAnim;
+		
+		switch(model.modelData.type)// todo => improve th
+		{
+			case ModelType.spriteSheet : e.add(new Animation(model, startAnim));
+			case ModelType.timeline : e.add(new Animation(model, startAnim));
+			default : 
+		}
 		
 		e.add(new GameElementDisplay(parentLayer, model));
 		e.add(new Depth(depth));

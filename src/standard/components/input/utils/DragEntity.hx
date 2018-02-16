@@ -69,6 +69,7 @@ class DragEntity extends EntityPointerBehaviour
 		m_parentLocationRef = m_locModule.getLocation(m_locationRef.display.skin.parent);
 			
 		m_locationRef.position.position2d.ratioMode = false;
+		m_locationRef.position.position2d.setValue(m_locationRef.display.skin.x, m_locationRef.display.skin.y);
 			
 		m_pointerBehaviour = new DragBehaviour(m_locationRef.display.skin);
 		

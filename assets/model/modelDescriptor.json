@@ -10,5 +10,9 @@
 	{
 		"name":"spritesheet1",
 		"mainResourcePath":"model/spritesheet/sheettest.spritesheet"
+	},
+	{
+		"name":"timeline1",
+		"mainResourcePath":"model/timeline/timeline.tl"
 	}
 ]

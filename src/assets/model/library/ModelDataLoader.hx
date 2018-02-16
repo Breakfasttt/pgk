@@ -52,12 +52,9 @@ class ModelDataLoader
 		for (modelData in dataJson)
 		{
 			var modelJsonData : String = "";
-			modelType = this.getModelTypeWithExtention(modelData.mainResourcePath);
 			
-			if (modelType == ModelType.spriteSheet)
-				modelJsonData = this.getJsonData(modelData.mainResourcePath);
-			else
-				modelJsonData = "";
+			modelType = this.getModelTypeWithExtention(modelData.mainResourcePath);
+			modelJsonData = this.getJsonData(modelData.mainResourcePath);
 			
 			tempData = new ModelData(modelData.name, modelData.mainResourcePath, modelType, modelJsonData);
 			result.push(tempData);
@@ -77,6 +74,7 @@ class ModelDataLoader
 			case "jpg" : return ModelType.simple;
 			case "jpeg" : return ModelType.simple;
 			case "png" : return ModelType.simple;
+			case "tl" : return ModelType.timeline;
 			case "spritesheet" : return ModelType.spriteSheet;
 			default : return ModelType.unknow;
 		}
@@ -84,9 +82,25 @@ class ModelDataLoader
 		return ModelType.unknow;
 	}
 	
+	
+	
 	private function getJsonData(modelMainRessource : String)  : String
 	{
-		return Assets.getText(modelMainRessource);
+
+		var ext : String = PathTools.getExtension(modelMainRessource);
+		ext = ext.toLowerCase();
+		
+		switch(ext)
+		{
+			case "jpg" : return "";
+			case "jpeg" : return "";
+			case "png" : return "";
+			case "tl" : return Assets.getText(modelMainRessource);
+			case "spritesheet" : return Assets.getText(modelMainRessource);
+			default : return "";
+		}
+		
+		return "";
 	}
 	
 }

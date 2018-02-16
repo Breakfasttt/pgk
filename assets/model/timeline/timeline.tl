@@ -1,0 +1,28 @@
+{
+	"ressources":
+	[
+		"img/placeholder.png",
+		"img/placeholder2.png",
+		"img/placeholder3.png"
+	],
+	
+	"anims":
+	[
+		{
+			"name":"idle",
+			"frames":[0]
+		},
+		{
+			"name":"full",
+			"frames":[0,1,2]
+		},
+		{
+			"name":"twice",
+			"frames":[2,0]
+		},
+		{
+			"name":"triple",
+			"frames":[1,0,2]
+		}
+	]
+}

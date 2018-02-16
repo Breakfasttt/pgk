@@ -3,6 +3,7 @@ import assets.model.Model;
 import assets.model.impl.EmptyModel;
 import assets.model.impl.SimpleModel;
 import assets.model.impl.SpriteSheetModel;
+import assets.model.impl.TimelineModel;
 
 /**
  * ...
@@ -32,6 +33,10 @@ class ModelFactory
 			{
 				return createSimpleModel(modelData);
 			}
+			case ModelType.timeline :
+			{
+				return createTimeLineModel(modelData);
+			}
 			case ModelType.spriteSheet :
 			{
 				return createSpriteSheetModel(modelData);
@@ -56,8 +61,12 @@ class ModelFactory
 	
 	private function createSpriteSheetModel(modelData : ModelData) : Model
 	{
-		//todo
 		return new SpriteSheetModel(modelData);
+	}
+	
+	private function createTimeLineModel(modelData : ModelData) : Model
+	{
+		return new TimelineModel(modelData);
 	}
 	
 	

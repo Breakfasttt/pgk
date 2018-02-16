@@ -8,6 +8,7 @@ import flash.display.BitmapData;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import openfl.utils.Assets;
+import tools.file.JsonTools;
 import tools.math.Vector2D;
 
 /**
@@ -28,14 +29,26 @@ class SpriteSheetModel extends Model
 	override function prepare():Void 
 	{
 		
-		var mainFile : String = getDataFromJson("main");
-		var w : Int = getDataFromJson("width");
-		var h : Int = getDataFromJson("height");
-		var iw : Int = getDataFromJson("itemWidth");
-		var ih : Int = getDataFromJson("itemHeight");
+		if (this.modelData.jsonData == null)
+		{
+			m_mainBitmapData = this.createSquare(50, 50);
+			
+			m_bmdByAnim.set(Model.firstFrameAnim, [m_mainBitmapData]);
+			m_offsetByAnim.set(Model.firstFrameAnim, [new Vector2D()]);
+			m_frameratesByAnim.set(Model.firstFrameAnim, 1);
+			trace("Warning :: No Json description detected for model : " + this.modelData.name + " - Generate a 50*50 square for this model.");
+			return;
+		}
+		
+		var mainFile : String = JsonTools.getData(this.modelData.jsonData, "main");
+		var w : Int = JsonTools.getData(this.modelData.jsonData, "width");
+		var h : Int = JsonTools.getData(this.modelData.jsonData, "height");
+		var iw : Int = JsonTools.getData(this.modelData.jsonData, "itemWidth");
+		var ih : Int = JsonTools.getData(this.modelData.jsonData, "itemHeight");
 		m_spriteSheetDatas = new SpriteSheetData(mainFile, w , h, iw, ih);
 		
-		var allAnims : Array<Dynamic> = cast getDataFromJson("anims");
+		var allAnims : Array<Dynamic> = cast JsonTools.getData(this.modelData.jsonData, "anims");
+			
 		
 		for (anim in allAnims)
 		{
@@ -101,20 +114,4 @@ class SpriteSheetModel extends Model
 		m_offsetByAnim.set(Model.firstFrameAnim, [new Vector2D()]);
 		m_frameratesByAnim.set(Model.firstFrameAnim, 1);
 	}
-	
-	
-	
-	
-	private function getDataFromJson(field : String) : Dynamic
-	{
-		try
-		{
-			return Reflect.getProperty(this.modelData.jsonData, field);
-		}
-		catch (e : Dynamic)
-		{
-			return null;
-		}
-	}
-	
 }

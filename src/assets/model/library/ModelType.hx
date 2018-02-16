@@ -9,5 +9,6 @@ enum ModelType
 	unknow;
 	empty;
 	simple;
+	timeline;
 	spriteSheet;
 }

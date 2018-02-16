@@ -5,6 +5,8 @@ import assets.model.library.ModelFactory;
 import assets.model.library.ModelLibrary;
 import core.Application;
 import core.entity.Entity;
+import input.WorldSignal;
+import input.data.PointerData;
 import openfl.Lib;
 import openfl.display.Sprite;
 import standard.components.graphic.animation.Animation;
@@ -176,13 +178,15 @@ class TestMe
 		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
 		mainLayer.add(new RatioResizer());
 		
-		var firstElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		var firstElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test", 1, Anchor.topLeft, Anchor.topLeft);
 		
-		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "spritesheet1", 1, Anchor.topCenter, Anchor.topLeft, 1.0, 1.0);
+		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "timeline1", 1, Anchor.topCenter, Anchor.topLeft, "twice", 1.0, 1.0);
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
-		firstElement.add(entPointerBehaviour);			
+		secondElement.add(entPointerBehaviour);
+		
+		secondElement.getComponent(Animation).speedRatio = 3.0;
 		
 		app.addEntity(mainLayer);
 		app.addEntity(secondElement);
@@ -191,8 +195,6 @@ class TestMe
 		
 		locModule.debugShowLocGroupRect();
 		//locModule.forceResize();
-	}
-	
-	
+	}	
 	
 }
