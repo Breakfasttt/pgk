@@ -12,6 +12,7 @@ import openfl.display.Sprite;
 import standard.components.graphic.animation.Animation;
 import standard.components.input.PointerBehavioursComponent;
 import standard.components.input.utils.DragEntity;
+import standard.components.input.utils.EntityAsSimpleButton;
 import standard.components.space2d.resizer.impl.RatioResizer;
 import standard.factory.EntityFactory;
 import standard.module.debug.DebugModule;
@@ -149,9 +150,9 @@ class TestMe
 	
 	
 	/**
-	 * Test Drag mouse behaviour (therefore Test MouseSignal)
+	 * Custom test
 	 */
-	public static function testDragMouseBehaviour() : Void
+	public static function customTest() : Void
 	{
 		var app : Application;
 		app = new Application();
@@ -183,18 +184,26 @@ class TestMe
 		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "timeline1", 1, Anchor.topCenter, Anchor.topLeft, "twice", 1.0, 1.0);
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
-		entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
+		//entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
+		var button : EntityAsSimpleButton = new EntityAsSimpleButton(false);
+		entPointerBehaviour.addBehaviour(button,0);
 		secondElement.add(entPointerBehaviour);
 		
 		secondElement.getComponent(Animation).speedRatio = 3.0;
 		
 		app.addEntity(mainLayer);
 		app.addEntity(secondElement);
-		app.addEntity(firstElement);
+		//app.addEntity(firstElement);
 		
 		
 		locModule.debugShowLocGroupRect();
 		//locModule.forceResize();
 	}	
+	
+	
+	private static function test(text : String) : Void
+	{
+		trace(text);
+	}
 	
 }

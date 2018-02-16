@@ -32,9 +32,9 @@ class Main extends Sprite
 		this.removeEventListener(Event.ADDED_TO_STAGE, onMainAddedToStage);
 		var counter : ExecTimeCounter = new ExecTimeCounter();
 		//counter.start();
-		TestMe.testDragMouseBehaviour();
+		TestMe.customTest();
 		//counter.stop();
-		trace("elapsed : " + counter.timeElapsed);
+		//trace("elapsed : " + counter.timeElapsed);
 		//TestMe.testApplicationModuleEntityAndComposant();
 		//TestMe.testDisplayAndRepresentation();		
 	}

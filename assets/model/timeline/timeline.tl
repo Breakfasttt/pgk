@@ -3,7 +3,8 @@
 	[
 		"img/placeholder.png",
 		"img/placeholder2.png",
-		"img/placeholder3.png"
+		"img/placeholder3.png",
+		"img/placeholder4.png"
 	],
 	
 	"anims":
@@ -23,6 +24,10 @@
 		{
 			"name":"triple",
 			"frames":[1,0,2]
+		},
+		{
+			"name":"button",
+			"frames":[0,1,2,3]
 		}
 	]
 }
