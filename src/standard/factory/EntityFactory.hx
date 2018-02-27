@@ -59,12 +59,18 @@ class EntityFactory
 		
 		startAnim = startAnim == null ? Model.firstFrameAnim : startAnim;
 		
-		switch(model.modelData.type)// todo => improve th
+		if (model != null)
 		{
-			case ModelType.spriteSheet : e.add(new Animation(model, startAnim));
-			case ModelType.timeline : e.add(new Animation(model, startAnim));
-			default : 
+			switch(model.modelData.type)// todo => improve th
+			{
+				case ModelType.spriteSheet : e.add(new Animation(model, startAnim));
+				case ModelType.timeline : e.add(new Animation(model, startAnim));
+				default : 
+			}
+			
+			e.add(new UtilitySize2D(model.getMaxWidth(), model.getMaxHeight()));
 		}
+			
 		
 		e.add(new GameElementDisplay(parentLayer, model));
 		e.add(new Depth(depth));

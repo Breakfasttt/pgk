@@ -35,6 +35,10 @@ class SimpleModel extends Model
 		m_bmdByAnim.set(Model.firstFrameAnim, arr);
 		m_offsetByAnim.set(Model.firstFrameAnim, new Array());
 		m_frameratesByAnim.set(Model.firstFrameAnim, 1);
+		
+		m_maxWidth = arr[0].width;
+		m_maxHeight =arr[0].height;
+		
 	}
 
 }

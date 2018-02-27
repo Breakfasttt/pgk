@@ -13,6 +13,8 @@ import standard.components.graphic.animation.Animation;
 import standard.components.input.PointerBehavioursComponent;
 import standard.components.input.utils.DragEntity;
 import standard.components.input.utils.EntityAsSimpleButton;
+import standard.components.space2d.Rotation2D;
+import standard.components.space2d.UtilitySize2D;
 import standard.components.space2d.resizer.impl.RatioResizer;
 import standard.factory.EntityFactory;
 import standard.module.debug.DebugModule;
@@ -115,7 +117,7 @@ class TestMe
 		
 		
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
-		var gameElementModule : GameElementModule = new GameElementModule(layModule);
+		var gameElementModule : GameElementModule = new GameElementModule();
 		var locModule : LocationModule = new LocationModule(Lib.current.stage);
 		
 		app.addModule(layModule, 0);
@@ -163,7 +165,7 @@ class TestMe
 		var entityFactory : EntityFactory = new EntityFactory(modelLibrary);
 		
 		var layModule : LayerModule = new LayerModule(Lib.current.stage);
-		var gameElementModule : GameElementModule = new GameElementModule(layModule);
+		var gameElementModule : GameElementModule = new GameElementModule();
 		var locModule : LocationModule = new LocationModule(Lib.current.stage);
 		var pointerModule : PointerBehavioursModule = new PointerBehavioursModule();
 		var renderModule : RenderModule = new RenderModule();
@@ -179,9 +181,17 @@ class TestMe
 		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
 		mainLayer.add(new RatioResizer());
 		
-		var firstElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test", 1, Anchor.topLeft, Anchor.topLeft);
 		
-		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "timeline1", 1, Anchor.topCenter, Anchor.topLeft, "twice", 1.0, 1.0);
+		
+		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "test2", 1, Anchor.center, Anchor.center, "twice", 1.0, 1.0);
+		rot = new Rotation2D(0);
+		secondElement.add(rot);
+		//secondElement.getComponent(UtilitySize2D).autoUtilitySize = true;
+		//secondElement.add(new UtilitySize2D(50, 50));
+		
+		var firstElement : Entity = entityFactory.createGameElement("square1", "square2", "spritesheet1", 1, Anchor.center, Anchor.topLeft);
+		
+		
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		//entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
@@ -189,17 +199,23 @@ class TestMe
 		entPointerBehaviour.addBehaviour(button,0);
 		secondElement.add(entPointerBehaviour);
 		
-		secondElement.getComponent(Animation).speedRatio = 3.0;
+		//secondElement.getComponent(Animation).speedRatio = 3.0;
 		
 		app.addEntity(mainLayer);
 		app.addEntity(secondElement);
-		//app.addEntity(firstElement);
+		app.addEntity(firstElement);
 		
 		
 		locModule.debugShowLocGroupRect();
-		//locModule.forceResize();
+		app.tick.tick.add(testTotation);
 	}	
 	
+	private static var rot : Rotation2D;
+	
+	private static function testTotation(d : Float)
+	{
+		rot.angle += d /1000 * 45.0;
+	}
 	
 	private static function test(text : String) : Void
 	{

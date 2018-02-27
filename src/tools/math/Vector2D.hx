@@ -250,7 +250,7 @@ class Vector2D
 	{
 		var rad = MathUtils.toRad(deg);
 		var newX : Float = this.x * Math.cos(rad) - this.y * Math.sin(rad);
-		var newY : Float = this.x * Math.sin(rad) - this.y * Math.cos(rad);
+		var newY : Float = this.x * Math.sin(rad) + this.y * Math.cos(rad);
 		this.x = newX;
 		this.y = newY;
 		return this;

@@ -1,6 +1,8 @@
 package standard.module.graphic;
 
+import core.entity.Entity;
 import core.module.Module;
+import standard.components.graphic.display.Display;
 import standard.components.graphic.display.impl.Layer;
 import standard.group.graphic.display.GameElementGroup;
 
@@ -10,12 +12,16 @@ import standard.group.graphic.display.GameElementGroup;
  */
 class GameElementModule extends Module<GameElementGroup>
 {
-	private var m_layerModule : LayerModule;
+
+	/**
+	 * tools variable
+	 */
+	var m_tempParentEntity : Entity;
 	
-	public function new(layerModuleRef : LayerModule) 
+	public function new() 
 	{
 		super(GameElementGroup);
-		m_layerModule = layerModuleRef;
+		m_tempParentEntity = null;
 	}
 	
 	override function onCompGroupAdded(group:GameElementGroup):Void 
@@ -40,7 +46,7 @@ class GameElementModule extends Module<GameElementGroup>
 	 */
 	private function removeFromStage(element : GameElementGroup) : Void
 	{
-		if (element.gameElement.model != null && element.gameElement.skin != null && element.gameElement.skin.parent != null)
+		if (element.gameElement.skin != null && element.gameElement.skin.parent != null)
 			element.gameElement.skin.parent.removeChild(element.gameElement.skin);
 	}
 	
@@ -49,18 +55,22 @@ class GameElementModule extends Module<GameElementGroup>
 	 */
 	private function sortElements() : Void
 	{
-		var layer : Layer = null;
 		m_compGroups.sort(sortGroupFunc);
 		for (element in m_compGroups)
 		{
-			if (element.gameElement.model == null || element.gameElement.skin == null)
+			if (element.gameElement.skin == null)
 				continue;
 			
 			removeFromStage(element);
-			layer = m_layerModule.getLayer(element.gameElement.entityLayerName);
+			m_tempParentEntity = this.m_appRef.getEntity(element.gameElement.entityParentName);
 			
-			if (layer != null)
-				layer.skin.addChild(element.gameElement.skin);
+			if (m_tempParentEntity != null)
+			{
+				var display : Display = m_tempParentEntity.getComponent(Display);
+				
+				if(display != null && display.skin != null) 
+					display.skin.addChild(element.gameElement.skin);
+			}
 		}
 	}	
 	

@@ -30,7 +30,12 @@ class LocationModule extends Module <LocationGroup>
 	/**
 	 * A map of Location representation Usefull only for debug
 	 */
-	private var m_debugRect : Map<LocationGroup, Sprite>;	
+	private var m_debugRect : Map<LocationGroup, Sprite>;
+	
+	/**
+	 * A tools variable to rotate pivot whitout erase group value
+	 */
+	private var m_rotatedPivot : Anchor;
 	
 	/**
 	 * Display module relocate display component with space2d component
@@ -41,6 +46,7 @@ class LocationModule extends Module <LocationGroup>
 		super(LocationGroup);
 		this.m_stageRef = stage;
 		this.m_debugRect = new Map();
+		m_rotatedPivot = new Anchor(0, 0);
 	}
 	
 	override function onAddedToApplication():Void 
@@ -130,9 +136,6 @@ class LocationModule extends Module <LocationGroup>
 		
 		for (group in m_compGroups)
 		{
-			if (group.display.model == null)
-				continue;
-			
 			if (group.display.skin == skin)
 				return group;
 		}
@@ -146,11 +149,8 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	private function resize(group : LocationGroup) : Void
 	{
-		if (group.resizer == null || group.display.model == null)
+		if (group.resizer == null )
 			return;
-		
-		//trace("Resize with window : " + Lib.application.window.width + "/" + Lib.application.window.height);
-		//trace("Resize with stage : " + this.m_stageRef.stageWidth + "/" + this.m_stageRef.stageHeight);
 			
 		if (group.display.skin.parent == this.m_stageRef)
 			group.resizer.resize(group.getWidthAtScale1(), group.getHeightAtScale1(), this.m_stageRef.stageWidth, this.m_stageRef.stageHeight, group.scale.scale);
@@ -167,11 +167,30 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	private function relocate(group : LocationGroup) : Void
 	{
-		if (group.display.model == null || group.display.skin.parent == null)
+		if (group.display.skin.parent == null)
 			return;
+			
+		#if debug
+		
+			//debug display is remove to dont impact resize.
+			if (m_debugRect.exists(group))
+				group.display.skin.removeChild(m_debugRect.get(group));
+		
+		#end
+			
+		group.display.skin.rotation = 0;	
+		group.display.skin.scaleX = 1.0;
+		group.display.skin.scaleY = 1.0;
+		
+		if (group.utilitySize != null && group.utilitySize.autoUtilitySize)
+			group.utilitySize.setUtilitySizeBySkin(group.display.skin);
 		
 		group.display.skin.scaleX = group.scale.scale.x;
 		group.display.skin.scaleY = group.scale.scale.y;
+		
+		
+		var initWidth  : Float = group.getWidth(); // width with scale at rotation 0
+		var initHeight  : Float = group.getHeight(); // height with scale at rotation 0
 		
 		var pWidth : Float =  0.0; 
 		var pHeight : Float = 0.0; 
@@ -197,8 +216,13 @@ class LocationModule extends Module <LocationGroup>
 		
 		if(group.position.pivotRelative)
 			parentGroup.pivot.pivot.applyOffset(group.display.skin, pWidth, pHeight, true);
+			
+		if (group.rotation != null)
+			group.display.skin.rotation = group.rotation.angle;			
+			
+		group.pivot.pivot.applyOffset(group.display.skin, initWidth, initHeight);
+			
 		
-		group.pivot.pivot.applyOffset(group.display.skin, group.getWidth(), group.getHeight());
 		
 		#if debug
 		{
@@ -213,9 +237,6 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	private function debugDrawDisplayRect(group : LocationGroup) : Void
 	{
-		if (group.display.model == null)
-			return;
-		
 		if (!group.display.debugDrawDisplayRect)
 		{
 			if (m_debugRect.exists(group))
@@ -227,18 +248,20 @@ class LocationModule extends Module <LocationGroup>
 		else if(!m_debugRect.exists(group))
 		{
 			var sprite : Sprite = new Sprite();
-			
+			var rect : Sprite = new Sprite();
+			var pivot : Sprite = new Sprite();
 			var color : UInt = Color.randomColor();
-			sprite.graphics.beginFill(color, 0.5);
-			sprite.graphics.drawRect(0, 0, group.getWidth(), group.getHeight());
-			sprite.graphics.endFill();
+			
+			rect.graphics.beginFill(color, 0.5);
+			rect.graphics.drawRect(0, 0, group.getWidth(), group.getHeight());
+			rect.graphics.endFill();
 			
 			var pivotPosition : Vector2D = new Vector2D();
 			
 			if (group.pivot.pivot.ratioMode)
 			{
-				pivotPosition.x =  group.getWidth() * group.pivot.pivot.anchor.x;
-				pivotPosition.y =  group.getHeight() * group.pivot.pivot.anchor.y;
+				pivotPosition.x =  group.getWidthAtScale1() * group.pivot.pivot.anchor.x;
+				pivotPosition.y =  group.getHeightAtScale1() * group.pivot.pivot.anchor.y;
 			}
 			else
 			{
@@ -246,14 +269,41 @@ class LocationModule extends Module <LocationGroup>
 				pivotPosition.y =  group.pivot.pivot.anchor.y;
 			}
 			
-			sprite.graphics.beginFill(Color.red, 0.5);
-			sprite.graphics.drawCircle(pivotPosition.x, pivotPosition.y, 3.0);
-			sprite.graphics.endFill();
+			pivot.graphics.beginFill(Color.red, 0.5);
+			pivot.graphics.drawCircle(0.0, 0.0, 3.0);
+			pivot.graphics.endFill();
+			pivot.x = pivotPosition.x;
+			pivot.y = pivotPosition.y;
+			
+			sprite.addChild(rect);
+			sprite.addChild(pivot);
+			
 			sprite.mouseEnabled = false;
 			sprite.mouseChildren = false;
 			
 			group.display.skin.addChildAt(sprite,group.display.skin.numChildren);
 			m_debugRect.set(group, sprite);
+		}
+		else
+		{
+			var sprite : Sprite = m_debugRect.get(group);
+			
+			var pivotPosition : Vector2D = new Vector2D();
+			if (group.pivot.pivot.ratioMode)
+			{
+				pivotPosition.x =  group.getWidthAtScale1() * group.pivot.pivot.anchor.x;
+				pivotPosition.y =  group.getHeightAtScale1() * group.pivot.pivot.anchor.y;
+			}
+			else
+			{
+				pivotPosition.x =  group.pivot.pivot.anchor.x;
+				pivotPosition.y =  group.pivot.pivot.anchor.y;
+			}
+			
+			sprite.getChildAt(1).x = pivotPosition.x;
+			sprite.getChildAt(1).y = pivotPosition.y;
+			
+			group.display.skin.addChildAt(sprite,group.display.skin.numChildren);
 		}
 	}
 	

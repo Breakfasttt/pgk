@@ -35,5 +35,9 @@ interface IModel
 	
 	public function exists(anim : String) : Bool; 
 	
+	public function getMaxWidth() : Float;
+	
+	public function getMaxHeight() : Float;
+	
 	
 }

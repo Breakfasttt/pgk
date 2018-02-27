@@ -196,6 +196,22 @@ class Application
 	}
 	
 	/**
+	 * Get an entity by is name. Return null if not found
+	 * @param	entityName
+	 * @return
+	 */
+	public function getEntity(entityName : String) : Entity
+	{
+		for (ent in m_entities)
+		{
+			if (ent.name == entityName)
+				return ent;
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Add a module to the application.
 	 * Only one module by type can be added. 
 	 * (You can't add multiple TestModule for exemple)

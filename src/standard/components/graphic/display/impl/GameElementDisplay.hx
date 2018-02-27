@@ -17,19 +17,19 @@ class GameElementDisplay extends Display
 {
 	
 	/**
-	 * The Entity who contains a Layer where the Display is added to the Display List
-	 * If layer not found or Null, the Display will not be add to the display list
+	 * The Parent entity name. If parent entity have a display, 'this' Display is added to the Display list of the parent entity
+	 * If entity not found or have no display, 'this' Display will not be add to the display list
 	 */
-	public var entityLayerName : String;
+	public var entityParentName : String;
 	
 	/**
 	 * @param	entityLayerName : the name of the Layer Parent Entity. if not exist, Gameelement will be added to the Stage instead of a layer
 	 * @param	model
 	 */
-	public function new(entityLayerName : String, model:Model) 
+	public function new(entityParentName : String, model:Model) 
 	{
 		super();
-		this.entityLayerName = entityLayerName;
+		this.entityParentName = entityParentName;
 		this.setModel(model);
 	}
 	

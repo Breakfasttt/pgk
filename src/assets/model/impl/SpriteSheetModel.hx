@@ -33,6 +33,9 @@ class SpriteSheetModel extends Model
 		{
 			m_mainBitmapData = this.createSquare(50, 50);
 			
+			m_maxWidth  = 50.0;
+			m_maxHeight = 50.0;
+			
 			m_bmdByAnim.set(Model.firstFrameAnim, [m_mainBitmapData]);
 			m_offsetByAnim.set(Model.firstFrameAnim, [new Vector2D()]);
 			m_frameratesByAnim.set(Model.firstFrameAnim, 1);
@@ -46,6 +49,10 @@ class SpriteSheetModel extends Model
 		var iw : Int = JsonTools.getData(this.modelData.jsonData, "itemWidth");
 		var ih : Int = JsonTools.getData(this.modelData.jsonData, "itemHeight");
 		m_spriteSheetDatas = new SpriteSheetData(mainFile, w , h, iw, ih);
+		
+		
+		m_maxWidth  = iw;
+		m_maxHeight = ih;
 		
 		var allAnims : Array<Dynamic> = cast JsonTools.getData(this.modelData.jsonData, "anims");
 			
@@ -73,7 +80,6 @@ class SpriteSheetModel extends Model
 		
 		var xSheet : Float = 0.0;
 		var ySheet : Float = 0.0;
-		
 		var point : Point = new Point();
 		
 		for (animData in m_spriteSheetDatas.animsData)

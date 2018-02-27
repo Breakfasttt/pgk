@@ -25,9 +25,12 @@ class Anchor
 	
 	public var ratioMode(default, set) : Bool;
 	
+	private var m_toolsVector : Vector2D;
+	
 	public function new(x : Float, y : Float, ratioMode : Bool = true) 
 	{
 		this.anchor = new Vector2D(x, y);
+		m_toolsVector = new Vector2D();
 		this.ratioMode = ratioMode;
 		checkRatioMode();
 	}
@@ -77,13 +80,20 @@ class Anchor
 		if (ratioMode)
 		{
 			var invert : Float = invertRatioOffset ? -1 : 1;
-			obj.x -= widthRef * anchor.x * invert;
-			obj.y -= heightRef * anchor.y * invert;
+			
+			m_toolsVector.x = widthRef * anchor.x * invert;
+			m_toolsVector.y = heightRef * anchor.y * invert;
+			m_toolsVector.rotate(obj.rotation);
+			
+			obj.x -= m_toolsVector.x;
+			obj.y -= m_toolsVector.y;
 		}
 		else
 		{
-			obj.x += anchor.x;
-			obj.y += anchor.y;	
+			m_toolsVector.copy(anchor);
+			m_toolsVector.rotate(obj.rotation);
+			obj.x += m_toolsVector.x;
+			obj.y += m_toolsVector.y;	
 		}
 	}
 	

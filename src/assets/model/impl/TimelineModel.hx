@@ -41,6 +41,9 @@ class TimelineModel extends Model
 		if (ressouces.length == 0)
 			ressouces.push(this.createSquare());
 		
+		m_maxWidth = 0.0;
+		m_maxHeight = 0.0;
+			
 		for (anim in animsData)
 		{
 			var ressourceForAnim : Array<BitmapData> = new Array<BitmapData>();
@@ -58,6 +61,12 @@ class TimelineModel extends Model
 				
 				ressourceForAnim.push(ressouces[frame]);
 				offsets.push(Vector2D.origin); // todo
+				
+				if (m_maxWidth < ressouces[frame].width)
+					m_maxWidth = ressouces[frame].width;
+					
+				if (m_maxHeight < ressouces[frame].height)
+					m_maxHeight = ressouces[frame].height;
 			}
 			
 			

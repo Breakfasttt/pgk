@@ -23,6 +23,8 @@ class EmptyModel extends Model
 	{
 		m_bmdByAnim.set(Model.firstFrameAnim, new Array());
 		m_frameratesByAnim.set(Model.firstFrameAnim, 1);
+		m_maxWidth = 0.0;
+		m_maxHeight = 0.0;
 	}
 	
 }

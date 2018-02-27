@@ -17,17 +17,13 @@ import standard.components.graphic.display.Display;
 class Layer extends Display 
 {
 	/**
-	 * You can specify your own Model. By default an  EmptyModel is created for layer
+	 * A layer is a Display without model attach only on the Stage.
+	 * If you want an empty display use Screen.hx or Popup.hx display.
 	 * @param	container
 	 */
-	public function new(customModel : Model = null) 
+	public function new() 
 	{
 		super();
-		
-		if (customModel == null)	
-			customModel = new EmptyModel("");
-			
-		setModel(customModel);
 	}
 	
 }

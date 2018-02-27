@@ -5,6 +5,7 @@ import standard.components.graphic.display.Display;
 import standard.components.space2d.Depth;
 import standard.components.space2d.Pivot2D;
 import standard.components.space2d.Position2D;
+import standard.components.space2d.Rotation2D;
 import standard.components.space2d.Scale2D;
 import standard.components.space2d.UtilitySize2D;
 import standard.components.space2d.resizer.Resizer;
@@ -20,8 +21,13 @@ class LocationGroup extends ComponentGroup
 	public var pivot : Pivot2D;
 	public var scale : Scale2D;
 	
+	public var rotation : Rotation2D;
+	
 	public var utilitySize : UtilitySize2D;
 	public var resizer : Resizer;
+	
+	private var m_tempRotation : Float;
+	private var m_tempResult : Float;
 	
 	public function new() 
 	{
@@ -31,6 +37,7 @@ class LocationGroup extends ComponentGroup
 		this.bindFieldType(Pivot2D, "pivot");
 		this.bindFieldType(Scale2D, "scale");
 		
+		this.bindOptionalFieldType(Rotation2D, "rotation");
 		this.bindOptionalFieldType(UtilitySize2D, "utilitySize");
 		this.bindOptionalFieldType(Resizer, "resizer");
 	}
@@ -48,7 +55,7 @@ class LocationGroup extends ComponentGroup
 	}
 	
 	/**
-	 * tools fonction to get width
+	 * tools fonction to get width include scale and rotation
 	 * scale is apply
 	 */
 	public function getWidth() : Float
@@ -83,5 +90,4 @@ class LocationGroup extends ComponentGroup
 			
 		return utilitySize.height;
 	}
-	
 }

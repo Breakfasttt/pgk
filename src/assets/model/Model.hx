@@ -24,12 +24,18 @@ class Model implements IModel
 	
 	private var m_offsetByAnim :  Map<String, Array<Vector2D>>;
 	
+	private var m_maxWidth : Float;
+	
+	private var m_maxHeight : Float;
+	
 	public function new(modelData : ModelData) 
 	{
 		this.modelData = modelData;
 		m_frameratesByAnim = new Map();
 		m_bmdByAnim = new Map();
 		m_offsetByAnim = new Map();
+		m_maxWidth = 0.0;
+		m_maxHeight = 0.0;
 		this.prepare();
 	}	
 	
@@ -133,6 +139,16 @@ class Model implements IModel
 		var result : BitmapData = new BitmapData(w,h,false,color);
 		result.fillRect(new Rectangle(0, 0, w, h), color);
 		return result;
-	}		
+	}	
+	
+	public function getMaxWidth() : Float
+	{
+		return m_maxWidth;
+	}
+	
+	public function getMaxHeight() : Float
+	{
+		return m_maxHeight;
+	}
 	
 }
