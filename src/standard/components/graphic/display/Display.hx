@@ -10,8 +10,7 @@ import openfl.display.Sprite;
 import tools.misc.Color;
 
 /**
- * A Display component define a container for assets/sprite/animation etc. 
- * This class need to be override.
+ * A Display component contains a container for assets/sprite/animation etc. and eventually Model
  * @author Breakyt
  */
 class Display extends Component
@@ -31,9 +30,9 @@ class Display extends Component
 	public var renderBitmap(default, null) : Bitmap;
 	
 	/**
-	 * When True, the Location Module draw a colored Rectangle whoe represents the Box of this display
-	 * + a blue circle for the pivot
-	 * Use only for debug
+	 * When True, the Location Module draw a colored Rectangle who represents the Box of this display
+	 * + a red circle for the pivot
+	 * Use only for debug and works only on debug configuration
 	 */
 	public var debugDrawDisplayRect : Bool; 
 	

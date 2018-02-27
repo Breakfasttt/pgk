@@ -189,7 +189,7 @@ class TestMe
 		//secondElement.getComponent(UtilitySize2D).autoUtilitySize = true;
 		//secondElement.add(new UtilitySize2D(50, 50));
 		
-		var firstElement : Entity = entityFactory.createGameElement("square1", "square2", "spritesheet1", 1, Anchor.center, Anchor.topLeft);
+		var firstElement : Entity = entityFactory.createGameElement("square1", "square2", "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
 		
 		
 		
@@ -206,7 +206,7 @@ class TestMe
 		app.addEntity(firstElement);
 		
 		
-		locModule.debugShowLocGroupRect();
+		//locModule.debugShowLocGroupRect();
 		app.tick.tick.add(testTotation);
 	}	
 	
