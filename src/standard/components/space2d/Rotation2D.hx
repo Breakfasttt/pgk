@@ -29,6 +29,11 @@ class Rotation2D extends Component
 	function set_angle(value:Float):Float 
 	{
 		angle = value;
+		
+		//todo
+		if (angle > 360.0)
+			angle = angle % 360.0;
+		
 		radAngle = MathUtils.toRad(angle);
 		return angle;
 	}
