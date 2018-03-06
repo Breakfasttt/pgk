@@ -24,8 +24,12 @@ class Depth extends Component
 	
 	function set_depth(value:Float):Float 
 	{
-		depth = value;
-		this.onDepthChange.dispatch();
+		if (value != depth)
+		{
+			depth = value;
+			this.onDepthChange.dispatch();
+		}
+		
 		return depth;
 	}
 	

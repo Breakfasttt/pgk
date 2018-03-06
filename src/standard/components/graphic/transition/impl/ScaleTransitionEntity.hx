@@ -8,18 +8,18 @@ import tools.math.Vector2D;
  * Scale entity to 0/0 at scale target if entity have a Scale2D component
  * @author Breakyt
  */
-class ScaleEntityEntity extends EntityTransition 
+class ScaleTransitionEntity extends EntityTransition 
 {
 
-	private var m_speed : Float; /Scale per second
+	private var m_speed : Float; //Scale per second
 	private var m_scaleInit : Vector2D;
 	private var m_currentScale : Vector2D;
 	private var m_scaleTarget : Vector2D;
-	private var m_scale : Scale2D
+	private var m_scale : Scale2D;
 	
 	private var m_invert : Bool;
 	
-	public function new(speed : Float : 1.0, scaleTargetX : Null<Float> = null, scaleTargetY : Null<Float> = null,  invert : Bool = false) 
+	public function new(speed : Float = 1.0, scaleTargetX : Null<Float> = null, scaleTargetY : Null<Float> = null,  invert : Bool = false) 
 	{
 		super();
 		
@@ -55,7 +55,7 @@ class ScaleEntityEntity extends EntityTransition
 			return;
 		}
 		
-		if (invert)
+		if (m_invert)
 		{
 			m_currentScale.copy(m_scaleInit);
 			m_scale.scale.copy(m_currentScale);
@@ -113,7 +113,7 @@ class ScaleEntityEntity extends EntityTransition
 		
 		m_currentScale.add( -m_speed * dt / 1000, -m_speed * dt / 1000); 
 		
-		if (0.0 <= m_currentScale.x && 0.0 <= m_currentScale.y))
+		if (0.0 <= m_currentScale.x && 0.0 <= m_currentScale.y)
 		{
 			end();
 			return;

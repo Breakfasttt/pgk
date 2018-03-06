@@ -2,6 +2,7 @@ package standard.group.graphic.display;
 
 import core.component.ComponentGroup;
 import standard.components.graphic.display.impl.PopUp;
+import standard.components.graphic.transition.Opener;
 import standard.components.graphic.transition.impl.EntityTransition;
 
 /**
@@ -11,7 +12,7 @@ import standard.components.graphic.transition.impl.EntityTransition;
 class PopUpGroup extends ComponentGroup 
 {
 	public var popup : PopUp;
-	public var transition : EntityTransition;
+	public var opener : Opener;
 	
 	public function new() 
 	{
@@ -19,7 +20,7 @@ class PopUpGroup extends ComponentGroup
 		
 		this.bindFieldType(PopUp, "popup");
 		
-		this.bindOptionalFieldType(EntityTransition, "transition");
+		this.bindOptionalFieldType(Opener, "opener");
 	}
 	
 }

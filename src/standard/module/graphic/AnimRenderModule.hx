@@ -3,31 +3,31 @@ package standard.module.graphic;
 import core.module.Module;
 import openfl.display.Bitmap;
 import standard.components.space2d.Pivot2D;
-import standard.group.graphic.render.RenderGroup;
+import standard.group.graphic.render.AnimRenderGroup;
 import tools.math.Vector2D;
 
 /**
  * ...
  * @author Breakyt
  */
-class RenderModule extends Module<RenderGroup>
+class AnimRenderModule extends Module<AnimRenderGroup>
 {
 
 	private var m_vectorForAnimationOffset : Vector2D;
 	
 	public function new() 
 	{
-		super(RenderGroup);
+		super(AnimRenderGroup);
 		m_vectorForAnimationOffset = new Vector2D();
 	}
 	
 	
-	override function onCompGroupAdded(group:RenderGroup):Void 
+	override function onCompGroupAdded(group:AnimRenderGroup):Void 
 	{
 		
 	}
 	
-	override function onCompGroupRemove(group:RenderGroup):Void 
+	override function onCompGroupRemove(group:AnimRenderGroup):Void 
 	{
 		
 	}

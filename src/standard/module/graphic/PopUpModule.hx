@@ -45,18 +45,19 @@ class PopUpModule extends Module<PopUpGroup>
 	{
 	}
 	
-	override function onAddedToApplication():Void 
+	override function onRemoveFromApplication():Void 
 	{
+		
 	}
 	
 	override function onCompGroupAdded(group:PopUpGroup):Void 
 	{
 		
-		if (group.transition != null)
-			group.transition.setEntityRef(group.entityRef);
+		if (group.opener != null)
+			group.opener.setEntityRef(group.entityRef);
 		
 		m_popupStack.push(group);
-		showTop()
+		showTop();
 	}
 	
 	override function onCompGroupRemove(group:PopUpGroup):Void 
@@ -78,10 +79,8 @@ class PopUpModule extends Module<PopUpGroup>
 	{
 		for (group in m_compGroups)
 		{
-			if (group.transition != null && group.transition.onTransition)
-			{
-				group.transition.update(delta);
-			}
+			if (group.opener != null )
+				group.opener.update(delta);
 		}
 	}
 	
@@ -90,23 +89,68 @@ class PopUpModule extends Module<PopUpGroup>
 		if (m_popupStack.length > 0 && m_currentPopup == m_popupStack[m_popupStack.length -1])
 			return;
 		
-		if (m_currentPopup != null && m_currentPopup.popup.skin != null && m_currentPopup.popup.skin.parent != null)
-			m_currentPopup.popup.skin.parent.removeChild(m_currentPopup.popup.skin);
+		closeCurrentPopup();
+	}
+	
+	private function closeCurrentPopup() : Void
+	{
+		if (m_currentPopup != null && m_currentPopup.opener != null)
+		{
+			m_currentPopup.opener.onClose = onClose;
+			m_currentPopup.opener.close();
+		}
+		else
+			onClose();
 		
+	}
+	
+	private function onClose() : Void
+	{
+		if (m_currentPopup != null && m_currentPopup.popup.skin != null && m_currentPopup.popup.skin.parent != null)
+		{
+			m_currentPopup.popup.skin.parent.removeChild(m_currentPopup.popup.skin);
+			
+			if (m_currentPopup.opener != null)
+			{
+				//to prevent adding a popup when another are ine transition.
+				// we finish the transition "silently"
+				m_currentPopup.opener.onClose = null;
+				m_currentPopup.opener.onOpen = null;
+			}
+			
+		}
+			
+		m_currentPopup = null;
+		openLastPopup();
+	}
+	
+	private function openLastPopup() : Void
+	{
 		if(m_popupStack.length > 0)
 			m_currentPopup = m_popupStack[m_popupStack.length -1];
 		else
 			m_currentPopup = null;
-		
+			
 		if (m_currentPopup != null)
 		{
 			m_layerRef.skin.addChildAt(m_mask, 0);
 			m_layerRef.skin.addChild(m_currentPopup.popup.skin);
+			
+			if (m_currentPopup.opener != null)
+			{
+				m_currentPopup.opener.onOpen = onOpen;
+				m_currentPopup.opener.open();
+			}
 			//Todo => faire une classe "opener" qui gére une transition d'ouverture, et une transition de fermeture
 			//trouver un nom mieux que ça !
 		}
 		else if(m_mask.parent != null)
 			m_layerRef.skin.removeChild(m_mask);
+	}
+	
+	private function onOpen() : Void
+	{
+		//nothing special ?
 	}
 	
 	private function createMask() : Void

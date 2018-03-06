@@ -9,7 +9,7 @@ import standard.components.space2d.Pivot2D;
  * ...
  * @author Breakyt
  */
-class RenderGroup extends ComponentGroup 
+class AnimRenderGroup extends ComponentGroup 
 {
 	public var display : Display;
 	public var animation : Animation;

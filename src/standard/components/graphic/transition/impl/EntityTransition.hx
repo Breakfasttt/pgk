@@ -12,16 +12,16 @@ class EntityTransition implements ITransition
 
 	private var m_entityRef : Entity;
 	
-	public var onTransition(default,null) : Bool
+	public var onTransition(default, null) : Bool;
 	
 	public var started(default,null) : Signal0;
 	public var finished(default,null) : Signal0;
 	
-	public function new();
+	public function new()
 	{
 		
 		onTransition = false;
-		this.start = new Signal0();
+		this.started = new Signal0();
 		this.finished = new Signal0();
 	}
 	

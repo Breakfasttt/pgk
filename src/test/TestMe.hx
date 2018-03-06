@@ -10,6 +10,7 @@ import input.data.PointerData;
 import openfl.Lib;
 import openfl.display.Sprite;
 import standard.components.graphic.animation.Animation;
+import standard.components.graphic.display.impl.Layer;
 import standard.components.input.PointerBehavioursComponent;
 import standard.components.input.utils.DragEntity;
 import standard.components.input.utils.EntityAsSimpleButton;
@@ -21,8 +22,10 @@ import standard.module.debug.DebugModule;
 import standard.module.graphic.GameElementModule;
 import standard.module.graphic.LayerModule;
 import standard.module.graphic.LocationModule;
-import standard.module.graphic.RenderModule;
+import standard.module.graphic.AnimRenderModule;
+import standard.module.graphic.PopUpModule;
 import standard.module.input.PointerBehavioursModule;
+import standard.utils.uicontainer.impl.PopupContainer;
 import test.component.CompTest;
 import test.component.CompTest2;
 import test.module.ModuleTest;
@@ -168,28 +171,35 @@ class TestMe
 		var gameElementModule : GameElementModule = new GameElementModule();
 		var locModule : LocationModule = new LocationModule(Lib.current.stage);
 		var pointerModule : PointerBehavioursModule = new PointerBehavioursModule();
-		var renderModule : RenderModule = new RenderModule();
-		
-		app.addModule(layModule, 0);
-		app.addModule(gameElementModule, 1);
-		app.addModule(renderModule, 2);
-		app.addModule(locModule, 3);
-		app.addModule(pointerModule, 4);
-		app.addModule(new DebugModule(), 5);
-		
+		var renderModule : AnimRenderModule = new AnimRenderModule();
 		
 		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
-		mainLayer.add(new RatioResizer());
+		mainLayer.add(new RatioResizer());	
+		
+		var popupLayer : Entity = entityFactory.createLayer("popupLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
+		popupLayer.add(new RatioResizer());	
+		
+		var popupModule : PopUpModule = new PopUpModule(popupLayer.getComponent(Layer), popupLayer.getComponent(UtilitySize2D));
+		
+		app.addModule(layModule, 0);
+		app.addModule(popupModule, 1);
+		app.addModule(gameElementModule, 2);
+		app.addModule(renderModule, 3);
+		app.addModule(locModule, 4);
+		app.addModule(pointerModule, 5);
+		app.addModule(new DebugModule(), 6);
 		
 		
-		
+		var firstElement : Entity = entityFactory.createGameElement("square1", "square2", "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
 		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "test2", 1, Anchor.center, Anchor.center, "twice", 1.0, 1.0);
 		rot = new Rotation2D(0);
 		secondElement.add(rot);
 		//secondElement.getComponent(UtilitySize2D).autoUtilitySize = true;
 		//secondElement.add(new UtilitySize2D(50, 50));
 		
-		var firstElement : Entity = entityFactory.createGameElement("square1", "square2", "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
+		var popupTest : PopupContainer = new PopupContainer("testpopup", app, entityFactory); 
+		
+		
 		
 		
 		
@@ -202,8 +212,10 @@ class TestMe
 		//secondElement.getComponent(Animation).speedRatio = 3.0;
 		
 		app.addEntity(mainLayer);
-		app.addEntity(secondElement);
-		app.addEntity(firstElement);
+		app.addEntity(popupLayer);
+		app.addEntity(popupTest.entity);
+		//app.addEntity(secondElement);
+		//app.addEntity(firstElement);
 		
 		
 		//locModule.debugShowLocGroupRect();
