@@ -30,7 +30,6 @@ class Rotation2D extends Component
 	{
 		angle = value;
 		
-		//todo
 		if (angle > 360.0)
 			angle = angle % 360.0;
 		

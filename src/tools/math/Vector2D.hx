@@ -44,6 +44,21 @@ class Vector2D
 	}
 	
 	/**
+	 * Add x/yValue to this Vector2D coordinate.
+	 * This operation modify 'this' Vector2D
+	 * use negative value to substract
+	 * return 'this'
+	 * @param	p
+	 * @return this
+	 */
+	public inline function add(xValue : Float, yValue : Float) : Vector2D
+	{
+		this.x += xValue;
+		this.y += yValue;
+		return this;
+	}
+	
+	/**
 	 * Add p coordinate with this Vector2D.
 	 * This operation modify 'this' Vector2D
 	 * This operation doesn't modify 'p' vector2D
@@ -52,7 +67,7 @@ class Vector2D
 	 * @param	p
 	 * @return this
 	 */
-	public inline function add(p : Vector2D) : Vector2D
+	public inline function vAdd(p : Vector2D) : Vector2D
 	{
 		if (p == null)
 			return this;
@@ -71,7 +86,7 @@ class Vector2D
 	 * @param	p
 	 * @return this
 	 */
-	public inline function substract(p : Vector2D) : Vector2D
+	public inline function vSubstract(p : Vector2D) : Vector2D
 	{
 		if (p == null)
 			return this;

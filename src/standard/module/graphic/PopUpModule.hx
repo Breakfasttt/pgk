@@ -51,6 +51,10 @@ class PopUpModule extends Module<PopUpGroup>
 	
 	override function onCompGroupAdded(group:PopUpGroup):Void 
 	{
+		
+		if (group.transition != null)
+			group.transition.setEntityRef(group.entityRef);
+		
 		m_popupStack.push(group);
 		showTop()
 	}
@@ -72,6 +76,13 @@ class PopUpModule extends Module<PopUpGroup>
 	
 	override public function update(delta:Float):Void 
 	{
+		for (group in m_compGroups)
+		{
+			if (group.transition != null && group.transition.onTransition)
+			{
+				group.transition.update(delta);
+			}
+		}
 	}
 	
 	private function showTop() : Void
@@ -91,6 +102,8 @@ class PopUpModule extends Module<PopUpGroup>
 		{
 			m_layerRef.skin.addChildAt(m_mask, 0);
 			m_layerRef.skin.addChild(m_currentPopup.popup.skin);
+			//Todo => faire une classe "opener" qui gére une transition d'ouverture, et une transition de fermeture
+			//trouver un nom mieux que ça !
 		}
 		else if(m_mask.parent != null)
 			m_layerRef.skin.removeChild(m_mask);

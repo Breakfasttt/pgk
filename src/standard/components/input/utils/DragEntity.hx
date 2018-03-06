@@ -112,7 +112,7 @@ class DragEntity extends EntityPointerBehaviour
 	{
 		//m_position2DRef.position2d.anchor.copy(pos);
 		getParentData();
-		m_locationRef.position.position2d.anchor.copy(pos.worldPosition).substract(m_parentPosition).divide(m_parentScale).substract(m_startPosition);
+		m_locationRef.position.position2d.anchor.copy(pos.worldPosition).vSubstract(m_parentPosition).divide(m_parentScale).vSubstract(m_startPosition);
 		m_locationRef.position.position2d.anchor.xLimits(m_minPosition.x, m_maxPosition.x);
 		m_locationRef.position.position2d.anchor.yLimits(m_minPosition.y, m_maxPosition.y);
 	}

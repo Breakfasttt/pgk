@@ -3,7 +3,7 @@ import haxe.io.Path;
 
 /**
  * Some Tools to manage Path String
- * @author
+ * @author breakyt
  */
 class PathTools
 {
