@@ -199,6 +199,7 @@ class TestMe
 		//secondElement.add(new UtilitySize2D(50, 50));
 		
 		var popupTest : TestPopup = new TestPopup(app, entityFactory); 
+		var popupTest2 : TestPopup = new TestPopup(app, entityFactory); 
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		//entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
@@ -211,11 +212,12 @@ class TestMe
 		app.addEntity(mainLayer);
 		app.addEntity(popupLayer);
 		app.addEntity(popupTest.entity);
+		app.addEntity(popupTest2.entity);
 		//app.addEntity(secondElement);
 		//app.addEntity(firstElement);
 		
 		
-		locModule.debugShowLocGroupRect();
+		//locModule.debugShowLocGroupRect();
 		app.tick.tick.add(testTotation);
 	}	
 	

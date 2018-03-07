@@ -79,4 +79,16 @@ class Opener extends Component
 		if (m_closeTransition != null &&m_closeTransition.onTransition)
 			m_closeTransition.update(delta);
 	}
+	
+	public function isOnTransit() : Bool
+	{
+		var result : Bool = false;
+		if (m_openTransition != null && m_openTransition.onTransition)
+			result = true;
+			
+		if(m_closeTransition != null && m_closeTransition.onTransition)
+			result = result && true;
+		
+		return result;
+	}
 }
