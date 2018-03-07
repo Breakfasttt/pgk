@@ -28,6 +28,7 @@ import standard.module.input.PointerBehavioursModule;
 import standard.utils.uicontainer.impl.PopupContainer;
 import test.component.CompTest;
 import test.component.CompTest2;
+import test.misc.popup.TestPopup;
 import test.module.ModuleTest;
 import test.module.ModuleTest2;
 import tools.math.Anchor;
@@ -131,14 +132,14 @@ class TestMe
 		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
 		mainLayer.add(new RatioResizer());
 		
-		var firstElement : Entity = entityFactory.createGameElement("square1", "backLayer","test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
-		var secondElement : Entity = entityFactory.createGameElement("square1", "mainLayer", "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
+		var firstElement : Entity = entityFactory.createGameElement("square1", backLayer,"test.png", 1, Anchor.center, Anchor.center, 1.0, 1.0);
+		var secondElement : Entity = entityFactory.createGameElement("square1", mainLayer, "test.png", 1, Anchor.topLeft, Anchor.topLeft, 1.0, 1.0);
 		
-		var thirdElement : Entity = entityFactory.createGameElement("square3", "mainLayer", "test.png", 2, new Anchor(50,50,false), Anchor.center, 0.5, 0.5);
-		var fourthElement : Entity = entityFactory.createGameElement("square4", "mainLayer", "test.png", 3, Anchor.center, Anchor.center, 0.2, 0.2);
+		var thirdElement : Entity = entityFactory.createGameElement("square3", mainLayer, "test.png", 2, new Anchor(50,50,false), Anchor.center, 0.5, 0.5);
+		var fourthElement : Entity = entityFactory.createGameElement("square4", mainLayer, "test.png", 3, Anchor.center, Anchor.center, 0.2, 0.2);
 		
 		var miniLayer : Entity = entityFactory.createLayer("miniLayer", 1, 50, 50, Anchor.center, Anchor.center);
-		var fifthElement : Entity = entityFactory.createGameElement("square5", "miniLayer", "img/placeholder.png", 4, Anchor.topLeft, Anchor.topLeft, 0.3, 0.3);
+		var fifthElement : Entity = entityFactory.createGameElement("square5", miniLayer, "img/placeholder.png", 4, Anchor.topLeft, Anchor.topLeft, 0.3, 0.3);
 		
 		app.addEntity(mainLayer);
 		//app.addEntity(backLayer);
@@ -190,18 +191,14 @@ class TestMe
 		app.addModule(new DebugModule(), 6);
 		
 		
-		var firstElement : Entity = entityFactory.createGameElement("square1", "square2", "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
-		var secondElement : Entity = entityFactory.createGameElement("square2", "mainLayer", "test2", 1, Anchor.center, Anchor.center, "twice", 1.0, 1.0);
+		var firstElement : Entity = entityFactory.createGameElement("square1", mainLayer, "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
+		var secondElement : Entity = entityFactory.createGameElement("square2", firstElement, "test2", 1, Anchor.center, Anchor.center, "twice", 1.0, 1.0);
 		rot = new Rotation2D(0);
 		secondElement.add(rot);
 		//secondElement.getComponent(UtilitySize2D).autoUtilitySize = true;
 		//secondElement.add(new UtilitySize2D(50, 50));
 		
-		var popupTest : PopupContainer = new PopupContainer("testpopup", app, entityFactory); 
-		
-		
-		
-		
+		var popupTest : TestPopup = new TestPopup(app, entityFactory); 
 		
 		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		//entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
@@ -218,7 +215,7 @@ class TestMe
 		//app.addEntity(firstElement);
 		
 		
-		//locModule.debugShowLocGroupRect();
+		locModule.debugShowLocGroupRect();
 		app.tick.tick.add(testTotation);
 	}	
 	

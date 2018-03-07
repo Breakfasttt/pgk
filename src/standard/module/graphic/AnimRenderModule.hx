@@ -57,8 +57,12 @@ class AnimRenderModule extends Module<AnimRenderGroup>
 			{
 				group.animation.update(delta);
 				group.display.renderBitmap.bitmapData = group.display.model.getBitmapData(group.animation.currentFrame, group.animation.currentAnim);
-				group.pivot.pivot.ratioMode = false;
-				group.pivot.pivot.anchor.copy(group.display.model.getBitmapDataOffset(group.animation.currentFrame, group.animation.currentAnim));
+				
+				if (group.animation.useAnimationPivot)
+				{
+					group.pivot.pivot.ratioMode = false;
+					group.pivot.pivot.anchor.copy(group.display.model.getBitmapDataOffset(group.animation.currentFrame, group.animation.currentAnim));
+				}
 			}
 		}
 		

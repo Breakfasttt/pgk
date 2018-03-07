@@ -23,6 +23,8 @@ class Animation extends Component
 	
 	public var currentFrameRate(default, null) : Int;
 	
+	public var useAnimationPivot : Bool;
+	
 	public var loop : Bool;
 	
 	public var rewind(default, set) : Bool;
@@ -43,8 +45,9 @@ class Animation extends Component
 		this.modelRef = modelRef;
 		this.animEnded = new Signal0();
 		
-		loop = true;
-		rewind = false;
+		this.useAnimationPivot = true;
+		this.loop = true;
+		this.rewind = false;
 		m_sens = 1.0;
 		speedRatio = 1.0;
 		

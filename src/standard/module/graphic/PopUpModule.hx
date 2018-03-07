@@ -57,22 +57,12 @@ class PopUpModule extends Module<PopUpGroup>
 			group.opener.setEntityRef(group.entityRef);
 		
 		m_popupStack.push(group);
-		showTop();
+		showNext();
 	}
 	
 	override function onCompGroupRemove(group:PopUpGroup):Void 
 	{
-		m_popupStack.remove(group);
-		
-		if (group == m_currentPopup)
-		{
-			if (m_currentPopup.popup.skin != null && m_currentPopup.popup.skin.parent != null)
-				m_currentPopup.popup.skin.parent.removeChild(m_currentPopup.popup.skin);
-				
-			m_currentPopup = null;
-		}
-			
-		showTop();
+		//nothing special
 	}
 	
 	override public function update(delta:Float):Void 
@@ -84,11 +74,8 @@ class PopUpModule extends Module<PopUpGroup>
 		}
 	}
 	
-	private function showTop() : Void
+	private function showNext() : Void
 	{
-		if (m_popupStack.length > 0 && m_currentPopup == m_popupStack[m_popupStack.length -1])
-			return;
-		
 		closeCurrentPopup();
 	}
 	
@@ -106,9 +93,10 @@ class PopUpModule extends Module<PopUpGroup>
 	
 	private function onClose() : Void
 	{
-		if (m_currentPopup != null && m_currentPopup.popup.skin != null && m_currentPopup.popup.skin.parent != null)
+		if (m_currentPopup != null)
 		{
-			m_currentPopup.popup.skin.parent.removeChild(m_currentPopup.popup.skin);
+			if(m_currentPopup.popup.skin != null && m_currentPopup.popup.skin.parent != null)
+				m_currentPopup.popup.skin.parent.removeChild(m_currentPopup.popup.skin);
 			
 			if (m_currentPopup.opener != null)
 			{
@@ -116,11 +104,13 @@ class PopUpModule extends Module<PopUpGroup>
 				// we finish the transition "silently"
 				m_currentPopup.opener.onClose = null;
 				m_currentPopup.opener.onOpen = null;
-			}
+			}	
 			
+			m_appRef.removeEntity(m_currentPopup.entityRef);
+			m_popupStack.remove(m_currentPopup);
+			m_currentPopup = null;
 		}
-			
-		m_currentPopup = null;
+		
 		openLastPopup();
 	}
 	
@@ -160,10 +150,15 @@ class PopUpModule extends Module<PopUpGroup>
 		if ( m_layerRef == null ||  m_utilitySizeRef == null)
 			return;
 		
-		m_mask.graphics.beginFill(0x000000, 0.45);
+		m_mask.graphics.beginFill(0x000000, 0.20);
 		m_mask.graphics.drawRect(0, 0, m_utilitySizeRef.width, m_utilitySizeRef.height);
 		m_mask.graphics.endFill();
 		//m_layerRef.skin.addChildAt(m_mask, 0);	
+	}
+	
+	public function closeLastPopup() : Void
+	{
+		showNext();
 	}
 	
 	

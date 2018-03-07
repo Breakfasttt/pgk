@@ -7,6 +7,7 @@ import standard.components.graphic.animation.Animation;
 import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.Display;
 import standard.components.graphic.display.impl.GameElementDisplay;
+import standard.components.misc.ParentEntity;
 import standard.components.space2d.Depth;
 import standard.components.space2d.Pivot2D;
 import standard.components.space2d.Position2D;
@@ -49,7 +50,7 @@ class EntityFactory
 		return e;
 	}
 	
-	public function createGameElement(	name : String, parentLayer : String, modelName : String, 
+	public function createGameElement(	name : String, parentEntity : Entity, modelName : String, 
 												depth : Float, position : Anchor, pivot : Anchor, 
 												startAnim : String = null, 
 												scaleX : Float = 1.0, scaleY : Float = 1.0) : Entity
@@ -72,11 +73,15 @@ class EntityFactory
 		}
 			
 		
-		e.add(new GameElementDisplay(parentLayer, model));
+		e.add(new GameElementDisplay(model));
 		e.add(new Depth(depth));
 		e.add(new Position2D(position));
 		e.add(new Pivot2D(pivot));
-		e.add(new Scale2D(scaleX,scaleY));
+		e.add(new Scale2D(scaleX, scaleY));
+		
+		if (parentEntity != null)
+			e.add(new ParentEntity(parentEntity));
+		
 		return e;
 	}
 	

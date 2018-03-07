@@ -5,7 +5,9 @@ import core.entity.Entity;
 import standard.components.graphic.display.impl.PopUp;
 import standard.components.graphic.transition.Opener;
 import standard.components.graphic.transition.impl.ScaleTransitionEntity;
+import standard.components.input.utils.EntityAsSimpleButton;
 import standard.factory.EntityFactory;
+import standard.module.graphic.PopUpModule;
 import standard.utils.uicontainer.UiContainer;
 import tools.math.Anchor;
 
@@ -16,25 +18,39 @@ import tools.math.Anchor;
 class PopupContainer extends UiContainer 
 {
 
-	private var m_button1 : Entity;
-	private var m_button2 : Entity;
+	private var m_modulePopupRef : PopUpModule;
+	
+	public var opener(default,null) : Opener;
 	
 	public function new(name:String, appRef:Application, entityFactory : EntityFactory) 
 	{
 		super(name, appRef, entityFactory);
+		m_modulePopupRef = this.m_appRef.modManager.getModule(PopUpModule);
+		
 		this.display = new PopUp();
 		this.entity.add(this.display);
-		this.entity.add(new Opener(new ScaleTransitionEntity(1.0, 1.0, 1.0, false), new ScaleTransitionEntity(1.0, 1.0, 1.0, true)));
-		
+		configure();
 		createElement();
 	}
 	
-	override private function createElement() : Void
+	/**
+	 * Override it if you want a specific configuration (like set the UtilitySize for exemple)
+	 */
+	private function configure() : Void
 	{
-		m_button1 = m_entityFactoryRef.createGameElement("button1", "", "test", 0, Anchor.topLeft, Anchor.topLeft);
-		m_button2 = m_entityFactoryRef.createGameElement("button1", "", "test", 0, Anchor.topLeft, Anchor.topLeft);
-		this.add(m_button1);
-		this.add(m_button2);
+		this.opener = new Opener(new ScaleTransitionEntity(10.0, 1.0, 1.0, false), new ScaleTransitionEntity(10.0, 1.0, 1.0, true));
+		this.entity.add(this.opener);
+		this.position.position2d = Anchor.center;
+		this.pivot.pivot = Anchor.center;
+	}
+	
+	/**
+	 * Close this popup
+	 */
+	public function closePopup() : Void
+	{
+		if (m_modulePopupRef != null)
+			m_modulePopupRef.closeLastPopup();
 	}
 	
 }

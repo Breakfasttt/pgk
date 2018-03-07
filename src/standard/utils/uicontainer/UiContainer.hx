@@ -3,6 +3,7 @@ import core.Application;
 import core.entity.Entity;
 import standard.components.graphic.display.Display;
 import standard.components.graphic.display.impl.GameElementDisplay;
+import standard.components.misc.ParentEntity;
 import standard.components.space2d.Pivot2D;
 import standard.components.space2d.Position2D;
 import standard.components.space2d.Rotation2D;
@@ -52,10 +53,15 @@ class UiContainer
 	
 	public function add(e : Entity) : Void
 	{
-		var geComponent :  GameElementDisplay = e.getComponent(GameElementDisplay);
+		var parentComp :  ParentEntity = e.getComponent(ParentEntity);
 		
-		if(geComponent!=null)
-			geComponent.entityParentName = this.entity.name;
+		if (parentComp != null)
+			parentComp.setParent(this.entity);
+		else
+		{
+			parentComp = new ParentEntity(this.entity);
+			e.add(parentComp);
+		}
 			
 		if (m_appRef != null)
 			m_appRef.addEntity(e);
@@ -63,10 +69,17 @@ class UiContainer
 	
 	public function remove(e : Entity) : Void
 	{
+		var parentComp :  ParentEntity = e.getComponent(ParentEntity);
+		if (parentComp != null)
+			parentComp.setParent(null);
+		
 		if (m_appRef != null)
 			m_appRef.removeEntity(e);
 	}
 	
+	/**
+	 * Override it to add element with add() function to compose the container
+	 */
 	private function createElement() : Void
 	{
 		trace("UiContainer::createElement:: override it");

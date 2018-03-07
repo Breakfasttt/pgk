@@ -16,34 +16,13 @@ import openfl.utils.Assets;
  */
 class GameElementDisplay extends Display 
 {
-	
-	/**
-	 * The Parent entity name. If parent entity have a display, 'this' Display is added to the Display list of the parent entity
-	 * If entity not found or have no display, 'this' Display will not be add to the display list
-	 */
-	public var entityParentName(default, set) : String;
-	
-	public var entityParentChange(default,null) : Signal0;
-	
 	/**
 	 * @param	entityLayerName : the name of the Layer Parent Entity. if not exist, Gameelement will be added to the Stage instead of a layer
 	 * @param	model
 	 */
-	public function new(entityParentName : String, model:Model) 
+	public function new(model:Model) 
 	{
 		super();
-		entityParentChange = new Signal0();
-		this.entityParentName = entityParentName;
 		this.setModel(model);
-	}
-	
-	function set_entityParentName(value:String):String 
-	{
-		if (value != entityParentName)
-		{
-			entityParentName = value;
-			entityParentChange.dispatch;
-		}
-		return entityParentName = value;
 	}
 }

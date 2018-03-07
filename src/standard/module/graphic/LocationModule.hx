@@ -253,7 +253,7 @@ class LocationModule extends Module <LocationGroup>
 			var color : UInt = Color.randomColor();
 			
 			rect.graphics.beginFill(color, 0.5);
-			rect.graphics.drawRect(0, 0, group.getWidth(), group.getHeight());
+			rect.graphics.drawRect(0, 0, group.getWidthAtScale1(), group.getHeightAtScale1());
 			rect.graphics.endFill();
 			
 			var pivotPosition : Vector2D = new Vector2D();

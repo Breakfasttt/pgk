@@ -27,14 +27,20 @@ class GameElementModule extends Module<GameElementGroup>
 	override function onCompGroupAdded(group:GameElementGroup):Void 
 	{
 		group.depth.onDepthChange.add(sortElements);
-		group.gameElement.entityParentChange.add(sortElements);
+		
+		if(group.parentEntity!=null)
+			group.parentEntity.parentChange.add(sortElements);
+			
 		sortElements();
 	}
 	
 	override function onCompGroupRemove(group:GameElementGroup):Void 
 	{
 		group.depth.onDepthChange.remove(sortElements);
-		group.gameElement.entityParentChange.remove(sortElements);
+		
+		if(group.parentEntity!=null)
+			group.parentEntity.parentChange.remove(sortElements);
+			
 		removeFromStage(group);
 	}
 	
@@ -67,7 +73,8 @@ class GameElementModule extends Module<GameElementGroup>
 			
 			removeFromStage(element);
 			//todo => remplacer par un composant ParentEntity(entityRef) ou un truc du genre.
-			m_tempParentEntity = this.m_appRef.getEntity(element.gameElement.entityParentName);
+			if(element.parentEntity != null)
+				m_tempParentEntity = element.parentEntity.parentEntity;
 			
 			if (m_tempParentEntity != null)
 			{

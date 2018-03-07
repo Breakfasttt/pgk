@@ -19,7 +19,7 @@ class ScaleTransitionEntity extends EntityTransition
 	
 	private var m_invert : Bool;
 	
-	public function new(speed : Float = 1.0, scaleTargetX : Null<Float> = null, scaleTargetY : Null<Float> = null,  invert : Bool = false) 
+	public function new(speed : Float = 10.0, scaleTargetX : Null<Float> = 1.0, scaleTargetY : Null<Float> = 1.0,  invert : Bool = false) 
 	{
 		super();
 		
@@ -113,7 +113,7 @@ class ScaleTransitionEntity extends EntityTransition
 		
 		m_currentScale.add( -m_speed * dt / 1000, -m_speed * dt / 1000); 
 		
-		if (0.0 <= m_currentScale.x && 0.0 <= m_currentScale.y)
+		if (m_currentScale.x <= 0.0 &&  m_currentScale.y <= 0.0)
 		{
 			end();
 			return;
