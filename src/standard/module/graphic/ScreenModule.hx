@@ -32,6 +32,9 @@ class ScreenModule extends Module<ScreenGroup>
 	override function onCompGroupAdded(group:ScreenGroup):Void 
 	{
 		m_screens.set(group.entityRef.name, group);
+		
+		if (group.opener != null)
+			group.opener.setEntityRef(group.entityRef);
 	}
 	
 	override function onCompGroupRemove(group:ScreenGroup):Void 
@@ -49,6 +52,11 @@ class ScreenModule extends Module<ScreenGroup>
 	
 	override public function update(delta:Float):Void 
 	{
+		for (group in m_compGroups)
+		{
+			if (group.opener != null)
+				group.opener.update(delta);
+		}
 	}
 	
 	private function attachGroupToLayer(group : ScreenGroup)
@@ -65,16 +73,19 @@ class ScreenModule extends Module<ScreenGroup>
 	
 	public function goToScreen(screenName : String = null, transitAtsameTime : Bool = true) : Void
 	{
-		if (screenName != null && m_currentScreen.entityRef.name  == screenName)
+		//if same screen, we do nothing
+		if (screenName != null && m_currentScreen != null && m_currentScreen.entityRef.name  == screenName)
 			return;
 			
+		//if current screen is null and screen to go is null, we do nothing	
 		if (screenName == null && m_currentScreen == null)
 			return;
 			
+		// any screen on transit, we do nothing	
 		if (m_previousScreen != null && m_previousScreen.opener !=null && m_previousScreen.opener.isOnTransit())
 			return;
 			
-		if (m_currentScreen != null && m_previousScreen.opener != null && m_currentScreen.opener.isOnTransit())
+		if (m_currentScreen != null && m_currentScreen.opener != null && m_currentScreen.opener.isOnTransit())
 			return;
 		
 		m_previousScreen = m_currentScreen;
@@ -88,7 +99,7 @@ class ScreenModule extends Module<ScreenGroup>
 		else
 			previousClosed(transitAtsameTime);
 			
-		if (transitAtSametime)
+		if (transitAtsameTime)
 			startOpenCurrentScreen();
 			
 
@@ -96,7 +107,7 @@ class ScreenModule extends Module<ScreenGroup>
 	
 	private function previousClosed(transitAtSametime : Bool) : Void
 	{
-		if (m_previousScreen.screen.onClose != null)
+		if (m_previousScreen != null && m_previousScreen.screen.onClose != null)
 			m_previousScreen.screen.onClose();
 			
 		
@@ -111,7 +122,7 @@ class ScreenModule extends Module<ScreenGroup>
 		if (m_currentScreen != null)
 		{
 			if (m_currentScreen.screen.onInit != null)
-				m_currentScreen.screen.onInit;
+				m_currentScreen.screen.onInit();
 			
 			this.attachGroupToLayer(m_currentScreen);
 			

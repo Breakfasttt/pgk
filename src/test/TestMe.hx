@@ -24,11 +24,13 @@ import standard.module.graphic.LayerModule;
 import standard.module.graphic.LocationModule;
 import standard.module.graphic.AnimRenderModule;
 import standard.module.graphic.PopUpModule;
+import standard.module.graphic.ScreenModule;
 import standard.module.input.PointerBehavioursModule;
 import standard.utils.uicontainer.impl.PopupContainer;
 import test.component.CompTest;
 import test.component.CompTest2;
 import test.misc.popup.TestPopup;
+import test.misc.screen.TestScreen;
 import test.module.ModuleTest;
 import test.module.ModuleTest2;
 import tools.math.Anchor;
@@ -177,48 +179,60 @@ class TestMe
 		var mainLayer : Entity = entityFactory.createLayer("mainLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
 		mainLayer.add(new RatioResizer());	
 		
-		var popupLayer : Entity = entityFactory.createLayer("popupLayer", 0, app.width, app.height, Anchor.center, Anchor.center);
+		var screenLayer : Entity = entityFactory.createLayer("screenLayer", 1, app.width, app.height, Anchor.center, Anchor.center);
+		screenLayer.add(new RatioResizer());	
+		
+		var popupLayer : Entity = entityFactory.createLayer("popupLayer", 2, app.width, app.height, Anchor.center, Anchor.center);
 		popupLayer.add(new RatioResizer());	
 		
+		var screenModule : ScreenModule = new ScreenModule(screenLayer.getComponent(Layer));
 		var popupModule : PopUpModule = new PopUpModule(popupLayer.getComponent(Layer), popupLayer.getComponent(UtilitySize2D));
 		
 		app.addModule(layModule, 0);
-		app.addModule(popupModule, 1);
-		app.addModule(gameElementModule, 2);
-		app.addModule(renderModule, 3);
-		app.addModule(locModule, 4);
-		app.addModule(pointerModule, 5);
-		app.addModule(new DebugModule(), 6);
+		app.addModule(screenModule, 1);
+		app.addModule(popupModule, 2);
+		app.addModule(gameElementModule, 3);
+		app.addModule(renderModule, 4);
+		app.addModule(locModule, 5);
+		app.addModule(pointerModule, 6);
+		app.addModule(new DebugModule(), 7);
 		
 		
-		var firstElement : Entity = entityFactory.createGameElement("square1", mainLayer, "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
+		/*var firstElement : Entity = entityFactory.createGameElement("square1", mainLayer, "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
 		var secondElement : Entity = entityFactory.createGameElement("square2", firstElement, "test2", 1, Anchor.center, Anchor.center, "twice", 1.0, 1.0);
 		rot = new Rotation2D(0);
-		secondElement.add(rot);
+		secondElement.add(rot);*/
 		//secondElement.getComponent(UtilitySize2D).autoUtilitySize = true;
 		//secondElement.add(new UtilitySize2D(50, 50));
 		
-		var popupTest : TestPopup = new TestPopup(app, entityFactory); 
-		var popupTest2 : TestPopup = new TestPopup(app, entityFactory); 
+		//var popupTest : TestPopup = new TestPopup(app, entityFactory); 
+		//var popupTest2 : TestPopup = new TestPopup(app, entityFactory); 
 		
-		var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
+		var screenTest : TestScreen = new TestScreen("screen1", app, entityFactory);
+		var screenTest2 : TestScreen = new TestScreen("screen2", app, entityFactory);
+		
+		//var entPointerBehaviour : PointerBehavioursComponent = new PointerBehavioursComponent();
 		//entPointerBehaviour.addBehaviour(new DragEntity(locModule), 0);
-		var button : EntityAsSimpleButton = new EntityAsSimpleButton(false);
-		entPointerBehaviour.addBehaviour(button,0);
-		secondElement.add(entPointerBehaviour);
-		
+		//var button : EntityAsSimpleButton = new EntityAsSimpleButton(false);
+		//entPointerBehaviour.addBehaviour(button,0);
+		//secondElement.add(entPointerBehaviour);
 		//secondElement.getComponent(Animation).speedRatio = 3.0;
 		
 		app.addEntity(mainLayer);
+		app.addEntity(screenLayer);
 		app.addEntity(popupLayer);
-		app.addEntity(popupTest.entity);
-		app.addEntity(popupTest2.entity);
+		app.addEntity(screenTest.entity);
+		app.addEntity(screenTest2.entity);
+		//app.addEntity(popupTest.entity);
+		//app.addEntity(popupTest2.entity);
 		//app.addEntity(secondElement);
 		//app.addEntity(firstElement);
 		
+		screenModule.goToScreen("screen1");
+		//WorldSignal.self.worldPointerPress.add(function(data : PointerData) { var rand = Std.random(2) + 1; screenModule.goToScreen("screen" + rand); });
 		
 		//locModule.debugShowLocGroupRect();
-		app.tick.tick.add(testTotation);
+		//app.tick.tick.add(testTotation);
 	}	
 	
 	private static var rot : Rotation2D;

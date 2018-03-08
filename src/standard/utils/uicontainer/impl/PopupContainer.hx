@@ -25,7 +25,9 @@ class PopupContainer extends UiContainer
 	public function new(name:String, appRef:Application, entityFactory : EntityFactory) 
 	{
 		super(name, appRef, entityFactory);
-		m_modulePopupRef = this.m_appRef.modManager.getModule(PopUpModule);
+		
+		if(m_appRef != null)
+			m_modulePopupRef = this.m_appRef.modManager.getModule(PopUpModule);
 		
 		this.display = new PopUp();
 		this.entity.add(this.display);

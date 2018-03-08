@@ -8,6 +8,10 @@
 		"mainResourcePath":"img/placeholder.png"
 	},
 	{
+		"name":"bgplaceholder",
+		"mainResourcePath":"img/bgplaceholder.jpg"
+	},
+	{
 		"name":"spritesheet1",
 		"mainResourcePath":"model/spritesheet/sheettest.spritesheet"
 	},
