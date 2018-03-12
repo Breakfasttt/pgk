@@ -229,7 +229,7 @@ class TestMe
 		//app.addEntity(firstElement);
 		
 		screenModule.goToScreen("screen1");
-		//WorldSignal.self.worldPointerPress.add(function(data : PointerData) { var rand = Std.random(2) + 1; screenModule.goToScreen("screen" + rand); });
+		WorldSignal.self.worldPointerPress.add(function(data : PointerData) { var rand = Std.random(2) + 1; screenModule.goToScreen("screen" + rand); });
 		
 		//locModule.debugShowLocGroupRect();
 		//app.tick.tick.add(testTotation);
