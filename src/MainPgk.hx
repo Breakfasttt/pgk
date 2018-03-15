@@ -14,7 +14,7 @@ import standard.module.graphic.LayerModule;
  * ...
  * @author Breakyt
  */
-class Main extends Sprite 
+class MainPgk extends Sprite 
 {
 
 	public function new() 

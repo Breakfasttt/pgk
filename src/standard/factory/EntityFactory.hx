@@ -7,6 +7,8 @@ import standard.components.graphic.animation.Animation;
 import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.Display;
 import standard.components.graphic.display.impl.GameElementDisplay;
+import standard.components.input.PointerBehavioursComponent;
+import standard.components.input.utils.EntityAsSimpleButton;
 import standard.components.misc.ParentEntity;
 import standard.components.space2d.Depth;
 import standard.components.space2d.Pivot2D;
@@ -83,6 +85,39 @@ class EntityFactory
 			e.add(new ParentEntity(parentEntity));
 		
 		return e;
+	}
+	
+	public function createSimpleBtn(name : String, parentEntity : Entity, modelName : String, depth : Float, 
+										position : Anchor, pivot : Anchor, 
+										onSelect : Void->Void = null,
+										onUnSelect : Void->Void  = null,
+										onRollOver : Void->Void  = null,
+										onRollOut : Void->Void  = null,
+										scaleX : Float = 1.0, scaleY : Float = 1.0) : Entity
+	{
+		var entity = this.createGameElement(name, parentEntity, modelName, depth, position, pivot, null, scaleX, scaleY);
+		var behaviours : PointerBehavioursComponent = new PointerBehavioursComponent();
+		var btnBehaviour : EntityAsSimpleButton = new EntityAsSimpleButton(false);
+		btnBehaviour.onSelect = onSelect;
+		btnBehaviour.onUnSelect = onUnSelect;
+		btnBehaviour.onRollOver = onRollOver;
+		btnBehaviour.onRollOut =  onRollOut;
+		
+		behaviours.addBehaviour(btnBehaviour, 0);
+		entity.add(behaviours);
+		
+		try
+		{
+			entity.getComponent(Animation).useAnimationPivot = false;
+		}
+		catch (e : Dynamic)
+		{
+			//nothing special
+		}
+		
+		
+		return entity;
+		
 	}
 	
 }
