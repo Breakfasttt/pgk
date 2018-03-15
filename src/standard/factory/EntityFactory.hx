@@ -7,6 +7,7 @@ import standard.components.graphic.animation.Animation;
 import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.Display;
 import standard.components.graphic.display.impl.GameElementDisplay;
+import standard.components.graphic.display.impl.TextDisplay;
 import standard.components.input.PointerBehavioursComponent;
 import standard.components.input.utils.EntityAsSimpleButton;
 import standard.components.misc.ParentEntity;
@@ -115,9 +116,28 @@ class EntityFactory
 			//nothing special
 		}
 		
-		
 		return entity;
+	}
+	
+	
+	public function createTextField(	name : String, parentEntity : Entity, text : String, 
+												depth : Float, position : Anchor, pivot : Anchor, 
+												startAnim : String = null, 
+												scaleX : Float = 1.0, scaleY : Float = 1.0) : Entity
+	{
 		
+		var e : Entity = new Entity(name);
+		
+		e.add(new TextDisplay(text));
+		e.add(new Depth(depth));
+		e.add(new Position2D(position));
+		e.add(new Pivot2D(pivot));
+		e.add(new Scale2D(scaleX, scaleY));
+		
+		if (parentEntity != null)
+			e.add(new ParentEntity(parentEntity));
+		
+		return e;
 	}
 	
 }
