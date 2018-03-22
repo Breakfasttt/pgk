@@ -26,6 +26,21 @@ class LayerModule extends Module<LayerGroup>
 	
 	override function onCompGroupAdded(group:LayerGroup):Void 
 	{
+		group.layer.skin.mask = group.layer.mask;
+		group.layer.skin.addChild(group.layer.mask);
+		
+		if (group.utilitySize != null)
+		{
+			group.layer.skin.mask.width = group.utilitySize.width;
+			group.layer.skin.mask.height = group.utilitySize.height;
+		}
+		else
+		{
+			group.layer.skin.mask.width = group.layer.skin.width;
+			group.layer.skin.mask.height = group.layer.skin.height;
+			
+		}
+		
 		sortLayers();
 	}
 	

@@ -16,6 +16,9 @@ import standard.components.graphic.display.Display;
  */
 class Layer extends Display 
 {
+	
+	public var mask(default, null) : Sprite;
+	
 	/**
 	 * A layer is a Display without model attach only on the Stage.
 	 * If you want an empty display use Screen.hx or Popup.hx display.
@@ -24,6 +27,10 @@ class Layer extends Display
 	public function new() 
 	{
 		super();
+		mask = new Sprite();
+		mask.graphics.beginFill(0xff0000, 1);
+		mask.graphics.drawRect(0, 0, 1, 1);
+		mask.graphics.endFill();
 	}
 	
 }
