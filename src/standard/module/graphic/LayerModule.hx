@@ -1,5 +1,6 @@
 package standard.module.graphic;
 
+import core.entity.Entity;
 import core.module.Module;
 import openfl.display.Stage;
 import standard.components.graphic.display.impl.Layer;
@@ -92,5 +93,4 @@ class LayerModule extends Module<LayerGroup>
 		
 		return null;
 	}
-	
 }

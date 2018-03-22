@@ -40,6 +40,7 @@ class ScreenContainer extends UiContainer
 	private function configure() : Void
 	{
 		//Todo améliorer ça, c'est pas top
+		this.utilitySize.autoUtilitySize = false;
 		this.opener = new Opener(new SwapEntityTransition(m_appRef.width), new SwapEntityTransition(null,-m_appRef.width));
 		this.entity.add(this.opener);
 		

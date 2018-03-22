@@ -29,7 +29,7 @@ class UiContainer
 	public var scale(default,null) : Scale2D;
 	public var utilitySize(default,null) : UtilitySize2D;
 	public var rotation(default,null) : Rotation2D;
-	public var display(default,null) : Display;
+	public var display(default, null) : Display;
 	
 	
 	public function new(name : String, appRef : Application, entityFactory : EntityFactory) 
@@ -41,7 +41,7 @@ class UiContainer
 		this.position = new Position2D(Anchor.topLeft);
 		this.pivot = new Pivot2D(Anchor.topLeft);
 		this.scale = new Scale2D();
-		this.utilitySize = new UtilitySize2D(0, 0, true);
+		this.utilitySize = new UtilitySize2D(appRef.width, appRef.height, true);
 		this.rotation = new Rotation2D();
 		
 		this.entity.add(this.position);
