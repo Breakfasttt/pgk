@@ -218,7 +218,7 @@ class LocationModule extends Module <LocationGroup>
 			parentGroup.pivot.pivot.applyOffset(group.display.skin, pWidth, pHeight, true);
 			
 		if (group.rotation != null)
-			group.display.skin.rotation = group.rotation.angle;			
+			group.display.skin.rotation = group.rotation.angle;	
 			
 		group.pivot.pivot.applyOffset(group.display.skin, initWidth, initHeight);
 			

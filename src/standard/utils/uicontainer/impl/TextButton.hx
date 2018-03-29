@@ -59,10 +59,11 @@ class TextButton extends UiContainer
 		this.position.position2d = position;
 		this.pivot.pivot = pivot;
 		this.depth.depth = depth;
+		this.scale.scale.set(scaleX, scaleY);
 		
-		m_btnEntity = this.m_entityFactoryRef.createSimpleBtn(this.entity.name + "::btn", this.entity, modelName, 0, Anchor.center, Anchor.center, onSelect, onUnSelect, onRollOver, onRollOut, scaleX, scaleY);
+		m_btnEntity = this.m_entityFactoryRef.createSimpleBtn(this.entity.name + "::btn", this.entity, modelName, 0, Anchor.center, Anchor.center, onSelect, onUnSelect, onRollOver, onRollOut);
 		
-		m_textEntity = this.m_entityFactoryRef.createTextField(this.entity.name + "::tf", m_btnEntity, text, 1, new Anchor(0.5,0.6), Anchor.center, null, scaleX, scaleY);
+		m_textEntity = this.m_entityFactoryRef.createTextField(this.entity.name + "::tf", m_btnEntity, text, 1, new Anchor(0.5,0.6), Anchor.center, null);
 		textDisplay = m_textEntity.getComponent(TextDisplay);
 		textDisplay.setFontSize(48);
 		textDisplay.setAlignment(TextFormatAlign.CENTER);

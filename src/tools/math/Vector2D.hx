@@ -7,7 +7,35 @@ package tools.math;
 class Vector2D 
 {
 
+	/**
+	 * A 0/0 vector
+	 */
 	public static var origin : Vector2D = new Vector2D();
+	
+	/**
+	 * Represent a  normalized abcsisse vector (x) based on screen repere
+	 * 
+	 * 
+	 * 0-----> (x)
+	 * |
+	 * |
+	 * |
+	 * V
+	 * (y)
+	 */
+	public static var xUnitAbscisse : Vector2D = new Vector2D(1, 0);
+	
+	/**
+	 * Represent a  normalized ordonne vector (y) based on screen repere
+	 * 
+	 * 0-----> (x)
+	 * |
+	 * |
+	 * |
+	 * V
+	 * (y)
+	 */
+	public static var yUnitOrdonnee : Vector2D = new Vector2D(0,-1);
 	
 	/**
 	 * the X coordinate
