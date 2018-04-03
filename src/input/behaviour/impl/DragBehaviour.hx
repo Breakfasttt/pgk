@@ -73,6 +73,13 @@ class DragBehaviour extends PointerBehaviour
 	
 	private function onStart(mousedata : PointerData)
 	{
+		if (!this.enable)
+		{
+			this.m_signals.press.addOnce(onStart);
+			m_actualPointerId = -1;
+			return;
+		}
+		
 		try
 		{
 			if (m_actualPointerId != -1)
