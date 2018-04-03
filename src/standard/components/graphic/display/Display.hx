@@ -33,6 +33,7 @@ class Display extends Component
 	 * When True, the Location Module draw a colored Rectangle who represents the Box of this display
 	 * + a red circle for the pivot
 	 * Use only for debug and works only on debug configuration
+	 * default = false
 	 */
 	public var debugDrawDisplayRect : Bool; 
 	
@@ -40,6 +41,7 @@ class Display extends Component
 	{
 		super();
 		this.model = null;
+		this.debugDrawDisplayRect = true;
 		this.skin = new Sprite();
 		this.renderBitmap = new Bitmap();
 		this.skin.addChild(this.renderBitmap);

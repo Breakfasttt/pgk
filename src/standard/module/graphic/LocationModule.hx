@@ -37,6 +37,9 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	private var m_rotatedPivot : Anchor;
 	
+	
+	private var m_showRectDebug : Bool;
+	
 	/**
 	 * Display module relocate display component with space2d component
 	 * @param	stage : The reference stage (in general Lib.current.stage)
@@ -47,6 +50,7 @@ class LocationModule extends Module <LocationGroup>
 		this.m_stageRef = stage;
 		this.m_debugRect = new Map();
 		m_rotatedPivot = new Anchor(0, 0);
+		m_showRectDebug = false;
 	}
 	
 	override function onAddedToApplication():Void 
@@ -63,6 +67,7 @@ class LocationModule extends Module <LocationGroup>
 	override function onCompGroupAdded(group:LocationGroup):Void 
 	{
 		group.display.setSkinName(group.entityRef);
+		resize(group);
 		relocate(group);
 	}
 	
@@ -237,11 +242,19 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	private function debugDrawDisplayRect(group : LocationGroup) : Void
 	{
-		if (!group.display.debugDrawDisplayRect)
+		if (!m_showRectDebug)
 		{
-			if (m_debugRect.exists(group))
+			if (m_debugRect.exists(group) )
 			{
-				group.display.skin.removeChild(m_debugRect.get(group));
+				try
+				{
+					group.display.skin.removeChild(m_debugRect.get(group));
+				}
+				catch (e : Dynamic)
+				{
+					
+				}
+				
 				m_debugRect.remove(group);
 			}
 		}
@@ -253,7 +266,16 @@ class LocationModule extends Module <LocationGroup>
 			var color : UInt = Color.randomColor();
 			
 			rect.graphics.beginFill(color, 0.5);
-			rect.graphics.drawRect(0, 0, group.getWidthAtScale1(), group.getHeightAtScale1());
+			rect.graphics.lineStyle(5.0, color, 0.8);
+			rect.graphics.lineTo(group.getWidthAtScale1(), 0);
+			rect.graphics.moveTo(group.getWidthAtScale1(), 0);
+			rect.graphics.lineTo(group.getWidthAtScale1(), group.getHeightAtScale1());
+			rect.graphics.moveTo(group.getWidthAtScale1(), group.getHeightAtScale1());
+			rect.graphics.lineTo(0, group.getHeightAtScale1());
+			rect.graphics.moveTo(0, group.getHeightAtScale1());
+			rect.graphics.lineTo(0, 0);
+			rect.graphics.moveTo(0, 0);
+			//rect.graphics.drawRect(0, 0, group.getWidthAtScale1(), group.getHeightAtScale1());
 			rect.graphics.endFill();
 			
 			var pivotPosition : Vector2D = new Vector2D();
@@ -318,10 +340,7 @@ class LocationModule extends Module <LocationGroup>
 	 */
 	public function debugShowLocGroupRect() : Void
 	{
-		for (group in m_compGroups)
-		{
-			group.display.debugDrawDisplayRect = !group.display.debugDrawDisplayRect;
-		}
+		m_showRectDebug = !m_showRectDebug;
 	}
 	
 }

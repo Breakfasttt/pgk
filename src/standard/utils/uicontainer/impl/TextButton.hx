@@ -5,6 +5,7 @@ import core.entity.Entity;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
+import standard.components.graphic.animation.Animation;
 import standard.components.graphic.display.Display;
 import standard.components.graphic.display.impl.GameElementDisplay;
 import standard.components.graphic.display.impl.TextDisplay;
@@ -55,28 +56,29 @@ class TextButton extends UiContainer
 										scaleX : Float = 1.0, scaleY : Float = 1.0) : Void
 	{
 		
-		
 		this.position.position2d = position;
 		this.pivot.pivot = pivot;
 		this.depth.depth = depth;
 		this.scale.scale.set(scaleX, scaleY);
 		
-		m_btnEntity = this.m_entityFactoryRef.createSimpleBtn(this.entity.name + "::btn", this.entity, modelName, 0, Anchor.center, Anchor.center, onSelect, onUnSelect, onRollOver, onRollOut);
+		m_btnEntity = this.m_entityFactoryRef.createSimpleBtn(this.entity.name + "::btn", this.entity, modelName, 0, Anchor.topLeft, Anchor.topLeft, onSelect, onUnSelect, onRollOver, onRollOut);
 		
-		m_textEntity = this.m_entityFactoryRef.createTextField(this.entity.name + "::tf", m_btnEntity, text, 1, new Anchor(0.5,0.6), Anchor.center, null);
+		this.utilitySize.autoUtilitySize = false;
+		this.utilitySize.width = m_btnEntity.getComponent(Animation).modelRef.getMaxWidth();
+		this.utilitySize.height = m_btnEntity.getComponent(Animation).modelRef.getMaxHeight();
+		
+		m_textEntity = this.m_entityFactoryRef.createTextField(this.entity.name + "::tf", this.entity, text, 1, Anchor.center, Anchor.center, null);
 		textDisplay = m_textEntity.getComponent(TextDisplay);
 		textDisplay.setFontSize(48);
 		textDisplay.setAlignment(TextFormatAlign.CENTER);
 		textDisplay.setAutoSize(TextFieldAutoSize.NONE);
+		textDisplay.setSize(this.utilitySize.width, this.utilitySize.height - 10); //todo => remove hardcode
 		textDisplay.setMiscProperties(false, false, false, false, false, false);
+		textDisplay.skin.mouseChildren = false;
+		textDisplay.skin.mouseEnabled = false;
 		
-		var btnUS : UtilitySize2D = m_btnEntity.getComponent(UtilitySize2D);
-		textDisplay.setSize(btnUS.width, btnUS.height);
-		
-		//only add the btn because textDisplay is children of the button display
-		m_appRef.addEntity(m_textEntity);
 		this.add(m_btnEntity);
-		
+		this.add(m_textEntity);
 	}
 	
 	
