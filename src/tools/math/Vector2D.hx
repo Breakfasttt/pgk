@@ -374,6 +374,17 @@ class Vector2D
 		return this;
 	}
 	
+	/**
+	 * Tst if the length of a vector is equal at 'value' +/- 'epsilon'
+	 * @param	value
+	 * @param	epsilon
+	 * @return
+	 */
+	public function isLengthEqual(value : Float = 0.0, epsilon : Float = 0.01) : Bool
+	{
+		return this.sqLength() <= value * value + epsilon;
+	}
+	
 	
 	/**
 	 * Limit the X and Y coordonate with min/max value in parameters.
@@ -439,6 +450,7 @@ class Vector2D
 		newP.copy(p);
 		return newP;
 	}
+	
 	
 	public function toString() : String
 	{
