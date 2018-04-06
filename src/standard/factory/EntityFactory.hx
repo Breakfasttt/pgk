@@ -68,6 +68,7 @@ class EntityFactory
 			switch(model.modelData.type)// todo => improve th
 			{
 				case ModelType.spriteSheet : e.add(new Animation(model, startAnim));
+				case ModelType.flashSpriteSheet : e.add(new Animation(model, startAnim));
 				case ModelType.timeline : e.add(new Animation(model, startAnim));
 				default : 
 			}

@@ -1,6 +1,7 @@
 package assets.model.library;
 import assets.model.Model;
 import assets.model.impl.EmptyModel;
+import assets.model.impl.FlashSpriteSheet;
 import assets.model.impl.SimpleModel;
 import assets.model.impl.SpriteSheetModel;
 import assets.model.impl.TimelineModel;
@@ -41,6 +42,10 @@ class ModelFactory
 			{
 				return createSpriteSheetModel(modelData);
 			}
+			case ModelType.flashSpriteSheet :
+			{
+				return createFlashSpriteSheetModel(modelData);
+			}
 			default : 
 			{
 				return createEmptyModel(modelData);
@@ -62,6 +67,11 @@ class ModelFactory
 	private function createSpriteSheetModel(modelData : ModelData) : Model
 	{
 		return new SpriteSheetModel(modelData);
+	}
+		
+	private function createFlashSpriteSheetModel(modelData : ModelData) : Model
+	{
+		return new FlashSpriteSheet(modelData);
 	}
 	
 	private function createTimeLineModel(modelData : ModelData) : Model

@@ -1,4 +1,5 @@
 package tools.file;
+import haxe.Json;
 
 /**
  * ...
@@ -13,6 +14,18 @@ class JsonTools
 		try
 		{
 			return Reflect.getProperty(jsonStruct, field);
+		}
+		catch (e : Dynamic)
+		{
+			return null;
+		}
+	}
+	
+	public static function parseJson(rawJson : String) : Dynamic
+	{
+		try
+		{
+			return Json.parse(rawJson);
 		}
 		catch (e : Dynamic)
 		{

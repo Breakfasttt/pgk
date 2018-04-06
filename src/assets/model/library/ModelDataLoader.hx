@@ -76,6 +76,7 @@ class ModelDataLoader
 			case "png" : return ModelType.simple;
 			case "tl" : return ModelType.timeline;
 			case "spritesheet" : return ModelType.spriteSheet;
+			case "flss" : return ModelType.flashSpriteSheet;
 			default : return ModelType.unknow;
 		}
 		
@@ -97,6 +98,7 @@ class ModelDataLoader
 			case "png" : return "";
 			case "tl" : return Assets.getText(modelMainRessource);
 			case "spritesheet" : return Assets.getText(modelMainRessource);
+			case "flss" : return Assets.getText(modelMainRessource);
 			default : return "";
 		}
 		

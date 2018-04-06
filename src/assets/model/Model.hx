@@ -16,6 +16,8 @@ class Model implements IModel
 
 	public static var firstFrameAnim(default, null) : String = "firstFrameAnim";
 	
+	public static var defaultAnim(default, null) : String = "default";
+	
 	private var m_frameratesByAnim :  Map<String, Int>;
 	
 	public var modelData(default, null) : ModelData;

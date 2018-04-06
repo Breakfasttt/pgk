@@ -11,4 +11,5 @@ enum ModelType
 	simple;
 	timeline;
 	spriteSheet;
+	flashSpriteSheet;
 }
