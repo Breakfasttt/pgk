@@ -30,19 +30,22 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	
 	private var m_buttonAnimation : String;
 	
+	private var m_useAnimation : Bool;
+	
 	
 	public var onSelect : Void->Void;
 	public var onUnSelect : Void->Void;
 	public var onRollOver : Void->Void;
 	public var onRollOut : Void->Void;
 	
-	public function new(toggleMode : Bool, buttonAnimation : String = "button") 
+	public function new(toggleMode : Bool, buttonAnimation : String = "button", useAnimation : Bool = true) 
 	{
 		super();
 		m_toggleMode = toggleMode;
 		m_buttonAnimation = buttonAnimation;
 		m_buttonBehaviour = null;
 		m_animation = null;
+		m_useAnimation = useAnimation;
 	}
 	
 	override public function setEntityRef(entityRef:Entity):Void 
@@ -50,7 +53,11 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 		super.setEntityRef(entityRef);
 		
 		m_displayRef = entityRef.getComponent(Display);
-		m_animation = entityRef.getComponent(Animation);
+		
+		if (m_useAnimation)
+			m_animation = entityRef.getComponent(Animation);
+		else
+			m_animation = null;
 		
 		if (m_displayRef == null || m_displayRef.skin == null)
 			return;
