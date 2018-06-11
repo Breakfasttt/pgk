@@ -85,10 +85,13 @@ class ScaleTransitionEntity extends EntityTransition
 	{
 		if (m_scale != null)
 		{
-			if (m_invert)
+			/*if (m_invert)
 				m_scale.scale.set(0, 0);
 			else
-				m_scale.scale.copy(m_scaleTarget);
+				m_scale.scale.copy(m_scaleTarget);*/
+				
+			//at the end of transition, the scale retrieve is init value.
+			m_scale.scale.copy(m_scaleInit);
 		}
 		
 		this.onTransition = false;
