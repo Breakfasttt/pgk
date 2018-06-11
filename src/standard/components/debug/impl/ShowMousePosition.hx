@@ -2,13 +2,12 @@ package standard.components.debug.impl;
 
 import core.Application;
 import core.entity.Entity;
-import flash.display.DisplayObject;
-import openfl.Lib;
+import input.WorldSignal;
+import input.data.PointerData;
 import openfl.geom.Point;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormatAlign;
 import standard.components.debug.DebugComp;
-import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.impl.TextDisplay;
 import standard.components.misc.ParentEntity;
 import standard.components.space2d.Position2D;
@@ -69,14 +68,16 @@ class ShowMousePosition extends DebugComp
 		}
 		
 		appRef.addEntity(m_textEntity);
+		WorldSignal.self.worldPointerMove.add(onPointerMove);
 	}
 	
 	override public function deleteWhenRemove(appRef : Application, layerEntityRef : Entity, entityFactoryRef : EntityFactory):Void 
 	{
 		appRef.removeEntity(m_textEntity);
+		WorldSignal.self.worldPointerMove.remove(onPointerMove);
 	}
 	
-	override public function update(delta:Float):Void 
+	public function onPointerMove(data : PointerData):Void 
 	{
 		if (m_textDisplay == null)
 			return;
@@ -91,11 +92,11 @@ class ShowMousePosition extends DebugComp
 		var ratio : Point = null;
 		var mousePos : Point = new Point();
 		
-		resultTxt += "Stage : " + Lib.current.stage.mouseX + "/" +  Lib.current.stage.mouseY  + " px \n";
+		resultTxt += "Stage : " + data.worldPosition.x + "/" +   data.worldPosition.y  + " px \n";
 		
 		for (lay in layers)
 		{
-			geomPoint = lay.layer.skin.globalToLocal(new Point(Lib.current.stage.mouseX, Lib.current.stage.mouseY));
+			geomPoint = lay.layer.skin.globalToLocal(new Point(data.worldPosition.x, data.worldPosition.y));
 			ratio = new Point( Math.fround((geomPoint.x / lay.utilitySize.width)*100), Math.fround((geomPoint.y / lay.utilitySize.height)*100));
 			resultTxt += lay.entityRef.name + " : " + geomPoint.x + "/" + geomPoint.y + " px (" + ratio.x + "/" + ratio.y + " % )\n";
 			
@@ -108,6 +109,11 @@ class ShowMousePosition extends DebugComp
 			m_textDisplay.text.text = resultTxt;
 			//m_textPosition.position2d.setValue(mousePos.x, mousePos.y);
 		}
+	}
+	
+	override public function update(delta:Float):Void 
+	{
+		//nothing special
 	}
 	
 }
