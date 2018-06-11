@@ -1,7 +1,10 @@
 package standard.module.debug;
+import core.entity.Entity;
 import core.module.Module;
 import openfl.Lib;
 import openfl.text.TextField;
+import standard.components.graphic.display.impl.Layer;
+import standard.factory.EntityFactory;
 import standard.group.debug.DebugGroup;
 
 /**
@@ -11,31 +14,66 @@ import standard.group.debug.DebugGroup;
 class DebugModule extends Module<DebugGroup>
 {
 
-	//temporary, need to remove this
-	private var m_fpsTF : TextField;
+	private var m_layerEntityRef : Entity;
 	
-	public function new() 
+	private var m_entityFactoryRef : EntityFactory;
+	
+	private var m_enable : Bool;
+	
+	public function new(layerEntityRef : Entity, entityFactoryRef : EntityFactory) 
 	{
 		super(DebugGroup);
-		m_fpsTF = new TextField();
-		m_fpsTF.textColor = 0xff0000;
-		m_fpsTF.width = 300;
-		m_fpsTF.height = 50;
-		m_fpsTF.mouseEnabled = false;
+		m_layerEntityRef = layerEntityRef;
+		m_entityFactoryRef = entityFactoryRef;
+		m_enable = true;
 	}
 	
 	override function onAddedToApplication():Void 
 	{
-		Lib.current.stage.addChild(m_fpsTF);
+		
 	}	
 	
 	override function onRemoveFromApplication():Void 
 	{
-		Lib.current.stage.removeChild(m_fpsTF);
+		
+	}
+	
+	override function onCompGroupAdded(group:DebugGroup):Void 
+	{
+		super.onCompGroupAdded(group);
+		
+		if(m_enable)
+			group.debugComp.initWhenAdded(this.m_appRef, this.m_layerEntityRef, this.m_entityFactoryRef);
+	}
+	
+	override function onCompGroupRemove(group:DebugGroup):Void 
+	{
+		super.onCompGroupRemove(group);
+		group.debugComp.deleteWhenRemove(this.m_appRef, this.m_layerEntityRef, this.m_entityFactoryRef);
 	}
 	
 	override public function update(delta:Float):Void 
 	{
-		m_fpsTF.text = "" + Math.round(m_appRef.actualFps);
+		if (!m_enable)
+			return;
+		
+		for (group in m_compGroups)
+			group.debugComp.update(delta);
+	}
+	
+	public function enable(enable : Bool) : Void 
+	{
+		if (m_enable != enable)
+		{
+			m_enable = enable;
+			
+			for (group in m_compGroups)
+			{
+			if (m_enable)
+				group.debugComp.initWhenAdded(this.m_appRef, this.m_layerEntityRef, this.m_entityFactoryRef);
+			else
+				group.debugComp.deleteWhenRemove(this.m_appRef, this.m_layerEntityRef, this.m_entityFactoryRef);
+			}
+		}
 	}
 }

@@ -108,4 +108,18 @@ class LayerModule extends Module<LayerGroup>
 		
 		return null;
 	}
+	
+	/**
+	 * Use only for special case /!\ Avoid it.
+	 * @return
+	 */
+	public function getLayersGroup() : Array<LayerGroup>
+	{
+		var result : Array<LayerGroup> = [];
+		
+		for (group in m_compGroups)
+			result.push(group);
+			
+		return result;
+	}
 }
