@@ -27,10 +27,6 @@
 		<window resizable="false" orientation="auto" vsync="false" antialiasing="0" />
 	</section>
 	
-	
-	<!-- test -->
-	
-	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
 	<haxelib name="openfl" />
