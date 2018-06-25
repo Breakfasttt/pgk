@@ -183,7 +183,10 @@ class TestMe
 		screenLayer.add(new RatioResizer());	
 		
 		var popupLayer : Entity = entityFactory.createLayer("popupLayer", 2, app.width, app.height, Anchor.center, Anchor.center);
-		popupLayer.add(new RatioResizer());	
+		popupLayer.add(new RatioResizer());
+		
+		var debugLayer : Entity = entityFactory.createLayer("debugLayer", 2, app.width, app.height, Anchor.center, Anchor.center);
+		debugLayer.add(new RatioResizer());	
 		
 		var screenModule : ScreenModule = new ScreenModule(screenLayer.getComponent(Layer));
 		var popupModule : PopUpModule = new PopUpModule(popupLayer.getComponent(Layer), popupLayer.getComponent(UtilitySize2D));
@@ -195,7 +198,7 @@ class TestMe
 		app.addModule(renderModule, 4);
 		app.addModule(locModule, 5);
 		app.addModule(pointerModule, 6);
-		app.addModule(new DebugModule(), 7);
+		app.addModule(new DebugModule(debugLayer, entityFactory), 7);
 		
 		
 		/*var firstElement : Entity = entityFactory.createGameElement("square1", mainLayer, "spritesheet1", 1, Anchor.center, Anchor.topLeft, "walk-front");
