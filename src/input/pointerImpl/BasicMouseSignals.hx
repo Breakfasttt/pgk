@@ -127,7 +127,7 @@ class BasicMouseSignals implements IPointerSignals
 	private function removeListeners() : Void
 	{
 		m_eventChecker.removeEvent(MouseEvent.ROLL_OUT);
-		m_eventChecker.removeEvent(MouseEvent.ROLL_OVER);
+		m_eventChecker.removeEvent(MouseEvent.ROLL_OUT);
 		m_eventChecker.removeEvent(MouseEvent.CLICK);
 		m_eventChecker.removeEvent(MouseEvent.DOUBLE_CLICK);
 		m_eventChecker.removeEvent(MouseEvent.MOUSE_DOWN);

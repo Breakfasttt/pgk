@@ -144,8 +144,8 @@ class BasicTouchSignals implements IPointerSignals
 	 */
 	private function removeListeners() : Void
 	{
-		m_eventChecker.removeEvent(TouchEvent.TOUCH_OUT);
-		m_eventChecker.removeEvent(TouchEvent.TOUCH_OVER);
+		m_eventChecker.removeEvent(TouchEvent.TOUCH_ROLL_OUT);
+		m_eventChecker.removeEvent(TouchEvent.TOUCH_ROLL_OVER);
 		m_eventChecker.removeEvent(TouchEvent.TOUCH_TAP);
 		m_eventChecker.removeEvent(TouchEvent.TOUCH_BEGIN);
 		m_eventChecker.removeEvent(TouchEvent.TOUCH_END);
