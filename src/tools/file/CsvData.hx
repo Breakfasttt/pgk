@@ -9,7 +9,7 @@ class CsvData
 
 	private var m_idsIndex : Map<String,Int>;
 	
-	private var m_lineIds : Array<String>;
+	private var m_rawIds : Array<String>;
 	
 	private var m_columns : Array<String>;
 	
@@ -20,7 +20,7 @@ class CsvData
 	{
 		m_datas = datas;
 		m_columns = columns;
-		m_lineIds = new Array();
+		m_rawIds = new Array();
 		m_idsIndex = new Map();
 		
 		var lineData : Map<String,String> = null;
@@ -34,20 +34,34 @@ class CsvData
 			else
 				id = "" + i;
 			
-			m_lineIds.push(id);
+			m_rawIds.push(id);
 			m_idsIndex.set(id, i);
 		}
 	}
 	
-	
-	public function getLine(id : String) : Map<String,String>
+	/**
+	 * Get a raw by is Id. The id is set on parsing. 
+	 * Id the csv doesn't contain an 'id' column, the id is the number of the raw.
+	 * @param	id
+	 * @return a Map of "Column=>data" or null if data not found or Id is wrong/unknow,  
+	 */
+	public function getRaw(id : String) : Map<String,String>
 	{
 		if (m_datas.length <= 0)
+			return null;
+			
+		if (m_idsIndex.get(id) == null))
 			return null;
 		
 		return m_datas[m_idsIndex.get(id)];
 	}
 	
+	/**
+	 * Get the data at raw/column by the raw id and the column name
+	 * @param	id
+	 * @param	column
+	 * @return the Data String or null if data not found or Id/ColumnName is wrong/unknow,  
+	 */
 	public function getCell(id : String, column : String) : String
 	{
 		if (m_datas.length <= 0)
@@ -56,7 +70,12 @@ class CsvData
 		return getLine(id).get(column);
 	}
 	
-	public function getLineByIndex(index : Int) : Map<String,String>
+	/**
+	 * Get a raw by his index on the file.
+	 * @param	index
+	 * @return a map of Column=>Data String or null if data not found or Indexes is wrong/unknow,  
+	 */
+	public function getRawByIndex(index : Int) : Map<String,String>
 	{
 		if (m_datas.length <= 0 || index < 0 || index >= m_datas.length)
 			return null;
@@ -64,6 +83,12 @@ class CsvData
 		return m_datas[index];
 	}
 	
+	/**
+	 * Get the data at raw/column by the raw index and the columnName
+	 * @param	index
+	 * @param	column
+	 * @return the Data String or null if data not found or Indexes is wrong/unknow,  
+	 */
 	public function getCellByIndex(index : Int, column : String) : String
 	{
 		if (m_datas.length <= 0 || index < 0 || index >= m_datas.length)
@@ -72,6 +97,28 @@ class CsvData
 		return getLineByIndex(index).get(column);
 	}
 	
+	/**
+	 * Get the data at raw/column by the raw index and the column Index
+	 * @param	index
+	 * @param	column
+	 * @return the Data String or null if data not found or Indexes is wrong/unknow,  
+	 */
+	public function getCellByIndex(index : Int, columnIndex : Int) : String
+	{
+		if (m_datas.length <= 0 || index < 0 || index >= m_datas.length)
+			return null;
+			
+		if (columnIndex <= 0 || columnIndex < 0 || columnIndex >= m_columns.length)
+			return null;
+			
+		return getLineByIndex(index).get(m_columns[columnIndex]);
+	}
+	
+	
+	/**
+	 * See all data (usefull for debug)
+	 * @return
+	 */
 	public function toString() : String
 	{
 		var result : String = "";
@@ -84,6 +131,22 @@ class CsvData
 			result += "] \n";
 		}
 		return result;
+	}
+	
+	/**
+	 * @return all raw ids
+	 */
+	public function getRawIds() : Iterator<String>
+	{
+		return m_rawIds.concat([]);
+	}
+	
+	/**
+	 * @return all columns name
+	 */
+	public function getColumnsName() : Iterator<String>
+	{
+		return m_columns.concat([]);
 	}
 	
 	
