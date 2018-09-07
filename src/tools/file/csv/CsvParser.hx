@@ -1,4 +1,5 @@
-package tools.file;
+package tools.file.csv;
+import tools.file.csv.CsvData;
 
 /**
  * A csv file parser.

@@ -1,4 +1,4 @@
-package tools.file;
+package tools.file.csv;
 
 /**
  * ...
@@ -15,7 +15,7 @@ class CsvData
 	
 	private var m_datas : Array<Map<String,String>>;
 	
-	@:allow(tools.file.CsvParser)
+	@:allow(tools.file.csv.CsvParser)
 	private function new(datas : Array<Map<String,String>>, columns : Array<String>, columnIdName : String = "id") 
 	{
 		m_datas = datas;
@@ -50,7 +50,7 @@ class CsvData
 		if (m_datas.length <= 0)
 			return null;
 			
-		if (m_idsIndex.get(id) == null))
+		if (m_idsIndex.get(id) == null)
 			return null;
 		
 		return m_datas[m_idsIndex.get(id)];
@@ -67,7 +67,11 @@ class CsvData
 		if (m_datas.length <= 0)
 			return null;
 			
-		return getLine(id).get(column);
+		var raw = getRaw(id);
+		if (raw == null)
+			return  null;
+			
+		return raw.get(column);
 	}
 	
 	/**
@@ -89,12 +93,16 @@ class CsvData
 	 * @param	column
 	 * @return the Data String or null if data not found or Indexes is wrong/unknow,  
 	 */
-	public function getCellByIndex(index : Int, column : String) : String
+	public function getCellByRawIndex(index : Int, column : String) : String
 	{
 		if (m_datas.length <= 0 || index < 0 || index >= m_datas.length)
 			return null;
 			
-		return getLineByIndex(index).get(column);
+		var raw = getRawByIndex(index);
+		if (raw == null)
+			return null;	
+			
+		return raw.get(column);
 	}
 	
 	/**
@@ -103,7 +111,7 @@ class CsvData
 	 * @param	column
 	 * @return the Data String or null if data not found or Indexes is wrong/unknow,  
 	 */
-	public function getCellByIndex(index : Int, columnIndex : Int) : String
+	public function getCellByIndexes(index : Int, columnIndex : Int) : String
 	{
 		if (m_datas.length <= 0 || index < 0 || index >= m_datas.length)
 			return null;
@@ -111,7 +119,11 @@ class CsvData
 		if (columnIndex <= 0 || columnIndex < 0 || columnIndex >= m_columns.length)
 			return null;
 			
-		return getLineByIndex(index).get(m_columns[columnIndex]);
+		var raw = getRawByIndex(index);
+		if (raw == null)
+			return null;	
+			
+		return raw.get(m_columns[columnIndex]);
 	}
 	
 	
@@ -136,7 +148,7 @@ class CsvData
 	/**
 	 * @return all raw ids
 	 */
-	public function getRawIds() : Iterator<String>
+	public function getRawIds() : Array<String>
 	{
 		return m_rawIds.concat([]);
 	}
@@ -144,7 +156,7 @@ class CsvData
 	/**
 	 * @return all columns name
 	 */
-	public function getColumnsName() : Iterator<String>
+	public function getColumnsName() : Array<String>
 	{
 		return m_columns.concat([]);
 	}
