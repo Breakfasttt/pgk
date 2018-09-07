@@ -84,4 +84,18 @@ class Display extends Component
 		this.model = model;
 	}
 	
+	/**
+	 * enable/disable mouse on this display container.
+	 * @param	enable
+	 * @param	children
+	 */
+	public function setMouseEnable(enable : Bool, children : Bool) : Void
+	{
+		if (this.skin == null)
+			return;
+			
+		this.skin.mouseEnabled = enable;
+		this.skin.mouseChildren = children;
+	}
+	
 }

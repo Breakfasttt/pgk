@@ -12,6 +12,8 @@ class Color
 	public static var blue : UInt = 0x0000ff;
 	public static var white : UInt = 0xffffff;
 	public static var black : UInt = 0x000000;
+	public static var yellow : UInt = 0xffff00;
+	public static var orange : UInt = 0xffa500;
 	
 	public static function randomColor() : UInt
 	{

@@ -100,7 +100,7 @@ class TextDisplay extends GameElementDisplay
 		this.text.mouseEnabled = mouseEnable;
 		this.text.mouseWheelEnabled = mouseWheelEnable;
 		this.text.wordWrap = worldwrap;
-		this.text.displayAsPassword = displayAsPassword;
+		this.text.displayAsPassword = displayAsPassword;	
 	}
 	
 }

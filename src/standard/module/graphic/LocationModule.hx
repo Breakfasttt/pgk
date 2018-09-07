@@ -265,6 +265,18 @@ class LocationModule extends Module <LocationGroup>
 			var pivot : Sprite = new Sprite();
 			var color : UInt = Color.randomColor();
 			
+			if (group.display.skin.mouseEnabled)
+			{
+				color = Color.yellow;
+				
+				if (group.display.skin.mouseChildren)
+					color = Color.green;
+			}
+			else if (group.display.skin.mouseChildren)
+				color = Color.orange;
+			else
+				color = Color.red;
+			
 			rect.graphics.beginFill(color, 0.5);
 			rect.graphics.lineStyle(5.0, color, 0.8);
 			rect.graphics.lineTo(group.getWidthAtScale1(), 0);
@@ -277,6 +289,8 @@ class LocationModule extends Module <LocationGroup>
 			rect.graphics.moveTo(0, 0);
 			//rect.graphics.drawRect(0, 0, group.getWidthAtScale1(), group.getHeightAtScale1());
 			rect.graphics.endFill();
+			rect.mouseChildren = false;
+			rect.mouseEnabled = false;
 			
 			var pivotPosition : Vector2D = new Vector2D();
 			
@@ -291,11 +305,15 @@ class LocationModule extends Module <LocationGroup>
 				pivotPosition.y =  group.pivot.pivot.anchor.y;
 			}
 			
-			pivot.graphics.beginFill(Color.red, 0.5);
+			
+			
+			pivot.graphics.beginFill(color, 0.5);
 			pivot.graphics.drawCircle(0.0, 0.0, 3.0);
 			pivot.graphics.endFill();
 			pivot.x = pivotPosition.x;
 			pivot.y = pivotPosition.y;
+			pivot.mouseChildren = false;
+			pivot.mouseEnabled = false;
 			
 			sprite.addChild(rect);
 			sprite.addChild(pivot);

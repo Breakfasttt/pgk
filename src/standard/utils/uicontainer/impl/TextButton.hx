@@ -74,8 +74,7 @@ class TextButton extends UiContainer
 		textDisplay.setAutoSize(TextFieldAutoSize.NONE);
 		textDisplay.setSize(this.utilitySize.width, this.utilitySize.height - 10); //todo => remove hardcode
 		textDisplay.setMiscProperties(false, false, false, false, false, false);
-		textDisplay.skin.mouseChildren = false;
-		textDisplay.skin.mouseEnabled = false;
+		textDisplay.setMouseEnable(false, false);
 		
 		this.add(m_btnEntity);
 		this.add(m_textEntity);
