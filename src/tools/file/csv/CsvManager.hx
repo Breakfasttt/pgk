@@ -18,7 +18,7 @@ class CsvManager
 	
 	public function parseAndRegisterCsv(id : String, csvFile : String) : Void
 	{
-		var result : CsvData = m_parser.parse(csvFile);
+		var result : CsvData = m_parser.parse(id, csvFile);
 		if (result != null)
 			m_parsedCsv.set(id, result);
 	}

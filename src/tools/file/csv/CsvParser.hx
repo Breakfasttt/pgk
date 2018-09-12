@@ -40,19 +40,19 @@ class CsvParser
 	 * 
 	 * Note : If a raw have more 'data columns' that the 'raw columns names' extra columns are added with 'extraColumnsName' + column_number
 	 */
-	public function parse(rawData : String, firstLineAsColumnName : Bool = true, customColumnsName : Array<String> = null, columnIdName : String = "id") : CsvData
+	public function parse(id : String, rawData : String, firstLineAsColumnName : Bool = true, customColumnsName : Array<String> = null, columnIdName : String = "id") : CsvData
 	{
 		m_rawdata = rawData;
 		var result = new Array<Map<String,String>>();
 		
 		if (m_rawdata == null || m_rawdata == "")
-			return new CsvData(result,[]);
+			return new CsvData(id, result,[]);
 			
 			
 		var allLines : Array<String> = m_rawdata.split("\r\n");
 		
 		if (allLines == null || allLines.length <= 0)
-			return new CsvData(result,[]);
+			return new CsvData(id, result,[]);
 			
 			
 		var lineRawData : String = null;
@@ -110,7 +110,7 @@ class CsvParser
 			}
 		}
 		
-		return new CsvData(result, finalColumnsName, columnIdName) ;
+		return new CsvData(id, result, finalColumnsName, columnIdName) ;
 	}
 	
 }

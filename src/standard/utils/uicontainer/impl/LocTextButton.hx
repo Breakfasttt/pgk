@@ -20,7 +20,7 @@ class LocTextButton extends TextButton
 		
 	}
 	
-	public function setLoc(keyword:String, textData : Array<Dynamic>)
+	public function setLoc(keyword:String, textData : Array<Dynamic> = null)
 	{
 		this.textDisplay.text.text = keyword;
 		

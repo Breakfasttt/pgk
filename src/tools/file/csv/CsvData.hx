@@ -7,6 +7,8 @@ package tools.file.csv;
 class CsvData
 {
 
+	public var name(default, null) : String;
+	
 	private var m_idsIndex : Map<String,Int>;
 	
 	private var m_rawIds : Array<String>;
@@ -16,8 +18,9 @@ class CsvData
 	private var m_datas : Array<Map<String,String>>;
 	
 	@:allow(tools.file.csv.CsvParser)
-	private function new(datas : Array<Map<String,String>>, columns : Array<String>, columnIdName : String = "id") 
+	private function new(name : String, datas : Array<Map<String,String>>, columns : Array<String>, columnIdName : String = "id") 
 	{
+		this.name = name;
 		m_datas = datas;
 		m_columns = columns;
 		m_rawIds = new Array();

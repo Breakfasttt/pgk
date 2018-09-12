@@ -15,17 +15,28 @@ class LocalizationModule extends Module<LocalizationGroup>
 
 	public var localeCode(default,null) : String;
 	
-	private var m_localizationFile : CsvData;
+	private var m_localizationFiles : Array<CsvData>;
 	
 	/**
 	 * @param	localizationFile : A csv file who contains a column with 'id' and many columns with 'localeCode'
 	 * @param	localeCode : The current localCode To use
 	 */
-	public function new(localizationFile : CsvData, localeCode : String) 
+	public function new(localeCode : String) 
 	{
 		super(LocalizationGroup);
-		m_localizationFile = localizationFile;
+		m_localizationFiles = new Array();
 		this.localeCode = localeCode;
+	}
+	
+	public function addLocalizationFile(csv : CsvData) : Void
+	{
+		if (csv.getColumnsName().indexOf('id') == -1)
+		{
+			trace("can't add an invalid localization files (missing id columns)");
+			return;
+		}
+		
+		m_localizationFiles.push(csv);
 	}
 	
 	override function onCompGroupAdded(group:LocalizationGroup):Void 
@@ -47,30 +58,47 @@ class LocalizationModule extends Module<LocalizationGroup>
 	
 	private function updateTextDisplay(notUsed : Localization, group : LocalizationGroup) : Void
 	{
-		var newText : String = m_localizationFile.getCell(group.localization.m_keyword, localeCode);
-		//https://github.com/polygonal/printf
+		var newText : String = null;
+		for (file in m_localizationFiles)
+		{
+			newText = file.getCell(group.localization.m_keyword, localeCode);
+			if (newText == null)
+			{
+				trace("Warning : Missing keyword :  " + group.localization.m_keyword + " on file : " + file.name + " or missing localeCode : " + this.localeCode);
+				continue;
+			}
+			//https://github.com/polygonal/printf
+			if(group.localization.m_textDatas != null)
+				newText = Printf.format(newText, group.localization.m_textDatas);
+				
+			break;
+		}
 		
-		if(group.localization.m_textDatas != null)
-			newText = Printf.format(newText, group.localization.m_textDatas);
-			
+		if (newText == null)
+			newText = "/!\\ missingLocaleKey /!\\";
 		group.textDisplay.text.text = newText;
 	}
 	
+	
 	public function setLocaleCode(localeCode : String) : Void
 	{
-		if (m_localizationFile.getColumnsName().indexOf(localeCode) != -1)
-		{
-			this.localeCode = localeCode;
-			
-			for (group in m_compGroups)
-				updateTextDisplay(null, group);
-			
-		}
+		this.localeCode = localeCode;
+		for (group in m_compGroups)
+			updateTextDisplay(null, group);
 	}
 	
 	public function getLocaleCodes() : Array<String>
 	{
-		var result = m_localizationFile.getColumnsName();
+		var result = [];
+		for (file in m_localizationFiles)
+		{
+			for (column in file.getColumnsName())
+			{
+				if (result.indexOf(column) == -1)
+					result.push(column);
+			}	
+		}
+		
 		result.remove("id");
 		return result;
 	}
