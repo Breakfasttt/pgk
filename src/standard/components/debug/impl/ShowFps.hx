@@ -54,4 +54,9 @@ class ShowFps extends DebugComp
 		m_textDisplay.text.text =  "" + Math.round(m_appRef.actualFps) + " fps";
 	}
 	
+	public function show() : Void
+	{
+		m_textDisplay.skin.visible = !m_textDisplay.skin.visible;
+	}
+	
 }

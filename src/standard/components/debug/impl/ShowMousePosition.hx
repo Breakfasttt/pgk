@@ -116,4 +116,9 @@ class ShowMousePosition extends DebugComp
 		//nothing special
 	}
 	
+	public function show() : Void
+	{
+		m_textDisplay.skin.visible = !m_textDisplay.skin.visible;
+	}
+	
 }

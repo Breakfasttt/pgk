@@ -78,7 +78,7 @@ class FlashSpriteSheet extends Model
 				
 				allFrame.push(new FlashSpriteSheetFrame(key, new Rectangle(rawFrameData.frame.x, rawFrameData.frame.y, rawFrameData.frame.w, rawFrameData.frame.h), 
 															 new Rectangle(rawFrameData.spriteSourceSize.x, rawFrameData.spriteSourceSize.y, rawFrameData.spriteSourceSize.w, rawFrameData.spriteSourceSize.h), 
-															 new Vector2D(rawFrameData.sourceSize.w, rawFrameData.sourceSize.h), 
+															 new Vector2D(rawFrameData.sourceSize.w-1, rawFrameData.sourceSize.h-1), 
 															 rawFrameData.rotated, 
 															 rawFrameData.trimmed));
 			}catch (e : Dynamic)
@@ -92,12 +92,21 @@ class FlashSpriteSheet extends Model
 		var arrBmp : Array<BitmapData> = new Array();
 		var arrPivot : Array<Vector2D> = new Array();
 		
+		m_maxWidth = 0.0;
+		m_maxHeight = 0.0;
+		
 		for (frame in allFrame)
 		{
 			var frameBitmapData : BitmapData = new BitmapData( Std.int(frame.sourceSize.x), Std.int(frame.sourceSize.y), true);
 			frameBitmapData.copyPixels(m_mainBitmapData, frame.frameRectangle, point);
 			arrBmp.push(frameBitmapData);
 			arrPivot.push(new Vector2D());
+			
+			if (m_maxWidth < frame.sourceSize.x)
+				m_maxWidth = frame.sourceSize.x;
+				
+			if (m_maxHeight < frame.sourceSize.y)
+				m_maxHeight = frame.sourceSize.y;
 		}
 		
 		m_bmdByAnim.set(Model.defaultAnim, arrBmp);
