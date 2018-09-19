@@ -13,6 +13,8 @@ import standard.components.graphic.transition.impl.EntityTransition;
 class Opener extends Component 
 {
 
+	private var m_entityRef : Entity;
+	
 	private var m_openTransition : EntityTransition;
 	private var m_closeTransition : EntityTransition;
 	
@@ -43,6 +45,7 @@ class Opener extends Component
 			return;
 		
 		m_openTransition = openTransition;
+		m_openTransition.setEntityRef(m_entityRef);
 	}
 	
 	public function setCloseTransition(closeTransition : EntityTransition) : Void
@@ -51,15 +54,18 @@ class Opener extends Component
 			return;
 			
 		m_closeTransition = closeTransition;
+		m_closeTransition.setEntityRef(m_entityRef);
 	}
 	
 	public function setEntityRef(entity : Entity) : Void
 	{
+		m_entityRef = entity;
+		
 		if(m_openTransition !=null)
-			m_openTransition.setEntityRef(entity);
+			m_openTransition.setEntityRef(m_entityRef);
 		
 		if(m_closeTransition != null)
-			m_closeTransition.setEntityRef(entity);
+			m_closeTransition.setEntityRef(m_entityRef);
 	}
 	
 	public function open() : Void

@@ -104,7 +104,10 @@ class PopUpModule extends Module<PopUpGroup>
 				// we finish the transition "silently"
 				m_currentPopup.opener.onClose = null;
 				m_currentPopup.opener.onOpen = null;
-			}	
+			}
+			
+			if (m_currentPopup.popup.onClose != null)
+				m_currentPopup.popup.onClose();
 			
 			m_appRef.removeEntity(m_currentPopup.entityRef);
 			m_popupStack.remove(m_currentPopup);
@@ -123,6 +126,10 @@ class PopUpModule extends Module<PopUpGroup>
 			
 		if (m_currentPopup != null)
 		{
+			
+			if (m_currentPopup.popup.onInit != null)
+				m_currentPopup.popup.onInit();
+			
 			m_layerRef.skin.addChildAt(m_mask, 0);
 			m_layerRef.skin.addChild(m_currentPopup.popup.skin);
 			
@@ -131,8 +138,8 @@ class PopUpModule extends Module<PopUpGroup>
 				m_currentPopup.opener.onOpen = onOpen;
 				m_currentPopup.opener.open();
 			}
-			//Todo => faire une classe "opener" qui gére une transition d'ouverture, et une transition de fermeture
-			//trouver un nom mieux que ça !
+			else
+				onOpen();
 		}
 		else if(m_mask.parent != null)
 			m_layerRef.skin.removeChild(m_mask);
@@ -140,7 +147,9 @@ class PopUpModule extends Module<PopUpGroup>
 	
 	private function onOpen() : Void
 	{
-		//nothing special ?
+		if (m_currentPopup.popup.onOpen != null)
+			m_currentPopup.popup.onOpen();
+		
 	}
 	
 	private function createMask() : Void

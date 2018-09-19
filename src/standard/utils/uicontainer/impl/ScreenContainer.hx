@@ -24,6 +24,8 @@ class ScreenContainer extends UiContainer
 	private var m_transitionSwapped : Bool;
 	private var m_openTransition : EntityTransition;
 	private var m_closeTransition : EntityTransition;
+	private var m_invertOpenTransition : EntityTransition;
+	private var m_invertCloseTransition : EntityTransition;
 	
 	public function new(name:String, appRef:Application, entityFactory:EntityFactory) 
 	{
@@ -47,8 +49,13 @@ class ScreenContainer extends UiContainer
 		//Todo améliorer ça, c'est pas top
 		this.utilitySize.autoUtilitySize = false;
 		this.m_transitionSwapped = false;
+		
 		this.m_openTransition = new SwapEntityTransition(m_appRef.width);
 		this.m_closeTransition = new SwapEntityTransition(null, -m_appRef.width);
+		
+		this.m_invertOpenTransition = new SwapEntityTransition( -m_appRef.width);
+		this.m_invertCloseTransition = new SwapEntityTransition(null, m_appRef.width);
+		
 		this.m_opener = new Opener(m_openTransition, m_closeTransition);
 		this.entity.add(this.m_opener);
 		
@@ -62,22 +69,46 @@ class ScreenContainer extends UiContainer
 		this.pivot.pivot = Anchor.topLeft;
 	}
 	
+	private function invertTransition() : Void
+	{
+		if (m_transitionSwapped)
+		{
+			m_opener.setOpenTransition(m_openTransition);
+			m_opener.setCloseTransition(m_closeTransition);
+		}
+		else
+		{
+			m_opener.setOpenTransition(m_invertOpenTransition);
+			m_opener.setCloseTransition(m_invertCloseTransition);
+		}
+		
+		m_transitionSwapped = !m_transitionSwapped;
+	}
+	
 	private function onScreenInit() : Void
 	{
 		//make other stuff ?
-		onCustomScreenInit(); 
+		onCustomScreenInit();
 	}
 	
 	private function onScreenOpen() : Void
 	{
 		//make other stuff ?
 		onCustomScreenOpen();
+		
+		//the transition is always reset by the classic value
+		if (m_transitionSwapped)
+			this.invertTransition();
 	}
 	
 	private function onScreenClose() : Void
 	{
 		//make other stuff ?
 		onCustomScreenClose();
+		
+		//the transition is always reset by the classic value
+		if (m_transitionSwapped)
+			this.invertTransition();
 	}
 	
 	/**

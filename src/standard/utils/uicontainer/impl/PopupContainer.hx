@@ -41,9 +41,29 @@ class PopupContainer extends UiContainer
 	private function configure() : Void
 	{
 		this.opener = new Opener(new ScaleTransitionEntity(10.0, 1.0, 1.0, false), new ScaleTransitionEntity(10.0, 1.0, 1.0, true));
+		
+		cast(this.display, PopUp).onInit = onCustomInit;
+		cast(this.display, PopUp).onOpen = onCustomOpen;
+		cast(this.display, PopUp).onClose = onCustomClose;
+		
 		this.entity.add(this.opener);
 		this.position.position2d = Anchor.center;
 		this.pivot.pivot = Anchor.center;
+	}
+	
+	private function onCustomInit() : Void
+	{
+		
+	}
+	
+	private function onCustomOpen() : Void
+	{
+		
+	}
+	
+	private function onCustomClose() : Void
+	{
+		
 	}
 	
 	/**
