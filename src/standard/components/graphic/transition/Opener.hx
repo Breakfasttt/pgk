@@ -16,7 +16,18 @@ class Opener extends Component
 	private var m_openTransition : EntityTransition;
 	private var m_closeTransition : EntityTransition;
 	
+	/**
+	 * call when open transition end.
+	 * PLEASE don't use it directly. USE IT INTO A MODULE. 
+	 * This var is public to make use easier on modules classes
+	 */
 	public var onOpen : Void->Void;
+	
+	/**
+	 * call when close transition end.
+	 * PLEASE don't use it directly. USE IT INTO A MODULE. 
+	 * This var is public to make use easier on modules classes
+	 */
 	public var onClose : Void->Void;
 	
 	public function new(openTransition : EntityTransition, closeTransition : EntityTransition) 
@@ -24,7 +35,22 @@ class Opener extends Component
 		super();
 		m_openTransition = openTransition;
 		m_closeTransition = closeTransition;
+	}
+	
+	public function setOpenTransition(openTransition : EntityTransition) : Void
+	{
+		if (m_openTransition != null && m_openTransition.onTransition)
+			return;
 		
+		m_openTransition = openTransition;
+	}
+	
+	public function setCloseTransition(closeTransition : EntityTransition) : Void
+	{
+		if(m_closeTransition != null && m_closeTransition.onTransition)
+			return;
+			
+		m_closeTransition = closeTransition;
 	}
 	
 	public function setEntityRef(entity : Entity) : Void
