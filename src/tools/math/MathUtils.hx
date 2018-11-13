@@ -17,4 +17,21 @@ class MathUtils
 		return rad * 180.0 / Math.PI;
 	}
 	
+	public static function clamp(value : Float, min : Float, max : Float)
+	{
+		if (max < min)
+		{
+			var temp = min;
+			min = max;
+			max = temp;
+		}
+		
+		if (value > max)
+			return max;
+		else if (value < min)
+			return min
+		else
+			return value;
+	}
+	
 }
