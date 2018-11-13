@@ -1,4 +1,4 @@
-package standard.components.sound;
+package standard.components.audio;
 
 import core.component.Component;
 import msignal.Signal;
@@ -50,7 +50,7 @@ class Audio extends Component
 	
 	public var isMuted(default, null) : Bool;
 	
-	public function new(name : String, type : AudioType, flSound : Sound) 
+	public function new(name : String, type : AudioType, flSound : Sound, loop : Bool = false, volume : Float = 1.0) 
 	{
 		super();
 		this.name = name;
@@ -60,8 +60,8 @@ class Audio extends Component
 		else
 			this.audioType = AudioType.misc;
 		
-s		this.volume = 1.0;
-		this.loop = false;
+		this.volume = volume;
+		this.loop = loop;
 		this.isPlaying = false;
 		this.isPaused = false;
 		this.isMuted = false;
@@ -219,6 +219,12 @@ s		this.volume = 1.0;
 		}
 		
 		return m_currentVolume;
+	}
+	
+	public function addVolume(delta : Float)
+	{
+		this.volume = m_currentVolume + delta;
+		
 	}
 	
 	

@@ -1,4 +1,4 @@
-package standard.components.sound;
+package standard.components.audio;
 
 /**
  * @author Breakyt
