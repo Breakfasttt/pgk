@@ -40,6 +40,8 @@ class Audio extends Component
 	
 	public var volume(get, set) : Float;
 	
+	private var m_maxVolume : Float;
+	
 	private var m_currentVolume : Float;
 	
 	public var loop : Bool;
@@ -50,7 +52,7 @@ class Audio extends Component
 	
 	public var isMuted(default, null) : Bool;
 	
-	public function new(name : String, type : AudioType, flSound : Sound, loop : Bool = false, volume : Float = 1.0) 
+	public function new(name : String, type : AudioType, flSound : Sound, loop : Bool = false, maxVolume : Float = 1.0, currentVolume : Float = 1.0) 
 	{
 		super();
 		this.name = name;
@@ -60,11 +62,14 @@ class Audio extends Component
 		else
 			this.audioType = AudioType.misc;
 		
-		this.volume = volume;
+		m_maxVolume = MathUtils.clamp(maxVolume, 0.0, 1.0);
+		this.volume = currentVolume;
 		this.loop = loop;
 		this.isPlaying = false;
 		this.isPaused = false;
 		this.isMuted = false;
+		
+		
 		
 		m_sound = flSound;
 		m_soundChannel = null;
@@ -207,7 +212,7 @@ class Audio extends Component
 	
 	function set_volume(value:Float):Float 
 	{
-		m_currentVolume = MathUtils.clamp(value, 0.0, 1.0);
+		m_currentVolume = MathUtils.clamp(value, 0.0, 1.0) * m_maxVolume;
 		
 		if (!this.isMuted)
 		{
