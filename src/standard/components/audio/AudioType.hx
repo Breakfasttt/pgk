@@ -7,6 +7,6 @@ enum AudioType
 {
 	misc;
 	fx;
-	ambiant;
+	ambient;
 	voice;
 }
