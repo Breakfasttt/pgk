@@ -16,12 +16,25 @@ class LocTextButton extends TextButton
 	
 	public function new(name:String, appRef:Application, entityFactory:EntityFactory) 
 	{
-		super(name, appRef, entityFactory);
-		
+		super(name, appRef, entityFactory);	
+	}
+	
+	/**
+	 * Please for LocTextButton, Use SetLoc instead of initText
+	 * For LocTextButton, inittext call SetLoc without extra data.
+	 * @param	text
+	 */
+	override public function initText(text:String):Void 
+	{
+		super.initText(text);
+		setLoc(text, null);
 	}
 	
 	public function setLoc(keyword:String, textData : Array<Dynamic> = null)
 	{
+		if (this.textDisplay == null)
+			this.initText(keyword);
+		
 		this.textDisplay.text.text = keyword;
 		
 		if (m_loc == null)
@@ -32,7 +45,6 @@ class LocTextButton extends TextButton
 		else
 			m_loc.set(keyword, textData);
 			
-		
 	}
 	
 }

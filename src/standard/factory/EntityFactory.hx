@@ -90,6 +90,23 @@ class EntityFactory
 		return e;
 	}
 	
+	/**
+	 * Use this function only if you need a new specific SimpleBtn.
+	 * Prefer new Button() or new TextButton() or new LocTextButton()
+	 * @param	name
+	 * @param	parentEntity
+	 * @param	modelName
+	 * @param	depth
+	 * @param	position
+	 * @param	pivot
+	 * @param	onSelect
+	 * @param	onUnSelect
+	 * @param	onRollOver
+	 * @param	onRollOut
+	 * @param	scaleX
+	 * @param	scaleY
+	 * @return
+	 */
 	public function createSimpleBtn(name : String, parentEntity : Entity, modelName : String, depth : Float, 
 										position : Anchor, pivot : Anchor, 
 										onSelect : Void->Void = null,

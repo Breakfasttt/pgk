@@ -130,4 +130,18 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 		if (m_animation != null)
 			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
 	}
+	
+	public function setEnable(enable : Bool = true) : Void
+	{
+		m_buttonBehaviour.setEnable(enable);
+		
+		if (m_animation != null)
+		{
+			if (m_buttonBehaviour.enable)
+				m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
+			else
+				m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex());
+		}
+		
+	}
 }

@@ -26,12 +26,13 @@ class SimpleButton extends PointerBehaviour
 	public var onPress : Void->Void;
 	public var onRelease : Void->Void;
 	
-	public function new(targetObject : InteractiveObject, toggleMode : Bool = false) 
+	public function new(targetObject : InteractiveObject, toggleMode : Bool = false, enableAtStart : Bool = true) 
 	{
 		super(null);
 		m_targetObject = targetObject;
 		this.toggleMode = toggleMode;
 		this.toggled = false;
+		this.setEnable(enable);
 		this.m_signals = new BasicPointerSignals(m_targetObject);
 		
 		this.m_signals.click.add(signalOnSelect);
@@ -47,6 +48,9 @@ class SimpleButton extends PointerBehaviour
 		if (data.pointerId > 0)
 			return;
 		
+		if (!this.enable)
+			return;
+			
 		if (toggleMode)
 			this.toggled = !this.toggled;
 			
@@ -62,7 +66,7 @@ class SimpleButton extends PointerBehaviour
 		if (data.pointerId > 0)
 			return;
 			
-		if (onRollOver != null)
+		if (onRollOver != null && this.enable)
 			onRollOver();
 	}
 	
@@ -71,7 +75,7 @@ class SimpleButton extends PointerBehaviour
 		if (data.pointerId > 0)
 			return;
 			
-		if (onRollOut != null)
+		if (onRollOut != null && this.enable)
 			onRollOut();
 	}
 	
@@ -80,7 +84,7 @@ class SimpleButton extends PointerBehaviour
 		if (data.pointerId > 0)
 			return;
 			
-		if (onPress != null)
+		if (onPress != null && this.enable)
 			onPress();
 	}
 	
@@ -90,8 +94,13 @@ class SimpleButton extends PointerBehaviour
 		if (data.pointerId > 0)
 			return;
 			
-		if (onRelease != null)
+		if (onRelease != null && this.enable)
 			onRelease();
+	}
+	
+	public function setEnable(enable : Bool = true) : Void
+	{
+		this.enable = enable;
 	}
 	
 }

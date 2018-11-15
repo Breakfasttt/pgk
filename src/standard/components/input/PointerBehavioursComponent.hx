@@ -37,6 +37,13 @@ class PointerBehavioursComponent extends Component
 		m_pointerBehaviours.sort(sortBehaviourByPriority);
 	}
 	
+	public function getBehav(index : Int) : EntityPointerBehaviour
+	{
+		if(index >= 0 && index < m_pointerBehaviours.length)
+			return m_pointerBehaviours[index];
+		return null;
+	}
+	
 	public function removeBehaviour(behav : EntityPointerBehaviour) : Void
 	{
 		m_pointerBehaviours.remove(behav);
