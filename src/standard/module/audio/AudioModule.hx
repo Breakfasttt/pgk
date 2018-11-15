@@ -26,8 +26,6 @@ class AudioModule extends Module<AudioGroup>
 	{
 		super(AudioGroup);
 		
-		
-		
 		var allAudioTypes : Array<AudioType> = Type.allEnums(AudioType);
 		m_volumeByType = new Map();
 		m_muteByType = new Map();
@@ -45,7 +43,8 @@ class AudioModule extends Module<AudioGroup>
 	
 	override function onCompGroupAdded(group:AudioGroup):Void 
 	{
-		
+		var volume = m_volumeByType.get(group.audio.audioType);
+		group.audio.volume = volume;
 	}
 	
 	override function onCompGroupRemove(group:AudioGroup):Void 
@@ -91,7 +90,8 @@ class AudioModule extends Module<AudioGroup>
 	public function addTypeVolume(audioType : AudioType, delta : Float)
 	{
 		var newVolume : Float = 0.0;
-		newVolume = m_volumeByType.get(audioType) + newVolume;
+		newVolume = m_volumeByType.get(audioType) + delta;
+		newVolume = MathUtils.clamp(newVolume, 0.0, 1.0);
 		m_volumeByType.set(audioType, newVolume);
 		
 		for (group in m_compGroups)
@@ -99,6 +99,11 @@ class AudioModule extends Module<AudioGroup>
 			if(group.audio.audioType == audioType)
 				group.audio.volume = newVolume;
 		}
+	}
+	
+	public function getTypeVolume(audioType : AudioType) : Float
+	{
+		return m_volumeByType.get(audioType);
 	}
 	
 	public function muteType(audioType : AudioType)

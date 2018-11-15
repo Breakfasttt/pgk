@@ -1,8 +1,10 @@
 package standard.factory;
+import assets.audio.AudioLibrary;
 import assets.model.Model;
 import assets.model.library.ModelLibrary;
 import assets.model.library.ModelType;
 import core.entity.Entity;
+import standard.components.audio.Audio;
 import standard.components.graphic.animation.Animation;
 import standard.components.graphic.display.impl.Layer;
 import standard.components.graphic.display.Display;
@@ -28,10 +30,12 @@ class EntityFactory
 
 	private var m_modelLibrary : ModelLibrary;
 	
+	private var m_audioLibrary : AudioLibrary;
 	
-	public function new(modelLibrary : ModelLibrary)
+	public function new(modelLibrary : ModelLibrary, audioLibraryRef : AudioLibrary)
 	{
 		m_modelLibrary = modelLibrary;
+		m_audioLibrary = audioLibraryRef;
 	}
 	
 	/**
@@ -178,6 +182,21 @@ class EntityFactory
 		if (parentEntity != null)
 			e.add(new ParentEntity(parentEntity));
 		
+		return e;
+	}
+	
+	public function createAudioEntity(audioName : String) : Entity
+	{
+		var audio = m_audioLibrary.get(audioName);
+		
+		if (audio == null)
+		{
+			trace("Can't create this entity : " + audioName + " with an unknow Audio component");
+			return null;
+		}
+		
+		var e : Entity = new Entity(audioName);
+		e.add(audio);
 		return e;
 	}
 	

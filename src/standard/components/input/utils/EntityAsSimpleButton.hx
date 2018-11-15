@@ -37,6 +37,8 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	public var onUnSelect : Void->Void;
 	public var onRollOver : Void->Void;
 	public var onRollOut : Void->Void;
+	public var onPress : Void->Void;
+	public var onRelease : Void->Void;
 	
 	public function new(toggleMode : Bool, buttonAnimation : String = "button", useAnimation : Bool = true) 
 	{
@@ -122,6 +124,9 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	{
 		if (m_animation != null)
 			m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex());
+			
+		if (onPress != null)
+			onPress();
 	}
 	
 	
@@ -129,6 +134,9 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	{
 		if (m_animation != null)
 			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
+			
+		if (onRelease != null)
+			onRelease();
 	}
 	
 	public function setEnable(enable : Bool = true) : Void
