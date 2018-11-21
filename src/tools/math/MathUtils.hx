@@ -34,4 +34,21 @@ class MathUtils
 			return value;
 	}
 	
+	public static function intClamp(value : Int, min : Int, max : Int)
+	{
+		if (max < min)
+		{
+			var temp = min;
+			min = max;
+			max = temp;
+		}
+		
+		if (value > max)
+			return max;
+		else if (value < min)
+			return min
+		else
+			return value;
+	}
+	
 }
