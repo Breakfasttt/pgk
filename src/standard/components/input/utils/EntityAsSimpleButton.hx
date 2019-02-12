@@ -11,9 +11,9 @@ import standard.components.graphic.display.Display;
 enum ButtonAnimFrame
 {
 	normal;
-	toggled;
 	over;
 	press;
+	disabled;
 }
  
  
@@ -87,7 +87,7 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	private function signalOnSelect() : Void
 	{
 		if (m_animation != null)
-			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
+			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
 		
 		if (onSelect != null)
 			onSelect();
@@ -96,7 +96,7 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	private function signalOnUnSelect() : Void
 	{
 		if (m_animation != null)
-			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
+			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
 			
 		if (onUnSelect != null)
 			onUnSelect();
@@ -114,7 +114,7 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	private function signalOnRollOut() : Void
 	{
 		if (m_animation != null)
-			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
+			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
 			
 		if (onRollOut != null)
 			onRollOut();
@@ -133,7 +133,7 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 	private function signalOnRelease() : Void
 	{
 		if (m_animation != null)
-			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
+			m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
 			
 		if (onRelease != null)
 			onRelease();
@@ -146,9 +146,9 @@ class EntityAsSimpleButton extends EntityPointerBehaviour
 		if (m_animation != null)
 		{
 			if (m_buttonBehaviour.enable)
-				m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.toggled.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
+				m_buttonBehaviour.toggled ? m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex()) : m_animation.gotoAndStop(ButtonAnimFrame.normal.getIndex());
 			else
-				m_animation.gotoAndStop(ButtonAnimFrame.press.getIndex());
+				m_animation.gotoAndStop(ButtonAnimFrame.disabled.getIndex());
 		}
 		
 	}

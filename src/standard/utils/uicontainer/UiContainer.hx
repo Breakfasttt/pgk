@@ -77,6 +77,12 @@ class UiContainer
 			m_appRef.removeEntity(e);
 	}
 	
+	public function show(show : Bool) : Void
+	{
+		if (this.display != null)
+			this.display.skin.visible = show;
+	}
+	
 	/**
 	 * Override it to add element with add() function to compose the container
 	 */
