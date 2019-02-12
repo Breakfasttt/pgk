@@ -63,10 +63,8 @@ class LocalizationModule extends Module<LocalizationGroup>
 		{
 			newText = file.getCell(group.localization.m_keyword, localeCode);
 			if (newText == null)
-			{
-				trace(" /!\\ Warning /!\\ : Missing keyword :  [" + group.localization.m_keyword + "] on file [" + file.name + "] or missing localeCode [" + this.localeCode + "]");
 				continue;
-			}
+			
 			//https://github.com/polygonal/printf
 			if(group.localization.m_textDatas != null)
 				newText = Printf.format(newText, group.localization.m_textDatas);
@@ -75,7 +73,15 @@ class LocalizationModule extends Module<LocalizationGroup>
 		}
 		
 		if (newText == null)
-			newText = "/!\\ missingLocaleKey /!\\";
+		{
+			var arrName : Array<String> = new Array();
+			for (f in m_localizationFiles)
+				arrName.push(f.name);
+				
+			trace(" /!\\ Warning /!\\ : Missing keyword :  [" + group.localization.m_keyword + "] on file(s) [" + arrName + "] or missing localeCode [" + this.localeCode + "]");
+			newText = "/!\\ missingKeyWord /!\\";
+		}
+			
 		group.textDisplay.text.text = newText;
 	}
 	
